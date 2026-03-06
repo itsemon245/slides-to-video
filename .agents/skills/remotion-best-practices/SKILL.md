@@ -28,7 +28,7 @@ When needing to use sound effects, load the [./rules/sound-effects.md](./rules/s
 ## How to use
 
 Read individual rule files for detailed explanations and code examples:
-
+- [rules/project-context.md](rules/project-context.md) - Context of the entire project architecture and scope of this remotion project
 - [rules/3d.md](rules/3d.md) - 3D content in Remotion using Three.js and React Three Fiber
 - [rules/animations.md](rules/animations.md) - Fundamental animation skills for Remotion
 - [rules/assets.md](rules/assets.md) - Importing images, videos, audio, and fonts into Remotion
