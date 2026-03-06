@@ -1,47 +1,47 @@
-import "./index.css";
-import { Composition } from "remotion";
-import { HelloWorld, myCompSchema } from "./HelloWorld";
-import { Logo, myCompSchema2 } from "./HelloWorld/Logo";
+// Root.tsx
+// Registers compositions from the dummy presentation JSON.
+// "FullPresentation" plays all slides sequentially — use this for preview and render.
+// Individual slide compositions (s1, s2, …) are kept for per-slide debugging.
 
-// Each <Composition> is an entry in the sidebar!
+import { Composition } from "remotion";
+import { SlideComposition } from "./SlideComposition";
+import { FullPresentation } from "./FullPresentation";
+import { dummyPresentation } from "./dummySlides";
+
+const FPS = dummyPresentation.fps;
+const { width, height } = dummyPresentation.resolution;
+const totalFrames = dummyPresentation.slides.reduce(
+  (sum, s) => sum + s.duration * FPS,
+  0
+);
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Full presentation — all slides in sequence */}
       <Composition
-        // You can take the "id" to render a video:
-        // npx remotion render HelloWorld
-        id="HelloWorld"
-        component={HelloWorld}
-        durationInFrames={150}
-        fps={30}
-        width={1920}
-        height={1080}
-        // You can override these props for each render:
-        // https://www.remotion.dev/docs/parametrized-rendering
-        schema={myCompSchema}
-        defaultProps={{
-          titleText: "Welcome to Remotion",
-          titleColor: "#000000",
-          logoColor1: "#91EAE4",
-          logoColor2: "#86A8E7",
-        }}
+        id="FullPresentation"
+        component={FullPresentation}
+        durationInFrames={totalFrames}
+        fps={FPS}
+        width={width}
+        height={height}
+        defaultProps={{ presentation: dummyPresentation }}
       />
 
-      {/* Mount any React component to make it show up in the sidebar and work on it individually! */}
-      <Composition
-        id="OnlyLogo"
-        component={Logo}
-        durationInFrames={150}
-        fps={30}
-        width={1920}
-        height={1080}
-        schema={myCompSchema2}
-        defaultProps={{
-          logoColor1: "#91dAE2" as const,
-          logoColor2: "#86A8E7" as const,
-        }}
-      />
+      {/* Individual slide compositions for per-slide debugging */}
+      {dummyPresentation.slides.map((slide) => (
+        <Composition
+          key={slide.slideId}
+          id={slide.slideId}
+          component={SlideComposition}
+          durationInFrames={slide.duration * FPS}
+          fps={FPS}
+          width={width}
+          height={height}
+          defaultProps={{ slide }}
+        />
+      ))}
     </>
   );
 };
