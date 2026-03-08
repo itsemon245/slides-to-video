@@ -105,122 +105,114 @@ TemplateSchema.parse(myTheme); // throws if any field is wrong
 
 ## 2. Adding a new layout
 
-A layout is a CSS Grid configuration plus per-area element acceptance rules and
-styles. `GenericSlideRenderer` renders any layout automatically from this data —
-no new React component is ever needed.
+We support two ways to add layouts: **Generic** (reusable across templates) and **Template-Specific** (local to one template).
+
+### Strategy
+
+| Type | Best For | Location |
+|------|----------|----------|
+| **Generic** | Common patterns like `title-center`, `hero-split` that many templates will use. | `src/layouts/{name}.ts` |
+| **Template-Specific** | Unique, one-off layouts designed for a specific visual theme (e.g. `nature-light`'s complex grid). | Inline in `src/templates/{template}.ts` |
+
+The `LayoutName` schema is flexible (`z.string()`), so you can register any layout name you want without changing global schemas.
+
+### Option A: Adding a Generic Layout
 
 **Files to create/edit:**
 
 | Action | File |
 |--------|------|
-| Edit | `src/schema/template.ts` — add name to `LayoutNameSchema` enum |
 | Create | `src/layouts/{name}.ts` — factory function |
 | Edit | `src/layouts/index.ts` — export + add to `createDefaultLayouts` |
 
-**Step 1 — Register the name in the schema**
+**Step 1 — Create the factory file**
 
 ```ts
-// src/schema/template.ts
-export const LayoutNameSchema = z.enum([
-  "title-center",
-  "bullet-with-image",
-  "bullet-with-graph",
-  "stat-grid",
-  "quote-focus",
-  "full-bleed-image",
-  "my-new-layout",   // ← add here
-]);
-```
-
-This makes `"my-new-layout"` a valid value for the `layout` field in any
-`ContentSlide`. The LLM will also see it in the generated JSON Schema context.
-
-**Step 2 — Create the factory file**
-
-```ts
-// src/layouts/my-new-layout.ts
+// src/layouts/my-generic-layout.ts
 import type { LayoutTemplate, DesignTokens } from "../schema/template";
 
-export const myNewLayout = (tokens: DesignTokens): LayoutTemplate => ({
+export const myGenericLayout = (tokens: DesignTokens): LayoutTemplate => ({
   // CSS Grid definition
   gridTemplateAreas: `"left right"`,
   gridTemplateColumns: "1fr 1fr",
   gridTemplateRows: "1fr",
 
-  // Optional layout-level padding/gap
+  // Optional layout-level padding/gap/decorations
   padding: "80px",
   gap: 40,
+  decorations: [
+    { type: "squares", position: "top-right", color: "accent", count: 3 }
+  ],
 
   areas: {
     left: {
-      // Which element types can appear in this area
       accepts: ["headline", "body-text"],
       required: true,
-      maxCount: 3,
-
-      // Container layout (flexbox, alignment, etc.)
-      containerStyle: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        gap: 24,
-      },
-
-      // Per-element visual overrides for this area
-      // These take priority over template.elementDefaults
-      elementStyles: {
-        headline:    { scale: "display-lg", color: "primary" },
-        "body-text": { scale: "body-lg",    color: "secondary" },
-      },
+      // ... area configuration ...
     },
     right: {
       accepts: ["image"],
-      maxCount: 1,
-      containerStyle: { position: "relative", overflow: "hidden" },
-      // Use tokens.colors.* for any colour reference — avoids hardcoded hex
-      gradientOverlay: {
-        direction: "to right",
-        from: tokens.colors.background,
-        to: "transparent",
-      },
-      elementStyles: {
-        image: { variant: "cover" },
-      },
+      // ... area configuration ...
     },
   },
 });
 ```
 
-**Step 3 — Export from the barrel**
+**Step 2 — Export from the barrel**
 
 ```ts
 // src/layouts/index.ts
 
 // Add export
-export { myNewLayout } from "./my-new-layout";
-
-// Add import
-import { myNewLayout } from "./my-new-layout";
+export { myGenericLayout } from "./my-generic-layout";
 
 // Add to createDefaultLayouts
 export const createDefaultLayouts = (tokens: DesignTokens) => ({
   // ... existing layouts ...
-  "my-new-layout": myNewLayout(tokens),
+  "my-generic-layout": myGenericLayout(tokens),
 });
+
+// Update LAYOUT_AREAS for LLM context/autocomplete
+export const LAYOUT_AREAS = {
+  // ...
+  "my-generic-layout": ["left", "right"],
+} as const;
 ```
 
-After this, every template that calls `createDefaultLayouts(tokens)` automatically
-gains the new layout. Templates that want the layout with different styling can
-override it:
+### Option B: Adding a Template-Specific Layout
+
+This is faster and keeps the global namespace clean.
+
+**Files to edit:** `src/templates/{your-template}.ts` only.
 
 ```ts
-layouts: {
-  ...createDefaultLayouts(tokens),
-  "my-new-layout": myNewLayout(tokens, { padding: "40px" }),
-}
+// src/templates/nature-light.ts
+
+// 1. Define the layout inline or as a local const
+const myCustomGrid = (tokens: DesignTokens): LayoutTemplate => ({
+  gridTemplateAreas: `"header" "content" "footer"`,
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "auto 1fr auto",
+  areas: {
+    // ... define areas ...
+  },
+});
+
+export const natureLight: Template = {
+  // ...
+  layouts: {
+    // 2. Spread default layouts
+    ...createDefaultLayouts(tokens),
+
+    // 3. Add your local layout
+    "custom-grid": myCustomGrid(tokens),
+  },
+};
 ```
 
-**Available area config fields (all optional except `accepts`):**
+### Layout Configuration Reference
+
+**Available config fields (all optional except `accepts`):**
 
 | Field | Type | Purpose |
 |-------|------|---------|
@@ -229,8 +221,26 @@ layouts: {
 | `maxCount` | `number` | Max elements in this area |
 | `containerStyle` | CSS object | Flexbox/grid/positioning for the area div |
 | `elementStyles` | `Record<ElementType, ElementStyleConfig>` | Per-element visual overrides |
-| `separator` | `{ height, color, width?, marginBlock? }` | Decorative line (e.g. stat-grid divider) |
+| `separator` | `{ height, color, ... }` | Decorative line |
 | `gradientOverlay` | `{ direction, from, to }` | Gradient overlay on top of the area |
+| `decorations` | `Decoration[]` | Array of decorative elements (squares, circles, etc.) |
+
+**Decorations:**
+Both layouts and areas support a `decorations` array. A decoration is a data-driven visual element (like the accent squares in `nature-light`):
+
+```ts
+decorations: [
+  {
+    position: "top-right",
+    top: 40, right: 40,
+    color: "accent", // Token color key
+    count: 3,
+    size: 24,
+    gap: 8,
+    // ... supports opacity, rotation, etc.
+  }
+]
+```
 
 ---
 

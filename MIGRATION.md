@@ -14,6 +14,7 @@ The presentation layer is split into three concerns that are completely independ
 | **Content JSON** | Database / API | Renderer + Editor |
 | **Template JSON** | Static files or DB | Renderer + Editor |
 | **Element components** | `src/components/presentation/` | Renderer + Editor |
+| **Layout Definitions** | `src/layouts/` (Generic) + `src/templates/` (Specific) | Renderer + Editor |
 
 Element components are **headless** — they hold no hardcoded colors, fonts, or sizes.
 All visual decisions come from the Template JSON via `TemplateContext`. Swapping the template
@@ -30,18 +31,12 @@ src/
 ├── components/
 │   └── presentation/          → resources/js/components/presentation/
 │       ├── elements/
-│       │   ├── headline/
-│       │   ├── subheadline/
-│       │   ├── body-text/
-│       │   ├── bullet-list/
-│       │   ├── stat-number/
-│       │   ├── image/
-│       │   ├── bar-chart/
-│       │   ├── quote/
-│       │   └── index.tsx          ← ELEMENT_REGISTRY + renderElement + ELEMENT_CONTROLS
+│       │   ├── ...            ← All element component folders
+│       │   └── index.tsx      ← ELEMENT_REGISTRY + renderElement + ELEMENT_CONTROLS
 │       ├── GenericSlideRenderer.tsx
+│       ├── DecorationRenderer.tsx  ← New: Handles decorations (squares, circles, etc.)
 │       ├── TemplateContext.tsx
-│       └── index.ts               ← public barrel, import everything from here
+│       └── index.ts
 │
 ├── schema/
 │   ├── content.ts             → resources/js/schema/content.ts
@@ -52,7 +47,13 @@ src/
 │   └── index.ts               → resources/js/transitions/index.ts
 │
 ├── templates/
-│   └── corporate-dark.ts      → resources/js/templates/corporate-dark.ts
+│   ├── corporate-dark.ts      → resources/js/templates/corporate-dark.ts
+│   └── nature-light.ts        → resources/js/templates/nature-light.ts
+│
+├── layouts/                   → resources/js/layouts/ (Generic layouts only)
+│   ├── index.ts
+│   ├── hero-split.ts
+│   └── ...
 │
 └── designSystem.ts            → resources/js/designSystem.ts
 ```
@@ -256,7 +257,10 @@ user-created templates.
 
 ## Extending the system
 
-See the **Extension guide** in the main [Headless Slide Rendering System plan](../)
-for step-by-step instructions on adding new element types, layouts, templates,
-and transitions. The same steps apply in the Inertia project — no Remotion-specific
-changes are needed for any of those extension points.
+See the **[EXTENDING.md](./EXTENDING.md)** guide for step-by-step instructions on:
+- Adding new element types (React components + Schema)
+- Creating new Templates
+- Adding new Layouts (Generic vs. Template-specific)
+- Creating custom Transitions
+
+The same steps apply in the Inertia project — no Remotion-specific changes are needed for any of those extension points.
