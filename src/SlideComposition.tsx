@@ -8,7 +8,7 @@ import type { Template } from "./schema/template";
 import {
   GenericSlideRenderer,
   type AvatarMap,
-} from "./components/presentation/GenericSlideRenderer";
+} from "./components/presentation";
 
 export interface SlideCompositionProps {
   slide: ContentSlide;

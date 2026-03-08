@@ -10,7 +10,7 @@ import { corporateDark } from "./templates/corporate-dark";
 import {
   type AvatarMap,
   computeSlideDurationFrames,
-} from "./components/presentation/GenericSlideRenderer";
+} from "./components/presentation";
 
 const FPS = samplePresentation.fps ?? 30;
 const { width, height } = samplePresentation.resolution;

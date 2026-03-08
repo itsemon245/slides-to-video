@@ -9,7 +9,7 @@ import type { Template } from "./schema/template";
 import {
   type AvatarMap,
   computeSlideDurationFrames,
-} from "./components/presentation/GenericSlideRenderer";
+} from "./components/presentation";
 
 interface Props {
   presentation: ContentPresentation;

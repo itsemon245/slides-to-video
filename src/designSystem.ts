@@ -1,10 +1,22 @@
 // designSystem.ts
-// All visual tokens live here.
-// LLM picks palette names — this file maps them to actual CSS values.
-// When you want to add a new palette or tweak a font size, this is the only file to touch.
+//
+// This file is split into two sections:
+//
+//   SECTION A — Renderer utilities (used by element components + GenericSlideRenderer)
+//               getTypeStyle, glowShadow, AVATAR_SIZES, AVATAR_EDGE_PADDING
+//
+//   SECTION B — Web-editor design tokens (reserved for the future Laravel+Inertia editor)
+//               PALETTES, TYPE_SCALE, SPACING, RADIUS, SHADOW, MOTION, color utilities
+//               These are NOT imported by the Remotion renderer. Keep them here so the
+//               editor can import them without touching the rendering pipeline.
 
 import React from "react";
 import type { TypeScale } from "./schema/template";
+
+// ═════════════════════════════════════════════════════════════════════════════
+// SECTION B — Web-editor design tokens
+// Not consumed by the Remotion renderer. Reserved for the web editor.
+// ═════════════════════════════════════════════════════════════════════════════
 
 // Legacy palette name type — kept for designSystem PALETTES map
 type Palette = "midnight-blue" | "forest-dark" | "sunset-warm" | "slate-pro" | "warm-cream" | "ocean-deep" | "aurora";
@@ -172,6 +184,15 @@ export const MOTION = {
   durationXSlow:  45,  //  1.5 s
 } as const;
 
+// ─────────────────────────────────────────────────────────────────────────────
+// End of SECTION B. Everything below is SECTION A (renderer utilities).
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ═════════════════════════════════════════════════════════════════════════════
+// SECTION A — Renderer utilities
+// Actively imported by element components and GenericSlideRenderer.
+// ═════════════════════════════════════════════════════════════════════════════
+
 // ─── Avatar ───────────────────────────────────────────────────────────────────
 
 export const AVATAR_SIZES = {
@@ -196,7 +217,8 @@ export const withAlpha = (hex: string, alpha: number): string => {
   return `rgba(${r},${g},${b},${alpha})`;
 };
 
-// ─── Gradient Utilities ───────────────────────────────────────────────────────
+// ─── Gradient Utilities (Section B) ──────────────────────────────────────────
+// These depend on PaletteTokens and are reserved for the web editor.
 
 /**
  * Linear gradient that fades from the palette's background into transparency.
