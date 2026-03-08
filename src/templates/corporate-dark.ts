@@ -16,7 +16,7 @@ const tokens: Template["tokens"] = {
   },
 };
 
-export const corporateDark: Template = {
+export const template: Template = {
   id: "corporate-dark",
   name: "Corporate Dark",
   description: "Dark professional theme with blue accent. Supports all 6 layouts.",
@@ -79,3 +79,5 @@ export const corporateDark: Template = {
 
   layouts: createDefaultLayouts(tokens),
 };
+
+export default template;

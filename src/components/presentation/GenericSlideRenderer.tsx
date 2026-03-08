@@ -8,6 +8,7 @@ import {
   resolveAvatarConfig,
 } from "./TemplateContext";
 import { renderElement } from "./elements";
+import { DecorationRenderer } from "./DecorationRenderer";
 import { applyTransition, clampTransitionFrames } from "../../transitions";
 import type { TransitionId } from "../../transitions";
 import { AVATAR_SIZES, AVATAR_EDGE_PADDING } from "../../designSystem";
@@ -145,11 +146,13 @@ const AreaRenderer: React.FC<AreaRendererProps> = ({
 }) => {
   const containerStyle: React.CSSProperties = {
     gridArea: areaName,
+    position: "relative",
     ...(areaConfig.containerStyle as React.CSSProperties | undefined),
   };
 
   return (
     <div style={containerStyle}>
+      <DecorationRenderer decorations={areaConfig.decorations} parentTokens={tokens} />
       {areaConfig.separator && (
         <div
           style={{
@@ -278,15 +281,23 @@ export const GenericSlideRenderer: React.FC<GenericSlideRendererProps> = ({
 
   const slideTransitionStyle = useSlideTransitionStyle(slide, fps);
 
-  // Group elements into areas by their type
+  // Group elements into areas.
+  // Priority: explicit el.area tag → first area that accepts el.type (fallback).
   const elementsByArea: Record<string, ContentElement[]> = {};
   for (const el of slide.elements) {
-    const areaName = Object.entries(layoutConfig.areas).find(([, area]) =>
-      (area as AreaTemplate).accepts.includes(el.type as any)
-    )?.[0];
-    if (areaName) {
-      (elementsByArea[areaName] ??= []).push(el);
+    // Explicit area tag wins; discard if the named area doesn't exist in this layout
+    let areaName: string | undefined =
+      "area" in el ? (el as any).area : undefined;
+    if (areaName && !layoutConfig.areas[areaName]) areaName = undefined;
+
+    // Fallback: first area whose accepts list includes this element's type
+    if (!areaName) {
+      areaName = Object.entries(layoutConfig.areas).find(([, area]) =>
+        (area as AreaTemplate).accepts.includes(el.type as any)
+      )?.[0];
     }
+
+    if (areaName) (elementsByArea[areaName] ??= []).push(el);
   }
 
   // Calculate frame ranges for avatar crossfade
@@ -323,6 +334,7 @@ export const GenericSlideRenderer: React.FC<GenericSlideRendererProps> = ({
               style={{
                 width: "100%",
                 height: "100%",
+                position: "relative",
                 display: "grid",
                 gridTemplateAreas: layoutConfig.gridTemplateAreas,
                 gridTemplateColumns: layoutConfig.gridTemplateColumns,
@@ -331,6 +343,7 @@ export const GenericSlideRenderer: React.FC<GenericSlideRendererProps> = ({
                 gap: layoutConfig.gap,
               }}
             >
+              <DecorationRenderer decorations={layoutConfig.decorations} parentTokens={tokens} />
               {Object.entries(layoutConfig.areas).map(([areaName, areaConfig]) => (
                 <TemplateProvider
                   key={areaName}

@@ -13,7 +13,19 @@ export const bulletWithImageLayout = (tokens: DesignTokens): LayoutTemplate => (
         flexDirection: "column",
         justifyContent: "center",
         padding: "80px 60px 80px 100px",
+        position: "relative",
       },
+      decorations: [
+        {
+          position: "top-right",
+          top: 40,
+          right: 40,
+          color: "accent",
+          count: 3,
+          size: 24,
+          gap: 8,
+        },
+      ],
       elementStyles: {
         headline:      { scale: "display-lg", color: "primary" },
         subheadline:   { scale: "heading-md", color: "secondary" },

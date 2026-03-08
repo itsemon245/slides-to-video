@@ -8,6 +8,7 @@ import { StatNumber } from "./stat-number";
 import { ImageElement } from "./image";
 import { BarChart } from "./bar-chart";
 import { Quote } from "./quote";
+import { FeatureItem } from "./feature-item";
 
 export { Headline } from "./headline";
 export { Subheadline } from "./subheadline";
@@ -17,6 +18,7 @@ export { StatNumber } from "./stat-number";
 export { ImageElement } from "./image";
 export { BarChart } from "./bar-chart";
 export { Quote } from "./quote";
+export { FeatureItem } from "./feature-item";
 
 // ─── Element Registry ─────────────────────────────────────────────────────────
 // Maps element type string → React component.
@@ -26,14 +28,15 @@ export const ELEMENT_REGISTRY: Record<
   ContentElement["type"],
   React.FC<{ el: any }>
 > = {
-  headline:     Headline,
-  subheadline:  Subheadline,
-  "body-text":  BodyText,
-  "bullet-list":BulletList,
-  "stat-number":StatNumber,
-  image:        ImageElement,
-  "bar-chart":  BarChart,
-  quote:        Quote,
+  headline:        Headline,
+  subheadline:     Subheadline,
+  "body-text":     BodyText,
+  "bullet-list":   BulletList,
+  "stat-number":   StatNumber,
+  image:           ImageElement,
+  "bar-chart":     BarChart,
+  quote:           Quote,
+  "feature-item":  FeatureItem,
 };
 
 // ─── Render Element ───────────────────────────────────────────────────────────
@@ -131,6 +134,14 @@ export const ELEMENT_CONTROLS: Record<ContentElement["type"], ControlSpec[]> = {
     { field: "styleOverrides.fontSize",       control: "number-input", label: "Font Size", min: 16, max: 120 },
     { field: "styleOverrides.color",          control: "color-picker", label: "Color" },
     { field: "styleOverrides.fontStyle",      control: "select",       label: "Style", options: ["normal","italic"] },
+    { field: "audioSegmentText",              control: "textarea",     label: "Narration Text" },
+  ],
+  "feature-item": [
+    { field: "title",                         control: "text-input",   label: "Title" },
+    { field: "description",                   control: "textarea",     label: "Description" },
+    { field: "styleOverrides.fontSize",       control: "number-input", label: "Title Font Size", min: 12, max: 80 },
+    { field: "styleOverrides.fontWeight",     control: "select",       label: "Weight", options: ["400","500","600","700","800"] },
+    { field: "styleOverrides.color",          control: "color-picker", label: "Title Color" },
     { field: "audioSegmentText",              control: "textarea",     label: "Narration Text" },
   ],
 };

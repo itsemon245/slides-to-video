@@ -57,6 +57,12 @@ const AvatarOverrideSchema = AvatarConfigSchema.partial();
 // ─── Base narration fields (shared by all narrated elements) ──────────────────
 
 const NarrationSchema = z.object({
+  area: z.string().optional().describe(
+    "Named layout area for this element (e.g. 'col1', 'panel', 'content'). " +
+    "Required when the slide layout has multiple areas that accept the same " +
+    "element type (e.g. three-column, dark-side-panel). " +
+    "See template.layouts[layout].areas for valid values."
+  ),
   audioSegmentText: z.string().optional().describe(
     "Spoken narration for this element. Set only on top-level elements. " +
     "videoOverlay is injected automatically — do not generate it."
@@ -140,6 +146,14 @@ export const QuoteContentSchema = NarrationSchema.extend({
   styleOverrides: TextStyleOverridesSchema.optional(),
 });
 
+export const FeatureItemContentSchema = NarrationSchema.extend({
+  id:          z.string(),
+  type:        z.literal("feature-item"),
+  title:       z.string().describe("Bold feature title shown prominently."),
+  description: z.string().describe("Supporting description for the feature."),
+  styleOverrides: TextStyleOverridesSchema.optional(),
+});
+
 // ─── Discriminated Union ──────────────────────────────────────────────────────
 
 export const ContentElementSchema = z.discriminatedUnion("type", [
@@ -151,6 +165,7 @@ export const ContentElementSchema = z.discriminatedUnion("type", [
   ImageContentSchema,
   BarChartContentSchema,
   QuoteContentSchema,
+  FeatureItemContentSchema,
 ]);
 
 // ─── Content Slide ────────────────────────────────────────────────────────────
@@ -198,6 +213,7 @@ export type ImageContent = z.infer<typeof ImageContentSchema>;
 export type BarChartBar = z.infer<typeof BarChartBarSchema>;
 export type BarChartContent = z.infer<typeof BarChartContentSchema>;
 export type QuoteContent = z.infer<typeof QuoteContentSchema>;
+export type FeatureItemContent = z.infer<typeof FeatureItemContentSchema>;
 export type ContentElement = z.infer<typeof ContentElementSchema>;
 export type ContentSlide = z.infer<typeof ContentSlideSchema>;
 export type ContentPresentation = z.infer<typeof ContentPresentationSchema>;

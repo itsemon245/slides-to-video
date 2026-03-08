@@ -63,6 +63,42 @@ export const ColorKeySchema = z.enum([
 
 export const FontFamilyKeySchema = z.enum(["heading", "body"]);
 
+// ─── Decoration Config ────────────────────────────────────────────────────────
+
+export const DecorationSchema = z.object({
+  // visual properties
+  color: ColorKeySchema.or(z.string()).optional(), // Theme color key OR raw CSS color
+  opacity: z.number().optional(),
+
+  // positioning & sizing
+  position: z
+    .enum(["absolute", "relative", "fixed", "sticky"])
+    .or(z.string())
+    .default("absolute"),
+  top: z.number().or(z.string()).optional(),
+  left: z.number().or(z.string()).optional(),
+  right: z.number().or(z.string()).optional(),
+  bottom: z.number().or(z.string()).optional(),
+  width: z.number().or(z.string()).optional(),
+  height: z.number().or(z.string()).optional(),
+  size: z.number().or(z.string()).optional(), // sets both width and height
+
+  // repetition
+  count: z.number().optional(),
+  gap: z.number().or(z.string()).optional(),
+  direction: z.enum(["row", "column"]).optional(),
+
+  // styling
+  style: z.record(z.string(), z.string()).optional(), // Raw CSS properties
+  className: z.string().optional(), // Tailwind classes
+
+  // wrapper styling (for multiple items)
+  wrapperStyle: z.record(z.string(), z.string()).optional(),
+  wrapperClassName: z.string().optional(),
+});
+
+export type Decoration = z.infer<typeof DecorationSchema>;
+
 // ─── Element Style Config ─────────────────────────────────────────────────────
 // All visual decisions for a given element type in a given layout+area context.
 
@@ -86,6 +122,7 @@ export const ElementStyleConfigSchema = z.object({
   gap: z.number().optional(),
   glow: z.boolean().optional(),
   underline: UnderlineConfigSchema.optional(),
+  decorations: z.array(DecorationSchema).optional(),
 });
 
 // ─── Area Template ────────────────────────────────────────────────────────────
@@ -99,6 +136,7 @@ export const ElementTypeSchema = z.enum([
   "image",
   "bar-chart",
   "quote",
+  "feature-item",
 ]);
 
 export const SeparatorConfigSchema = z.object({
@@ -123,18 +161,12 @@ export const AreaTemplateSchema = z.object({
   gradientOverlay: GradientOverlaySchema.optional(),
   // z.record with string key infers as Partial<Record<...>> — no need to specify all element types
   elementStyles: z.record(z.string(), ElementStyleConfigSchema).optional(),
+  decorations: z.array(DecorationSchema).optional(),
 });
 
 // ─── Layout Template ──────────────────────────────────────────────────────────
 
-export const LayoutNameSchema = z.enum([
-  "title-center",
-  "bullet-with-image",
-  "bullet-with-graph",
-  "stat-grid",
-  "quote-focus",
-  "full-bleed-image",
-]);
+export const LayoutNameSchema = z.string();
 
 export const LayoutTemplateSchema = z.object({
   gridTemplateAreas: z.string(),
@@ -143,6 +175,7 @@ export const LayoutTemplateSchema = z.object({
   padding: z.string().optional(),
   gap: z.number().optional(),
   areas: z.record(z.string(), AreaTemplateSchema),
+  decorations: z.array(DecorationSchema).optional(),
 });
 
 // ─── Slide Defaults ───────────────────────────────────────────────────────────
