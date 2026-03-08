@@ -1,26 +1,48 @@
 // FullPresentation.tsx
 // Plays all slides sequentially in a single composition using <Series>.
 
+import React from "react";
 import { Series } from "remotion";
 import { SlideComposition } from "./SlideComposition";
-import { PresentationJSON } from "./types";
+import type { ContentPresentation } from "./schema/content";
+import type { Template } from "./schema/template";
+import {
+  type AvatarMap,
+  computeSlideDurationFrames,
+} from "./components/presentation/GenericSlideRenderer";
 
-export const FullPresentation: React.FC<{ presentation: PresentationJSON }> = ({
+interface Props {
+  presentation: ContentPresentation;
+  template: Template;
+  avatarMap?: AvatarMap;
+}
+
+export const FullPresentation: React.FC<Props> = ({
   presentation,
+  template,
+  avatarMap = {},
 }) => {
-  const fps = presentation.fps;
+  const fps = presentation.fps ?? 30;
 
   return (
     <Series>
-      {presentation.slides.map((slide) => (
-        <Series.Sequence
-          key={slide.slideId}
-          durationInFrames={slide.duration * fps}
-          premountFor={fps}
-        >
-          <SlideComposition slide={slide} />
-        </Series.Sequence>
-      ))}
+      {presentation.slides.map((slide) => {
+        const slideDuration = computeSlideDurationFrames(slide, fps, avatarMap);
+        return (
+          <Series.Sequence
+            key={slide.id}
+            durationInFrames={slideDuration}
+            premountFor={fps}
+          >
+            <SlideComposition
+              slide={slide}
+              template={template}
+              avatarMap={avatarMap}
+              presentationAvatarDefaults={presentation.avatarDefaults}
+            />
+          </Series.Sequence>
+        );
+      })}
     </Series>
   );
 };

@@ -1,55 +1,40 @@
-// components/AvatarOverlay.tsx
-// Renders the lipsync avatar video on top of the slide.
-// Position, shape (circle/squircle), and size come from slide JSON.
+// AvatarOverlay.tsx
+// Standalone avatar overlay — kept for direct use outside of GenericSlideRenderer.
+// For the full per-element crossfade system, use GenericSlideRenderer which
+// handles avatarMap directly.
 
-import { AbsoluteFill, staticFile } from "remotion";
+import { AbsoluteFill, Sequence } from "remotion";
 import { Video } from "@remotion/media";
-import { AvatarConfig } from "../types";
+import type { AvatarConfig } from "../schema/template";
+import { AVATAR_SIZES, AVATAR_EDGE_PADDING } from "../designSystem";
 
-const SIZES = {
-  sm: 160,
-  md: 220,
-  lg: 300,
-};
-
-const PADDING = 40; // px from slide edge
-
-const SHAPE_STYLES: Record<AvatarConfig["shape"], React.CSSProperties> = {
-  circle: {
-    borderRadius: "50%",
-  },
-  squircle: {
-    borderRadius: "30%",
-  },
-};
+interface Props extends AvatarConfig {
+  videoSrc: string;
+}
 
 const getPositionStyle = (
   position: AvatarConfig["position"],
-  size: number
 ): React.CSSProperties => {
   switch (position) {
-    case "top-left":
-      return { top: PADDING, left: PADDING };
-    case "top-right":
-      return { top: PADDING, right: PADDING };
-    case "bottom-left":
-      return { bottom: PADDING, left: PADDING };
-    case "bottom-right":
-      return { bottom: PADDING, right: PADDING };
+    case "top-left":    return { top: AVATAR_EDGE_PADDING, left: AVATAR_EDGE_PADDING };
+    case "top-right":   return { top: AVATAR_EDGE_PADDING, right: AVATAR_EDGE_PADDING };
+    case "bottom-left": return { bottom: AVATAR_EDGE_PADDING, left: AVATAR_EDGE_PADDING };
+    case "bottom-right":return { bottom: AVATAR_EDGE_PADDING, right: AVATAR_EDGE_PADDING };
+    default:            return { bottom: AVATAR_EDGE_PADDING, right: AVATAR_EDGE_PADDING };
   }
 };
 
-export const AvatarOverlay: React.FC<AvatarConfig> = ({
+export const AvatarOverlay: React.FC<Props> = ({
   position,
   shape,
   size,
+  borderRadius,
   videoSrc,
 }) => {
-  if (!videoSrc) {
-    return null;
-  }
+  if (!videoSrc) return null;
 
-  const sizePx = SIZES[size];
+  const sizePx = AVATAR_SIZES[size];
+  const resolvedRadius = borderRadius ?? (shape === "circle" ? "50%" : "30%");
 
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
@@ -61,19 +46,17 @@ export const AvatarOverlay: React.FC<AvatarConfig> = ({
           overflow: "hidden",
           boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
           border: "3px solid rgba(255,255,255,0.15)",
-          ...SHAPE_STYLES[shape],
-          ...getPositionStyle(position, sizePx),
+          borderRadius: resolvedRadius,
+          ...getPositionStyle(position),
         }}
       >
-        <Video
-          src={staticFile(videoSrc.replace(/^\//, ""))}
-          loop
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
+        <Sequence name="AvatarVideo">
+          <Video
+            src={videoSrc}
+            loop
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </Sequence>
       </div>
     </AbsoluteFill>
   );
