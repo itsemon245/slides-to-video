@@ -10,7 +10,7 @@ export const statGridLayout = (tokens: DesignTokens): LayoutTemplate => ({
       accepts: ["headline"],
       required: true,
       maxCount: 1,
-      containerStyle: {
+      style: {
         textAlign: "center",
       },
       separator: {
@@ -27,7 +27,7 @@ export const statGridLayout = (tokens: DesignTokens): LayoutTemplate => ({
       accepts: ["stat-number"],
       required: true,
       maxCount: 4,
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "row",
         gap: 80,

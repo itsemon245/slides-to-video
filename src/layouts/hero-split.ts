@@ -7,7 +7,7 @@ export const heroSplitLayout = (tokens: DesignTokens): LayoutTemplate => ({
   areas: {
     left: {
       accepts: ["headline", "subheadline", "body-text"],
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -17,9 +17,8 @@ export const heroSplitLayout = (tokens: DesignTokens): LayoutTemplate => ({
       },
       decorations: [
         {
-          position: "bottom-left",
-          bottom: 60,
-          left: 80,
+          placement: "bottom-left",
+          wrapperStyle: { bottom: 60, left: 80 },
           color: "accent",
           count: 3,
           size: 24,
@@ -35,7 +34,7 @@ export const heroSplitLayout = (tokens: DesignTokens): LayoutTemplate => ({
     right: {
       accepts: ["image"],
       maxCount: 2,
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -50,9 +49,8 @@ export const heroSplitLayout = (tokens: DesignTokens): LayoutTemplate => ({
       },
       decorations: [
         {
-          position: "top-right",
-          top: 40,
-          right: 40,
+          placement: "top-right",
+          wrapperStyle: { top: 40, right: 40 },
           color: "accent",
           count: 3,
           size: 24,

@@ -8,24 +8,14 @@ export const bulletWithImageLayout = (tokens: DesignTokens): LayoutTemplate => (
     text: {
       accepts: ["headline", "subheadline", "bullet-list", "body-text"],
       required: true,
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         padding: "80px 60px 80px 100px",
         position: "relative",
       },
-      decorations: [
-        {
-          position: "top-right",
-          top: 40,
-          right: 40,
-          color: "accent",
-          count: 3,
-          size: 24,
-          gap: 8,
-        },
-      ],
+      
       elementStyles: {
         headline:      { scale: "display-lg", color: "primary",   transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
         subheadline:   { scale: "heading-md", color: "secondary", transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
@@ -36,7 +26,7 @@ export const bulletWithImageLayout = (tokens: DesignTokens): LayoutTemplate => (
     image: {
       accepts: ["image"],
       maxCount: 1,
-      containerStyle: {
+      style: {
         position: "relative",
         overflow: "hidden",
       },

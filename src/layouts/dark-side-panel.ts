@@ -7,7 +7,7 @@ export const darkSidePanelLayout = (tokens: DesignTokens): LayoutTemplate => ({
   areas: {
     panel: {
       accepts: ["headline", "subheadline", "bullet-list", "feature-item"],
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -24,7 +24,7 @@ export const darkSidePanelLayout = (tokens: DesignTokens): LayoutTemplate => ({
     },
     content: {
       accepts: ["image", "headline", "body-text", "feature-item"],
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -33,17 +33,6 @@ export const darkSidePanelLayout = (tokens: DesignTokens): LayoutTemplate => ({
         background: tokens.colors.background,
         position: "relative",
       },
-      decorations: [
-        {
-          position: "top-right",
-          top: 40,
-          right: 40,
-          color: "accent",
-          count: 3,
-          size: 24,
-          gap: 8,
-        },
-      ],
       elementStyles: {
         headline:       { scale: "heading-md", color: "primary",    transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },
         "body-text":    { scale: "body-lg",    color: "secondary",  transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },

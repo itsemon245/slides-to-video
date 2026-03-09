@@ -148,7 +148,7 @@ const AreaRenderer: React.FC<AreaRendererProps> = ({
   const containerStyle: React.CSSProperties = {
     gridArea: areaName,
     position: "relative",
-    ...(areaConfig.containerStyle as React.CSSProperties | undefined),
+    ...(areaConfig.style as React.CSSProperties | undefined),
   };
 
   return (
@@ -351,7 +351,6 @@ export const GenericSlideRenderer: React.FC<GenericSlideRendererProps> = ({
                 gap: layoutConfig.gap,
               }}
             >
-              <DecorationRenderer decorations={layoutConfig.decorations} parentTokens={tokens} />
               {Object.entries(layoutConfig.areas).map(([areaName, areaConfig]) => (
                 <TemplateProvider
                   key={areaName}
@@ -371,6 +370,8 @@ export const GenericSlideRenderer: React.FC<GenericSlideRendererProps> = ({
                   />
                 </TemplateProvider>
               ))}
+              {/* Layout-level decorations rendered after areas so they paint on top of area backgrounds */}
+              <DecorationRenderer decorations={layoutConfig.decorations} parentTokens={tokens} />
             </div>
           </AbsoluteFill>
         </Sequence>

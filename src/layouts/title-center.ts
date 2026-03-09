@@ -10,7 +10,7 @@ export const titleCenterLayout = (tokens: DesignTokens): LayoutTemplate => ({
       accepts: ["headline"],
       required: true,
       maxCount: 1,
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -33,7 +33,7 @@ export const titleCenterLayout = (tokens: DesignTokens): LayoutTemplate => ({
     subtext: {
       accepts: ["subheadline", "body-text"],
       maxCount: 2,
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

@@ -8,7 +8,7 @@ export const bulletWithGraphLayout = (tokens: DesignTokens): LayoutTemplate => (
     text: {
       accepts: ["headline", "subheadline", "bullet-list", "body-text"],
       required: true,
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -25,7 +25,7 @@ export const bulletWithGraphLayout = (tokens: DesignTokens): LayoutTemplate => (
       accepts: ["bar-chart"],
       required: true,
       maxCount: 1,
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

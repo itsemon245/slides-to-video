@@ -8,7 +8,7 @@ export const fullBleedImageLayout = (tokens: DesignTokens): LayoutTemplate => ({
     background: {
       accepts: ["image"],
       maxCount: 1,
-      containerStyle: {
+      style: {
         position: "absolute",
         inset: 0,
         zIndex: 0,
@@ -19,7 +19,7 @@ export const fullBleedImageLayout = (tokens: DesignTokens): LayoutTemplate => ({
     },
     overlay: {
       accepts: ["headline", "body-text"],
-      containerStyle: {
+      style: {
         position: "absolute",
         bottom: 0,
         left: 0,

@@ -8,7 +8,7 @@ export const imageFeatureCardsLayout = (tokens: DesignTokens): LayoutTemplate =>
     photo: {
       accepts: ["image"],
       maxCount: 1,
-      containerStyle: {
+      style: {
         overflow: "hidden",
         background: tokens.colors.muted,
       },
@@ -18,7 +18,7 @@ export const imageFeatureCardsLayout = (tokens: DesignTokens): LayoutTemplate =>
     },
     cards: {
       accepts: ["feature-item", "headline", "subheadline"],
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -27,17 +27,6 @@ export const imageFeatureCardsLayout = (tokens: DesignTokens): LayoutTemplate =>
         background: tokens.colors.background,
         position: "relative",
       },
-      decorations: [
-        {
-          position: "top-right",
-          top: 40,
-          right: 40,
-          color: "accent",
-          count: 3,
-          size: 24,
-          gap: 8,
-        },
-      ],
       elementStyles: {
         headline:       { scale: "heading-md", color: "primary",   transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },
         subheadline:    { scale: "body-lg",    color: "secondary", transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },

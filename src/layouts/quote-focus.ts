@@ -10,7 +10,7 @@ export const quoteFocusLayout = (tokens: DesignTokens): LayoutTemplate => ({
       accepts: ["quote"],
       required: true,
       maxCount: 1,
-      containerStyle: {
+      style: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -24,7 +24,7 @@ export const quoteFocusLayout = (tokens: DesignTokens): LayoutTemplate => ({
     attribution: {
       accepts: ["subheadline"],
       maxCount: 1,
-      containerStyle: {
+      style: {
         textAlign: "center",
         paddingBottom: 16,
         // Muted divider line above attribution

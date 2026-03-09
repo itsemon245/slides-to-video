@@ -6,6 +6,21 @@ type DecorationRendererProps = {
   parentTokens: DesignTokens;
 };
 
+function resolvePlacement(placement?: string): React.CSSProperties {
+  switch (placement) {
+    case "top-left":      return { top: 0, left: 0 };
+    case "top-center":    return { top: 0, left: "50%", transform: "translateX(-50%)" };
+    case "top-right":     return { top: 0, right: 0 };
+    case "center-left":   return { top: "50%", left: 0, transform: "translateY(-50%)" };
+    case "center":        return { top: "50%", left: "50%", transform: "translate(-50%, -50%)" };
+    case "center-right":  return { top: "50%", right: 0, transform: "translateY(-50%)" };
+    case "bottom-left":   return { bottom: 0, left: 0 };
+    case "bottom-center": return { bottom: 0, left: "50%", transform: "translateX(-50%)" };
+    case "bottom-right":  return { bottom: 0, right: 0 };
+    default:              return {};
+  }
+}
+
 export const DecorationRenderer: React.FC<DecorationRendererProps> = ({
   decorations,
   parentTokens,
@@ -17,14 +32,7 @@ export const DecorationRenderer: React.FC<DecorationRendererProps> = ({
       {decorations.map((decoration, index) => {
         const {
           color,
-          opacity,
-          position = "absolute",
-          top,
-          left,
-          right,
-          bottom,
-          width,
-          height,
+          placement,
           size,
           count = 1,
           gap,
@@ -41,25 +49,21 @@ export const DecorationRenderer: React.FC<DecorationRendererProps> = ({
             : color;
 
         const wrapperStyles: React.CSSProperties = {
-          position: position as any,
-          top,
-          left,
-          right,
-          bottom,
+          position: "absolute",
+          ...resolvePlacement(placement),  // default coordinates from shorthand
           display: "flex",
           flexDirection: direction,
           gap,
-          pointerEvents: "none", // Decorations shouldn't block interaction usually
-          zIndex: 0, // Should be behind content by default unless specified otherwise
-          ...wrapperStyle,
+          pointerEvents: "none",
+          zIndex: 0,
+          ...wrapperStyle,                 // explicit wrapperStyle overrides placement defaults
         };
 
         const itemStyles: React.CSSProperties = {
-          width: size ?? width,
-          height: size ?? height,
+          width: size,
+          height: size,
           backgroundColor: resolvedColor,
-          opacity,
-          ...style,
+          ...style,                        // style can override width/height/opacity/etc.
         };
 
         return (

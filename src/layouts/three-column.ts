@@ -8,9 +8,8 @@ export const threeColumnLayout = (tokens: DesignTokens): LayoutTemplate => ({
   padding: "60px 80px",
   decorations: [
     {
-      position: "top-right",
-      top: 40,
-      right: 40,
+      placement: "top-right",
+      wrapperStyle: { top: 40, right: 40 },
       color: "accent",
       count: 3,
       size: 24,
@@ -20,7 +19,7 @@ export const threeColumnLayout = (tokens: DesignTokens): LayoutTemplate => ({
   areas: {
     col1: {
       accepts: ["headline", "subheadline", "body-text", "bullet-list", "image", "feature-item"],
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         gap: 16,
@@ -36,7 +35,7 @@ export const threeColumnLayout = (tokens: DesignTokens): LayoutTemplate => ({
     },
     col2: {
       accepts: ["headline", "subheadline", "body-text", "bullet-list", "image", "feature-item"],
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         gap: 16,
@@ -50,7 +49,7 @@ export const threeColumnLayout = (tokens: DesignTokens): LayoutTemplate => ({
     },
     col3: {
       accepts: ["headline", "subheadline", "body-text", "bullet-list", "image", "feature-item"],
-      containerStyle: {
+      style: {
         display: "flex",
         flexDirection: "column",
         gap: 16,

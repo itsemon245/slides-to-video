@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type React from "react";
 
 // ─── Transition Reference ─────────────────────────────────────────────────────
 // Moved here (from content.ts) so ElementStyleConfigSchema can reference it
@@ -28,6 +29,22 @@ export const TransitionRefSchema = z.object({
 });
 
 export type TransitionRef = z.infer<typeof TransitionRefSchema>;
+
+// ─── CSS Properties Schema ────────────────────────────────────────────────────
+
+export const CSSPropertiesSchema = z.custom<React.CSSProperties>(
+  (val) => typeof val === "object" && val !== null
+);
+
+// ─── Placement Schema ─────────────────────────────────────────────────────────
+
+export const PlacementSchema = z.enum([
+  "top-left",    "top-center",    "top-right",
+  "center-left", "center",        "center-right",
+  "bottom-left", "bottom-center", "bottom-right",
+]);
+
+export type Placement = z.infer<typeof PlacementSchema>;
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 
@@ -95,35 +112,21 @@ export const FontFamilyKeySchema = z.enum(["heading", "body"]);
 // ─── Decoration Config ────────────────────────────────────────────────────────
 
 export const DecorationSchema = z.object({
-  // visual properties
-  color: ColorKeySchema.or(z.string()).optional(), // Theme color key OR raw CSS color
-  opacity: z.number().optional(),
-
-  // positioning & sizing
-  position: z
-    .enum(["absolute", "relative", "fixed", "sticky"])
-    .or(z.string())
-    .default("absolute"),
-  top: z.number().or(z.string()).optional(),
-  left: z.number().or(z.string()).optional(),
-  right: z.number().or(z.string()).optional(),
-  bottom: z.number().or(z.string()).optional(),
-  width: z.number().or(z.string()).optional(),
-  height: z.number().or(z.string()).optional(),
-  size: z.number().or(z.string()).optional(), // sets both width and height
-
-  // repetition
+  // ── Semantic / custom props ──────────────────────────────────────────────
+  color: ColorKeySchema.or(z.string()).optional(), // theme token key OR raw CSS color
+  placement: PlacementSchema.optional(),           // corner/edge shorthand
+  size: z.number().or(z.string()).optional(),      // sets both width and height
   count: z.number().optional(),
-  gap: z.number().or(z.string()).optional(),
-  direction: z.enum(["row", "column"]).optional(),
+  gap: z.number().or(z.string()).optional(),       // wrapper flex gap
+  direction: z.enum(["row", "column"]).optional(), // wrapper flex direction
 
-  // styling
-  style: z.record(z.string(), z.string()).optional(), // Raw CSS properties
-  className: z.string().optional(), // Tailwind classes
+  // ── Item-level CSS ───────────────────────────────────────────────────────
+  className: z.string().optional(),
+  style: CSSPropertiesSchema.optional(),           // width, height, opacity, borderRadius, etc.
 
-  // wrapper styling (for multiple items)
-  wrapperStyle: z.record(z.string(), z.string()).optional(),
+  // ── Wrapper-level CSS ────────────────────────────────────────────────────
   wrapperClassName: z.string().optional(),
+  wrapperStyle: CSSPropertiesSchema.optional(),    // top, left, right, bottom, zIndex, etc.
 });
 
 export type Decoration = z.infer<typeof DecorationSchema>;
@@ -154,6 +157,9 @@ export const ElementStyleConfigSchema = z.object({
   decorations: z.array(DecorationSchema).optional(),
   transitionIn: TransitionRefSchema.optional(),
   transitionOut: TransitionRefSchema.optional(),
+  // Escape hatch for one-off CSS overrides and utility classes
+  className: z.string().optional(),
+  style: CSSPropertiesSchema.optional(),
 });
 
 // ─── Area Template ────────────────────────────────────────────────────────────
@@ -187,7 +193,8 @@ export const AreaTemplateSchema = z.object({
   accepts: z.array(ElementTypeSchema),
   required: z.boolean().optional(),
   maxCount: z.number().optional(),
-  containerStyle: z.record(z.string(), z.unknown()).optional(),
+  style: CSSPropertiesSchema.optional(),
+  className: z.string().optional(),
   separator: SeparatorConfigSchema.optional(),
   gradientOverlay: GradientOverlaySchema.optional(),
   // z.record with string key infers as Partial<Record<...>> — no need to specify all element types
@@ -247,3 +254,4 @@ export type LayoutTemplate = z.infer<typeof LayoutTemplateSchema>;
 export type LayoutName = z.infer<typeof LayoutNameSchema>;
 export type ElementType = z.infer<typeof ElementTypeSchema>;
 export type Template = z.infer<typeof TemplateSchema>;
+export type CSSProperties = React.CSSProperties;

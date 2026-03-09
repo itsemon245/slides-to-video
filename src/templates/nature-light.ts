@@ -1,4 +1,4 @@
-import type { Template } from "../schema/template";
+import type { Template, Decoration } from "../schema/template";
 import { createDefaultLayouts } from "../layouts";
 
 const tokens: Template["tokens"] = {
@@ -15,6 +15,22 @@ const tokens: Template["tokens"] = {
     body:    "Nunito, sans-serif",
   },
 };
+
+const defaultLayouts = createDefaultLayouts(tokens);
+
+// ─── Decoration Factory ───────────────────────────────────────────────────────
+// Encodes the nature-light accent mark identity (color, size, shape).
+// Each call only needs to specify what's different per placement/layout.
+
+const d = ({ style, wrapperStyle, ...rest }: Partial<Decoration> = {}): Decoration => ({
+  color: "accent",
+  count: 3,
+  size: 38,
+  gap: 8,
+  style: { borderRadius: "6px", ...style },
+  ...rest,
+  ...(wrapperStyle ? { wrapperStyle } : {}),
+});
 
 // ─── Template Definition ──────────────────────────────────────────────────────
 
@@ -104,7 +120,24 @@ export const natureLight: Template = {
   },
 
   layouts: {
-    ...createDefaultLayouts(tokens),
+    ...defaultLayouts,
+
+    // ── Simple layout-level decoration overrides ──────────────────────────────
+    "title-center":        { ...defaultLayouts["title-center"],        decorations: [d({ placement: "bottom-right", wrapperStyle: { bottom: 20, right: 20 } })] },
+    "hero-split":          { ...defaultLayouts["hero-split"],          decorations: [d({ placement: "top-left" })] },
+    "stat-grid":           { ...defaultLayouts["stat-grid"],           decorations: [d({ placement: "top-right", wrapperStyle: { top: 20, right: 20 } })] },
+    "quote-focus":         { ...defaultLayouts["quote-focus"],         decorations: [d({ placement: "bottom-left", wrapperStyle: { bottom: 20, left: 20 } })] },
+    "three-column":        { ...defaultLayouts["three-column"],        decorations: [d({ placement: "top-right", wrapperStyle: { top: 20, right: 20 } })] },
+    "bullet-with-image":   { ...defaultLayouts["bullet-with-image"],   decorations: [d({ placement: "top-left", wrapperStyle: { top: 20, left: 20 } })] },
+    "image-feature-cards": { ...defaultLayouts["image-feature-cards"], decorations: [d({ placement: "top-right", wrapperStyle: { top: 20, right: 20 } })] },
+
+    // ── Layout-level override with custom decoration ───────────────────────────
+    "dark-side-panel": {
+      ...defaultLayouts["dark-side-panel"],
+      decorations: [d({ placement: "center-right", wrapperStyle: { right: 20 }, size: 36, direction: "column" })],
+    },
+
+    // ── Full custom layouts (nature-light specific structure) ─────────────────
     "vertical-split": {
       gridTemplateAreas: `"top" "bottom"`,
       gridTemplateColumns: "1fr",
@@ -112,7 +145,7 @@ export const natureLight: Template = {
       areas: {
         top: {
           accepts: ["headline", "body-text"],
-          containerStyle: {
+          style: {
             background: tokens.colors.background,
             padding: "60px 80px",
             display: "flex",
@@ -120,24 +153,14 @@ export const natureLight: Template = {
             justifyContent: "center",
             position: "relative",
           },
-          decorations: [
-            {
-              position: "top-right",
-              top: 40,
-              right: 40,
-              color: "accent",
-              count: 3,
-              size: 24,
-              gap: 8,
-            },
-          ],
+          decorations: [d({ wrapperStyle: { top: 40, left: 80 }, size: 36 })],
           elementStyles: {
             headline: { scale: "display-lg", color: "primary" },
           },
         },
         bottom: {
           accepts: ["image"],
-          containerStyle: {
+          style: {
             background: `linear-gradient(to top, ${tokens.colors.secondary}, ${tokens.colors.background})`,
             padding: "40px 80px",
             display: "grid",
@@ -150,6 +173,7 @@ export const natureLight: Template = {
         },
       },
     },
+
     "list-divider-panel": {
       gridTemplateAreas: `"list divider panel"`,
       gridTemplateColumns: "55% 8% 1fr",
@@ -157,7 +181,7 @@ export const natureLight: Template = {
       areas: {
         list: {
           accepts: ["headline", "feature-item"],
-          containerStyle: {
+          style: {
             background: tokens.colors.surface,
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
@@ -174,12 +198,12 @@ export const natureLight: Template = {
         divider: {
           accepts: ["image"],
           maxCount: 1,
-          containerStyle: { overflow: "hidden" },
+          style: { overflow: "hidden" },
           elementStyles: { image: { variant: "cover" } },
         },
         panel: {
           accepts: ["headline", "subheadline", "image", "feature-item"],
-          containerStyle: {
+          style: {
             background: tokens.colors.background,
             display: "flex",
             flexDirection: "column",
@@ -188,17 +212,7 @@ export const natureLight: Template = {
             padding: "60px 60px",
             position: "relative",
           },
-          decorations: [
-            {
-              position: "bottom-right",
-              bottom: 40,
-              right: 40,
-              color: "accent",
-              count: 3,
-              size: 24,
-              gap: 8,
-            },
-          ],
+          decorations: [d({ placement: "bottom-right", wrapperStyle: { bottom: 40, right: 40 } })],
           elementStyles: {
             headline:       { scale: "display-lg", color: "primary",  transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },
             subheadline:    {                                          transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },
