@@ -9,6 +9,7 @@ import { ImageElement } from "./image";
 import { BarChart } from "./bar-chart";
 import { Quote } from "./quote";
 import { FeatureItem } from "./feature-item";
+import { ElementTransitionWrapper } from "../ElementTransitionWrapper";
 
 export { Headline } from "./headline";
 export { Subheadline } from "./subheadline";
@@ -45,7 +46,11 @@ export const ELEMENT_REGISTRY: Record<
 export const renderElement = (el: ContentElement): React.ReactElement | null => {
   const Component = ELEMENT_REGISTRY[el.type];
   if (!Component) return null;
-  return <Component key={el.id} el={el} />;
+  return (
+    <ElementTransitionWrapper key={el.id} el={el}>
+      <Component el={el} />
+    </ElementTransitionWrapper>
+  );
 };
 
 // ─── Element Controls Spec ────────────────────────────────────────────────────

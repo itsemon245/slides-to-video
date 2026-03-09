@@ -39,9 +39,9 @@ export const imageFeatureCardsLayout = (tokens: DesignTokens): LayoutTemplate =>
         },
       ],
       elementStyles: {
-        headline:       { scale: "heading-md", color: "primary" },
-        subheadline:    { scale: "body-lg", color: "secondary" },
-        "feature-item": { variant: "with-top-border" },
+        headline:       { scale: "heading-md", color: "primary",   transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },
+        subheadline:    { scale: "body-lg",    color: "secondary", transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },
+        "feature-item": { variant: "with-top-border",              transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },
       },
     },
   },

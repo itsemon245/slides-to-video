@@ -1,5 +1,34 @@
 import { z } from "zod";
 
+// ─── Transition Reference ─────────────────────────────────────────────────────
+// Moved here (from content.ts) so ElementStyleConfigSchema can reference it
+// without creating a circular import (content.ts imports from template.ts).
+
+const TransitionDurationSchema = z.union([
+  z.custom<`${number}ms`>(
+    (v) => typeof v === "string" && /^\d+(\.\d+)?ms$/.test(v as string)
+  ),
+  z.custom<`${number}s`>(
+    (v) => typeof v === "string" && /^\d+(\.\d+)?s$/.test(v as string)
+  ),
+  z.literal("inferred"),
+]);
+
+export type TransitionDuration = z.infer<typeof TransitionDurationSchema>;
+
+export const TransitionRefSchema = z.object({
+  id: z.string().describe(
+    "Key from TRANSITION_REGISTRY. E.g. 'fade-in', 'slide-up-in', 'zoom-in-in'."
+  ),
+  duration: TransitionDurationSchema.optional().describe(
+    "Explicit duration override. Omit to use the registry canonical duration. " +
+    "Use 'inferred' to span the full element active window (avatar video duration " +
+    "for narrated elements, full slide duration for non-narrated)."
+  ),
+});
+
+export type TransitionRef = z.infer<typeof TransitionRefSchema>;
+
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 
 export const ColorTokensSchema = z.object({
@@ -123,6 +152,8 @@ export const ElementStyleConfigSchema = z.object({
   glow: z.boolean().optional(),
   underline: UnderlineConfigSchema.optional(),
   decorations: z.array(DecorationSchema).optional(),
+  transitionIn: TransitionRefSchema.optional(),
+  transitionOut: TransitionRefSchema.optional(),
 });
 
 // ─── Area Template ────────────────────────────────────────────────────────────

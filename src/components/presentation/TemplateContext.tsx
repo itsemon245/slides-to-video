@@ -6,10 +6,16 @@ import type {
   LayoutName,
   DesignTokens,
   AvatarConfig,
+  TransitionRef,
 } from "../../schema/template";
 import type { ContentElement } from "../../schema/content";
 
 // ─── Context Shape ────────────────────────────────────────────────────────────
+
+export interface ElementFrameRange {
+  start: number;
+  end: number;
+}
 
 export interface TemplateContextValue {
   template: Template;
@@ -17,6 +23,11 @@ export interface TemplateContextValue {
   // Current rendering context — set by GenericSlideRenderer before rendering elements
   currentLayout: LayoutName | null;
   currentArea: string | null;
+
+  // Per-element active frame ranges (keyed by element id).
+  // Narrated elements: derived from avatarMap durations.
+  // Non-narrated elements: { start: 0, end: durationInFrames }.
+  elementFrameRanges: Record<string, ElementFrameRange>;
 
   // Web editor integration
   editMode: boolean;
@@ -35,6 +46,7 @@ export interface TemplateProviderProps {
   onSelectElement?: ((id: string) => void) | null;
   currentLayout?: LayoutName | null;
   currentArea?: string | null;
+  elementFrameRanges?: Record<string, ElementFrameRange>;
   children: React.ReactNode;
 }
 
@@ -45,6 +57,7 @@ export const TemplateProvider: React.FC<TemplateProviderProps> = ({
   onSelectElement = null,
   currentLayout = null,
   currentArea = null,
+  elementFrameRanges = {},
   children,
 }) => {
   return (
@@ -53,6 +66,7 @@ export const TemplateProvider: React.FC<TemplateProviderProps> = ({
         template,
         currentLayout,
         currentArea,
+        elementFrameRanges,
         editMode,
         selectedElementId,
         onSelectElement,
@@ -164,4 +178,46 @@ export const useEditModeStyle = (
     borderRadius: 4,
     cursor: "pointer",
   };
+};
+
+/**
+ * Resolves the transitionIn and transitionOut for a given element using the
+ * 3-level priority chain (template wins, content element is last fallback):
+ *
+ *   1. template.layouts[layout].areas[area].elementStyles[type].transitionIn/Out
+ *   2. template.elementDefaults[type].transitionIn/Out
+ *   3. el.transitionIn / el.transitionOut
+ */
+export const useElementTransitionConfig = (
+  el: ContentElement
+): { transitionIn: TransitionRef | undefined; transitionOut: TransitionRef | undefined } => {
+  const { template, currentLayout, currentArea } = useTemplate();
+
+  const areaStyles =
+    currentLayout && currentArea
+      ? template.layouts[currentLayout]?.areas[currentArea]?.elementStyles?.[el.type]
+      : undefined;
+
+  const globalDefaults = template.elementDefaults?.[el.type];
+
+  const transitionIn =
+    areaStyles?.transitionIn ??
+    globalDefaults?.transitionIn ??
+    (el as any).transitionIn;
+
+  const transitionOut =
+    areaStyles?.transitionOut ??
+    globalDefaults?.transitionOut ??
+    (el as any).transitionOut;
+
+  return { transitionIn, transitionOut };
+};
+
+/**
+ * Returns the active frame range for a given element id.
+ * Falls back to { start: 0, end: 0 } if not found (e.g. outside a slide context).
+ */
+export const useElementFrameRange = (id: string): ElementFrameRange => {
+  const { elementFrameRanges } = useTemplate();
+  return elementFrameRanges[id] ?? { start: 0, end: 0 };
 };

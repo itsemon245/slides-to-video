@@ -6,6 +6,7 @@ import type { Template, AvatarConfig, AreaTemplate } from "../../schema/template
 import {
   TemplateProvider,
   resolveAvatarConfig,
+  type ElementFrameRange,
 } from "./TemplateContext";
 import { renderElement } from "./elements";
 import { DecorationRenderer } from "./DecorationRenderer";
@@ -300,13 +301,19 @@ export const GenericSlideRenderer: React.FC<GenericSlideRendererProps> = ({
     if (areaName) (elementsByArea[areaName] ??= []).push(el);
   }
 
-  // Calculate frame ranges for avatar crossfade
+  // Calculate frame ranges for avatar crossfade (narrated elements only)
   const frameRanges = calculateElementFrameRanges(
     slide.elements,
     durationInFrames,
     fps,
     avatarMap
   );
+
+  // Extend to all elements: non-narrated elements span the full slide duration
+  const allElementRanges: Record<string, ElementFrameRange> = {};
+  for (const el of slide.elements) {
+    allElementRanges[el.id] = frameRanges[el.id] ?? { start: 0, end: durationInFrames };
+  }
 
   const AVATAR_CROSSFADE_FRAMES = 8;
 
@@ -322,6 +329,7 @@ export const GenericSlideRenderer: React.FC<GenericSlideRendererProps> = ({
       template={template}
       currentLayout={slide.layout}
       currentArea={null}
+      elementFrameRanges={allElementRanges}
       editMode={editMode}
       selectedElementId={selectedElementId}
       onSelectElement={onSelectElement}
@@ -350,6 +358,7 @@ export const GenericSlideRenderer: React.FC<GenericSlideRendererProps> = ({
                   template={template}
                   currentLayout={slide.layout}
                   currentArea={areaName}
+                  elementFrameRanges={allElementRanges}
                   editMode={editMode}
                   selectedElementId={selectedElementId}
                   onSelectElement={onSelectElement}

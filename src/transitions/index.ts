@@ -208,15 +208,32 @@ export type TransitionId = keyof typeof TRANSITION_REGISTRY;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Clamps a transition duration to fit within a time budget. */
+/**
+ * Parses a duration string like "200ms" or "0.5s" into milliseconds.
+ * Returns NaN for unrecognised formats (callers should fall back to canonical).
+ */
+export const parseDurationMs = (duration: string): number => {
+  const ms = duration.match(/^(\d+(?:\.\d+)?)ms$/);
+  if (ms) return parseFloat(ms[1]);
+  const s = duration.match(/^(\d+(?:\.\d+)?)s$/);
+  if (s) return parseFloat(s[1]) * 1000;
+  return NaN;
+};
+
+/**
+ * Clamps a transition duration to fit within a time budget.
+ * Pass `durationOverrideMs` to replace the registry canonical duration.
+ */
 export const clampTransitionFrames = (
   transitionId: TransitionId,
   budgetFrames: number,
   fps: number,
-  maxBudgetRatio = 0.2
+  maxBudgetRatio = 0.2,
+  durationOverrideMs?: number
 ): number => {
   const entry = TRANSITION_REGISTRY[transitionId];
-  const canonicalFrames = Math.round((entry.canonicalDurationMs / 1000) * fps);
+  const durationMs = durationOverrideMs ?? entry.canonicalDurationMs;
+  const canonicalFrames = Math.round((durationMs / 1000) * fps);
   const maxFrames = Math.floor(budgetFrames * maxBudgetRatio);
   return Math.min(canonicalFrames, maxFrames);
 };

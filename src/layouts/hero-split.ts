@@ -27,9 +27,9 @@ export const heroSplitLayout = (tokens: DesignTokens): LayoutTemplate => ({
         },
       ],
       elementStyles: {
-        headline: { scale: "display-lg", color: "primary" },
-        subheadline: { scale: "heading-md", color: "secondary" },
-        "body-text": { scale: "body-lg", color: "secondary" },
+        headline:    { scale: "display-lg", color: "primary",   transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
+        subheadline: { scale: "heading-md", color: "secondary", transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
+        "body-text": { scale: "body-lg",    color: "secondary", transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
       },
     },
     right: {
@@ -60,7 +60,7 @@ export const heroSplitLayout = (tokens: DesignTokens): LayoutTemplate => ({
         },
       ],
       elementStyles: {
-        image: { variant: "rounded" },
+        image: { variant: "rounded", transitionIn: { id: "slide-left-in" }, transitionOut: { id: "slide-right-out" } },
       },
     },
   },

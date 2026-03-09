@@ -27,10 +27,10 @@ export const bulletWithImageLayout = (tokens: DesignTokens): LayoutTemplate => (
         },
       ],
       elementStyles: {
-        headline:      { scale: "display-lg", color: "primary" },
-        subheadline:   { scale: "heading-md", color: "secondary" },
-        "bullet-list": { scale: "body-lg",    color: "secondary", variant: "stacked" },
-        "body-text":   { scale: "body-lg",    color: "secondary" },
+        headline:      { scale: "display-lg", color: "primary",   transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
+        subheadline:   { scale: "heading-md", color: "secondary", transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
+        "bullet-list": { scale: "body-lg",    color: "secondary", variant: "stacked", transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
+        "body-text":   { scale: "body-lg",    color: "secondary", transitionIn: { id: "slide-right-in" }, transitionOut: { id: "slide-left-out" } },
       },
     },
     image: {

@@ -4,17 +4,12 @@ import {
   LayoutNameSchema,
   TypeScaleSchema,
   ColorKeySchema,
+  TransitionRefSchema,
 } from "./template";
 
-// ─── Transition Reference ─────────────────────────────────────────────────────
-// Elements and slides reference transitions by id. The actual animation
-// functions live in src/transitions/index.ts.
-
-export const TransitionRefSchema = z.object({
-  id: z.string().describe(
-    "Key from TRANSITION_REGISTRY. E.g. 'fade', 'slide-up', 'zoom-in'."
-  ),
-});
+// Re-export so existing imports of TransitionRefSchema from content.ts keep working.
+export { TransitionRefSchema } from "./template";
+export type { TransitionRef, TransitionDuration } from "./template";
 
 // ─── Style Overrides ──────────────────────────────────────────────────────────
 // User-set per-element overrides applied on top of template styles (highest priority).
@@ -200,7 +195,6 @@ export const ContentPresentationSchema = z.object({
 
 // ─── Derived Types ────────────────────────────────────────────────────────────
 
-export type TransitionRef = z.infer<typeof TransitionRefSchema>;
 export type TextStyleOverrides = z.infer<typeof TextStyleOverridesSchema>;
 export type ImageStyleOverrides = z.infer<typeof ImageStyleOverridesSchema>;
 export type StatStyleOverrides = z.infer<typeof StatStyleOverridesSchema>;
