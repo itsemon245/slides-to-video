@@ -18,8 +18,8 @@ import "./index.css";
 //   el38 — s8 headline    "Conservation Efforts"
 //   el49 — s10 headline   "Conclusion"
 const sampleAvatarMap: AvatarMap = {
-  el6:  { src: "/assets/avatars/speaker1.mp4", durationInSeconds: 8 },
-  el23: { src: "/assets/avatars/speaker1.mp4", durationInSeconds: 8 },
+  el6:  { src: "https://s3.renderplatform.com/user-assets/preview/generated_video/d8634ece-ede9-4bfd-beee-74e2ddc2b93c.mp4", durationInSeconds: 13.5 },
+  el23: { src: "https://s3.renderplatform.com/user-assets/preview/generated_video/d8634ece-ede9-4bfd-beee-74e2ddc2b93d.mp4", durationInSeconds: 11.5 },
   el26: { src: "/assets/avatars/speaker1.mp4", durationInSeconds: 8 },
   el38: { src: "/assets/avatars/speaker1.mp4", durationInSeconds: 8 },
   el49: { src: "/assets/avatars/speaker1.mp4", durationInSeconds: 7 },
