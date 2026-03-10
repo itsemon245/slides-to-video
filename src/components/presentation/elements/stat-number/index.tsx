@@ -17,14 +17,16 @@ const Default: React.FC<
   Props & {
     valueStyle: React.CSSProperties;
     labelStyle: React.CSSProperties;
+    wrapperStyle?: React.CSSProperties;
   }
-> = ({ el, valueStyle, labelStyle }) => (
+> = ({ el, valueStyle, labelStyle, wrapperStyle }) => (
   <div
     style={{
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       gap: 8,
+      ...wrapperStyle,
     }}
   >
     <span style={valueStyle}>{el.content}</span>
@@ -40,14 +42,16 @@ const WithGlow: React.FC<
     valueStyle: React.CSSProperties;
     labelStyle: React.CSSProperties;
     accentColor: string;
+    wrapperStyle?: React.CSSProperties;
   }
-> = ({ el, valueStyle, labelStyle, accentColor }) => (
+> = ({ el, valueStyle, labelStyle, accentColor, wrapperStyle }) => (
   <div
     style={{
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       gap: 8,
+      ...wrapperStyle,
     }}
   >
     <span
@@ -90,6 +94,7 @@ export const StatNumber: React.FC<Props> = ({ el }) => {
   };
 
   const variant = config.variant ?? "default";
+  const wrapperStyle = config.style as React.CSSProperties | undefined;
 
   const inner =
     variant === "with-glow" ? (
@@ -98,9 +103,15 @@ export const StatNumber: React.FC<Props> = ({ el }) => {
         valueStyle={valueStyle}
         labelStyle={labelStyle}
         accentColor={tokens.colors.accent}
+        wrapperStyle={wrapperStyle}
       />
     ) : (
-      <Default el={el} valueStyle={valueStyle} labelStyle={labelStyle} />
+      <Default
+        el={el}
+        valueStyle={valueStyle}
+        labelStyle={labelStyle}
+        wrapperStyle={wrapperStyle}
+      />
     );
 
   if (!handleClick) return inner;

@@ -131,6 +131,32 @@ export const BarChartContentSchema = NarrationSchema.extend({
   maxValue: z.number().optional(),
 });
 
+export const RadialChartSegmentSchema = z.object({
+  label: z.string(),
+  value: z.number(),
+  color: z.string().optional(),
+});
+
+export const RadialChartContentSchema = NarrationSchema.extend({
+  id: z.string(),
+  type: z.literal("radial-chart"),
+  title: z.string().optional(),
+  segments: z.array(RadialChartSegmentSchema).min(1).max(8),
+  totalLabel: z.string().optional(),
+});
+
+export const DataTableRowSchema = z.object({
+  label: z.string(),
+  values: z.array(z.union([z.string(), z.number()])).min(1).max(8),
+});
+
+export const DataTableContentSchema = NarrationSchema.extend({
+  id: z.string(),
+  type: z.literal("data-table"),
+  columns: z.array(z.string()).min(1).max(8),
+  rows: z.array(DataTableRowSchema).min(1).max(12),
+});
+
 export const QuoteContentSchema = NarrationSchema.extend({
   id: z.string(),
   type: z.literal("quote"),
@@ -159,6 +185,8 @@ export const ContentElementSchema = z.discriminatedUnion("type", [
   StatNumberContentSchema,
   ImageContentSchema,
   BarChartContentSchema,
+  RadialChartContentSchema,
+  DataTableContentSchema,
   QuoteContentSchema,
   FeatureItemContentSchema,
 ]);
@@ -206,6 +234,10 @@ export type StatNumberContent = z.infer<typeof StatNumberContentSchema>;
 export type ImageContent = z.infer<typeof ImageContentSchema>;
 export type BarChartBar = z.infer<typeof BarChartBarSchema>;
 export type BarChartContent = z.infer<typeof BarChartContentSchema>;
+export type RadialChartSegment = z.infer<typeof RadialChartSegmentSchema>;
+export type RadialChartContent = z.infer<typeof RadialChartContentSchema>;
+export type DataTableRow = z.infer<typeof DataTableRowSchema>;
+export type DataTableContent = z.infer<typeof DataTableContentSchema>;
 export type QuoteContent = z.infer<typeof QuoteContentSchema>;
 export type FeatureItemContent = z.infer<typeof FeatureItemContentSchema>;
 export type ContentElement = z.infer<typeof ContentElementSchema>;

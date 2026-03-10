@@ -53,6 +53,7 @@ Found an issue with Remotion? [File an issue here](https://github.com/remotion-d
 
 - **[MIGRATION.md](./MIGRATION.md)**: Guide for porting the presentation engine to Laravel + Inertia.
 - **[EXTENDING.md](./EXTENDING.md)**: Guide for adding new templates, layouts, and element types.
+- **[TEMPLATE_CREATION.md](./TEMPLATE_CREATION.md)**: Default starting brief for creating a new template from a PDF or reference deck.
 
 ## License
 

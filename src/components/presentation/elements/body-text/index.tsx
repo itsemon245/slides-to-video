@@ -64,6 +64,7 @@ export const BodyText: React.FC<Props> = ({ el }) => {
     fontFamily: resolvedFontFamily,
     margin: config.margin ?? "24px 0 0 0",
     textAlign: config.textAlign ?? "left",
+    ...(config.style as React.CSSProperties | undefined),
     ...el.styleOverrides,
   };
 

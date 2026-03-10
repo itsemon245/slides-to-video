@@ -172,6 +172,8 @@ export const ElementTypeSchema = z.enum([
   "stat-number",
   "image",
   "bar-chart",
+  "radial-chart",
+  "data-table",
   "quote",
   "feature-item",
 ]);

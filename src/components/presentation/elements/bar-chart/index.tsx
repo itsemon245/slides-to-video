@@ -3,6 +3,7 @@ import { getTypeStyle } from "../../../../designSystem";
 import type { BarChartContent } from "../../../../schema/content";
 import {
   useTokens,
+  useElementConfig,
   useElementSelectHandler,
   useEditModeStyle,
 } from "../../TemplateContext";
@@ -15,6 +16,7 @@ const BAR_IN_FRAMES = 20;
 const STAGGER = BAR_IN_FRAMES * 0.55;
 
 export const BarChart: React.FC<Props> = ({ el }) => {
+  const config = useElementConfig("bar-chart");
   const tokens = useTokens();
   const frame = useCurrentFrame();
   const handleClick = useElementSelectHandler(el.id);
@@ -31,6 +33,7 @@ export const BarChart: React.FC<Props> = ({ el }) => {
         flexDirection: "column",
         padding: "48px 40px 24px 16px",
         boxSizing: "border-box",
+        ...(config.style as React.CSSProperties | undefined),
         ...(handleClick ? editStyle : {}),
       }}
       onClick={handleClick}

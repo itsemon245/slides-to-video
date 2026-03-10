@@ -65,6 +65,7 @@ export const ImageElement: React.FC<Props> = ({ el }) => {
     objectPosition: overrides?.objectPosition ?? "center",
     opacity: overrides?.opacity ?? 1,
     boxShadow: overrides?.boxShadow,
+    ...(config.style as React.CSSProperties | undefined),
     borderRadius: overrides?.borderRadius,
   };
 

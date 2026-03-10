@@ -15,9 +15,13 @@ interface Props {
 // Title + description stacked vertically, no border decoration.
 
 const Default: React.FC<
-  Props & { titleStyle: React.CSSProperties; descStyle: React.CSSProperties }
-> = ({ el, titleStyle, descStyle }) => (
-  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+  Props & {
+    titleStyle: React.CSSProperties;
+    descStyle: React.CSSProperties;
+    wrapperStyle?: React.CSSProperties;
+  }
+> = ({ el, titleStyle, descStyle, wrapperStyle }) => (
+  <div style={{ display: "flex", flexDirection: "column", gap: 8, ...wrapperStyle }}>
     <p style={{ ...titleStyle, margin: 0 }}>{el.title}</p>
     <p style={{ ...descStyle, margin: 0 }}>{el.description}</p>
   </div>
@@ -31,8 +35,9 @@ const WithTopBorder: React.FC<
     titleStyle: React.CSSProperties;
     descStyle: React.CSSProperties;
     accentColor: string;
+    wrapperStyle?: React.CSSProperties;
   }
-> = ({ el, titleStyle, descStyle, accentColor }) => (
+> = ({ el, titleStyle, descStyle, accentColor, wrapperStyle }) => (
   <div
     style={{
       display: "flex",
@@ -40,6 +45,7 @@ const WithTopBorder: React.FC<
       gap: 8,
       borderTop: `3px solid ${accentColor}`,
       paddingTop: 16,
+      ...wrapperStyle,
     }}
   >
     <p style={{ ...titleStyle, margin: 0 }}>{el.title}</p>
@@ -55,8 +61,9 @@ const WithLeftBorder: React.FC<
     titleStyle: React.CSSProperties;
     descStyle: React.CSSProperties;
     accentColor: string;
+    wrapperStyle?: React.CSSProperties;
   }
-> = ({ el, titleStyle, descStyle, accentColor }) => (
+> = ({ el, titleStyle, descStyle, accentColor, wrapperStyle }) => (
   <div
     style={{
       display: "flex",
@@ -64,6 +71,7 @@ const WithLeftBorder: React.FC<
       gap: 8,
       borderLeft: `4px solid ${accentColor}`,
       paddingLeft: 20,
+      ...wrapperStyle,
     }}
   >
     <p style={{ ...titleStyle, margin: 0 }}>{el.title}</p>
@@ -95,6 +103,7 @@ export const FeatureItem: React.FC<Props> = ({ el }) => {
     color: tokens.colors.secondary,
     fontFamily: tokens.fonts.body,
   };
+  const wrapperStyle = config.style as React.CSSProperties | undefined;
 
   const variant = config.variant ?? "default";
 
@@ -106,6 +115,7 @@ export const FeatureItem: React.FC<Props> = ({ el }) => {
         titleStyle={titleStyle}
         descStyle={descStyle}
         accentColor={tokens.colors.accent}
+        wrapperStyle={wrapperStyle}
       />
     );
   } else if (variant === "with-left-border") {
@@ -115,10 +125,18 @@ export const FeatureItem: React.FC<Props> = ({ el }) => {
         titleStyle={titleStyle}
         descStyle={descStyle}
         accentColor={tokens.colors.accent}
+        wrapperStyle={wrapperStyle}
       />
     );
   } else {
-    inner = <Default el={el} titleStyle={titleStyle} descStyle={descStyle} />;
+    inner = (
+      <Default
+        el={el}
+        titleStyle={titleStyle}
+        descStyle={descStyle}
+        wrapperStyle={wrapperStyle}
+      />
+    );
   }
 
   if (!handleClick) return inner;

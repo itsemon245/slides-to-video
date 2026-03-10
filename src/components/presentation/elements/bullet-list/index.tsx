@@ -13,10 +13,11 @@ interface Props {
 
 // ─── Stacked Variant (default) ────────────────────────────────────────────────
 
-const Stacked: React.FC<Props & { itemStyle: React.CSSProperties; gap: number }> = ({
+const Stacked: React.FC<Props & { itemStyle: React.CSSProperties; gap: number; containerStyle?: React.CSSProperties }> = ({
   el,
   itemStyle,
   gap,
+  containerStyle,
 }) => (
   <ul
     style={{
@@ -26,6 +27,7 @@ const Stacked: React.FC<Props & { itemStyle: React.CSSProperties; gap: number }>
       flexDirection: "column",
       gap,
       listStyleType: "disc",
+      ...containerStyle,
     }}
   >
     {el.items.map((item, i) => (
@@ -39,10 +41,11 @@ const Stacked: React.FC<Props & { itemStyle: React.CSSProperties; gap: number }>
 // ─── Columned Variant ─────────────────────────────────────────────────────────
 // Items flow into two columns using flex wrap.
 
-const Columned: React.FC<Props & { itemStyle: React.CSSProperties; gap: number }> = ({
+const Columned: React.FC<Props & { itemStyle: React.CSSProperties; gap: number; containerStyle?: React.CSSProperties }> = ({
   el,
   itemStyle,
   gap,
+  containerStyle,
 }) => (
   <div
     style={{
@@ -51,6 +54,7 @@ const Columned: React.FC<Props & { itemStyle: React.CSSProperties; gap: number }
       flexWrap: "wrap",
       gap,
       rowGap: gap * 0.75,
+      ...containerStyle,
     }}
   >
     {el.items.map((item, i) => (
@@ -77,13 +81,15 @@ const Columned: React.FC<Props & { itemStyle: React.CSSProperties; gap: number }
 
 const Numbered: React.FC<
   Props & { itemStyle: React.CSSProperties; gap: number; accentColor: string }
-> = ({ el, itemStyle, gap, accentColor }) => (
+  & { containerStyle?: React.CSSProperties }
+> = ({ el, itemStyle, gap, accentColor, containerStyle }) => (
   <div
     style={{
       margin: "32px 0 0 0",
       display: "flex",
       flexDirection: "column",
       gap,
+      ...containerStyle,
     }}
   >
     {el.items.map((item, i) => (
@@ -125,12 +131,13 @@ export const BulletList: React.FC<Props> = ({ el }) => {
     fontFamily: resolvedFontFamily,
     ...el.styleOverrides,
   };
+  const containerStyle = config.style as React.CSSProperties | undefined;
 
   const variant = config.variant ?? "stacked";
 
   let inner: React.ReactElement;
   if (variant === "columned") {
-    inner = <Columned el={el} itemStyle={itemStyle} gap={resolvedGap} />;
+    inner = <Columned el={el} itemStyle={itemStyle} gap={resolvedGap} containerStyle={containerStyle} />;
   } else if (variant === "numbered") {
     inner = (
       <Numbered
@@ -138,10 +145,11 @@ export const BulletList: React.FC<Props> = ({ el }) => {
         itemStyle={itemStyle}
         gap={resolvedGap}
         accentColor={tokens.colors.accent}
+        containerStyle={containerStyle}
       />
     );
   } else {
-    inner = <Stacked el={el} itemStyle={itemStyle} gap={resolvedGap} />;
+    inner = <Stacked el={el} itemStyle={itemStyle} gap={resolvedGap} containerStyle={containerStyle} />;
   }
 
   if (!handleClick) return inner;

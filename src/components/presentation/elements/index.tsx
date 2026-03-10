@@ -7,6 +7,8 @@ import { BulletList } from "./bullet-list";
 import { StatNumber } from "./stat-number";
 import { ImageElement } from "./image";
 import { BarChart } from "./bar-chart";
+import { RadialChart } from "./radial-chart";
+import { DataTable } from "./data-table";
 import { Quote } from "./quote";
 import { FeatureItem } from "./feature-item";
 import { ElementTransitionWrapper } from "../ElementTransitionWrapper";
@@ -18,6 +20,8 @@ export { BulletList } from "./bullet-list";
 export { StatNumber } from "./stat-number";
 export { ImageElement } from "./image";
 export { BarChart } from "./bar-chart";
+export { RadialChart } from "./radial-chart";
+export { DataTable } from "./data-table";
 export { Quote } from "./quote";
 export { FeatureItem } from "./feature-item";
 
@@ -36,6 +40,8 @@ export const ELEMENT_REGISTRY: Record<
   "stat-number":   StatNumber,
   image:           ImageElement,
   "bar-chart":     BarChart,
+  "radial-chart":  RadialChart,
+  "data-table":    DataTable,
   quote:           Quote,
   "feature-item":  FeatureItem,
 };
@@ -131,6 +137,14 @@ export const ELEMENT_CONTROLS: Record<ContentElement["type"], ControlSpec[]> = {
     { field: "title",                         control: "text-input",   label: "Chart Title" },
     { field: "bars",                          control: "list-editor",  label: "Bars" },
     { field: "maxValue",                      control: "number-input", label: "Max Value", min: 1 },
+    { field: "audioSegmentText",              control: "textarea",     label: "Narration Text" },
+  ],
+  "radial-chart": [
+    { field: "title",                         control: "text-input",   label: "Chart Title" },
+    { field: "totalLabel",                    control: "text-input",   label: "Center Label" },
+    { field: "audioSegmentText",              control: "textarea",     label: "Narration Text" },
+  ],
+  "data-table": [
     { field: "audioSegmentText",              control: "textarea",     label: "Narration Text" },
   ],
   quote: [

@@ -59,6 +59,7 @@ export const Headline: React.FC<Props> = ({ el }) => {
     margin: config.margin ?? 0,
     padding: 0,
     textAlign: config.textAlign ?? "left",
+    ...(config.style as React.CSSProperties | undefined),
     ...el.styleOverrides,
   };
 

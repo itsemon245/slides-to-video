@@ -19,8 +19,9 @@ const Default: React.FC<
     textStyle: React.CSSProperties;
     attributionStyle: React.CSSProperties;
     accentColor: string;
+    wrapperStyle?: React.CSSProperties;
   }
-> = ({ el, textStyle, attributionStyle, accentColor }) => (
+> = ({ el, textStyle, attributionStyle, accentColor, wrapperStyle }) => (
   <div
     style={{
       display: "flex",
@@ -28,6 +29,7 @@ const Default: React.FC<
       alignItems: "center",
       textAlign: "center",
       maxWidth: "80%",
+      ...wrapperStyle,
     }}
   >
     <span
@@ -60,14 +62,16 @@ const SideAccent: React.FC<
     textStyle: React.CSSProperties;
     attributionStyle: React.CSSProperties;
     accentColor: string;
+    wrapperStyle?: React.CSSProperties;
   }
-> = ({ el, textStyle, attributionStyle, accentColor }) => (
+> = ({ el, textStyle, attributionStyle, accentColor, wrapperStyle }) => (
   <div
     style={{
       display: "flex",
       flexDirection: "column",
       borderLeft: `4px solid ${accentColor}`,
       paddingLeft: 32,
+      ...wrapperStyle,
     }}
   >
     <p style={{ ...textStyle, margin: 0 }}>{el.content}</p>
@@ -107,6 +111,7 @@ export const Quote: React.FC<Props> = ({ el }) => {
   };
 
   const variant = config.variant ?? "default";
+  const wrapperStyle = config.style as React.CSSProperties | undefined;
 
   const inner =
     variant === "side-accent" ? (
@@ -115,6 +120,7 @@ export const Quote: React.FC<Props> = ({ el }) => {
         textStyle={textStyle}
         attributionStyle={attributionStyle}
         accentColor={tokens.colors.accent}
+        wrapperStyle={wrapperStyle}
       />
     ) : (
       <Default
@@ -122,6 +128,7 @@ export const Quote: React.FC<Props> = ({ el }) => {
         textStyle={textStyle}
         attributionStyle={attributionStyle}
         accentColor={tokens.colors.accent}
+        wrapperStyle={wrapperStyle}
       />
     );
 

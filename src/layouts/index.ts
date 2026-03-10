@@ -70,6 +70,16 @@ export const LAYOUT_AREAS: Record<string, readonly string[]> = {
   "dark-side-panel":     ["panel", "content"],
   "vertical-split":      ["top", "bottom"],
   "list-divider-panel":  ["list", "divider", "panel"],
+  "academic-hero":       ["content"],
+  "academic-agenda":     ["list", "detail"],
+  "academic-editorial":  ["lead", "aside"],
+  "academic-program-highlight": ["left", "media", "right"],
+  "academic-split-focus": ["story", "focus"],
+  "academic-stat-panel": ["lead", "cards", "media"],
+  "academic-team-grid":  ["header", "memberA", "memberB", "memberC"],
+  "academic-data-table": ["header", "table", "footer"],
+  "academic-performance": ["left", "right"],
+  "academic-closing":    ["content"],
 };
 
 /** Union of valid area name strings for a given layout. */
