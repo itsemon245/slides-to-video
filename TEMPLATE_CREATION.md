@@ -15,7 +15,7 @@ The output should be production-oriented, not a rough visual mock.
 
 When starting a new template, gather:
 
-- Source PDF path
+- Source PDF path or reference images
 - Target template `id`
 - Target template `name`
 
