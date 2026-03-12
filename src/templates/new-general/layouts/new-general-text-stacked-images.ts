@@ -2,16 +2,16 @@ import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
 import { accentBar } from "../helpers";
 
 /**
- * Summary split: bullet text on the left, stacked stat numbers on the right.
- * Reference: layout-reference/summary-split.png, kpi-dashboard.png
+ * Text with stacked images: text and body on the left, two rounded images stacked on the right.
+ * Reference: layout-reference/text-stacked-images.png
  */
-export const newGeneralSummarySplitLayout = (tokens: DesignTokens): LayoutTemplate => ({
-  gridTemplateAreas: `"summary metrics"`,
-  gridTemplateColumns: "1.1fr 0.9fr",
+export const newGeneralTextStackedImagesLayout = (tokens: DesignTokens): LayoutTemplate => ({
+  gridTemplateAreas: `"text images"`,
+  gridTemplateColumns: "0.48fr 0.52fr",
   gridTemplateRows: "1fr",
   areas: {
-    summary: {
-      accepts: ["headline", "subheadline", "body-text", "bullet-list"],
+    text: {
+      accepts: ["headline", "subheadline", "body-text"],
       style: {
         background: tokens.colors.background,
         padding: "80px 40px 80px 84px",
@@ -27,28 +27,23 @@ export const newGeneralSummarySplitLayout = (tokens: DesignTokens): LayoutTempla
           color: "primary",
           style: { fontWeight: 800 },
         },
-        "bullet-list": {
-          variant: "numbered",
-          scale: "body-md",
-          color: "secondary",
-          gap: 20,
-        },
       },
     },
-    metrics: {
-      accepts: ["stat-number"],
+    images: {
+      accepts: ["image"],
       style: {
         background: tokens.colors.background,
-        padding: "80px 84px 80px 40px",
+        padding: "60px 84px 60px 20px",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
         justifyContent: "center",
-        gap: 32,
+        gap: 24,
       },
       elementStyles: {
-        "stat-number": {
-          scale: "display-xl",
-          color: "primary",
+        image: {
+          variant: "rounded",
+          style: { borderRadius: 20, maxHeight: 280, width: "90%", objectFit: "cover" as const },
         },
       },
     },

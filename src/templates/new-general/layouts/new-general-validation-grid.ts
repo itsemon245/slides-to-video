@@ -1,59 +1,65 @@
 import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
-import { shell, card, stackStyle, cardBox, softBox } from "../helpers";
 
-export const newGeneralValidationGridLayout = (_tokens: DesignTokens): LayoutTemplate => ({
-  gridTemplateAreas: `"intro intro" "points media"`,
+/**
+ * Validation grid: intro text top-left, 2x2 points grid bottom-left, image right.
+ * Reference: layout-reference/validation-grid.png
+ */
+export const newGeneralValidationGridLayout = (tokens: DesignTokens): LayoutTemplate => ({
+  gridTemplateAreas: `"intro media" "points media"`,
   gridTemplateColumns: "1.05fr 0.95fr",
   gridTemplateRows: "auto 1fr",
   areas: {
     intro: {
       accepts: ["headline", "subheadline", "body-text"],
-      style: stackStyle("68px 84px 14px 84px", 10),
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 40px 16px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+      },
       elementStyles: {
-        subheadline: {
-          color: "accent",
-        },
         headline: {
           scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 },
         },
         "body-text": {
-          style: { maxWidth: 820 },
+          style: { maxWidth: 560 },
         },
       },
     },
     points: {
       accepts: ["feature-item"],
       style: {
-        ...shell,
-        padding: "10px 18px 72px 84px",
+        background: tokens.colors.background,
+        padding: "12px 40px 68px 84px",
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
-        gap: 16,
-        alignContent: "center",
+        gap: 20,
       },
       elementStyles: {
         "feature-item": {
           variant: "with-top-border",
-          style: cardBox("24px 24px", { minHeight: 170 }),
+          color: "primary",
         },
       },
     },
     media: {
       accepts: ["image", "body-text"],
       style: {
-        ...shell,
-        padding: "10px 82px 72px 18px",
+        background: tokens.colors.background,
+        padding: "68px 84px 68px 40px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        gap: 18,
+        justifyContent: "flex-start",
+        alignItems: "flex-end",
+        gap: 16,
       },
       elementStyles: {
         image: {
-          style: { ...card, minHeight: 330 },
-        },
-        "body-text": {
-          style: softBox("22px 24px"),
+          variant: "rounded",
+          style: { borderRadius: 12, maxHeight: 320 },
         },
       },
     },

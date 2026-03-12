@@ -1,52 +1,60 @@
 import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
-import { shell, stackStyle, cardBox, accentEyebrow, orb, withAlpha } from "../helpers";
+import { accentBar } from "../helpers";
 
+/**
+ * Agenda / table of contents: intro text on the left, numbered list on the right.
+ * Reference: layout-reference/agenda.png
+ */
 export const newGeneralAgendaLayout = (tokens: DesignTokens): LayoutTemplate => ({
   gridTemplateAreas: `"intro agenda"`,
-  gridTemplateColumns: "0.88fr 1.12fr",
+  gridTemplateColumns: "0.4fr 0.6fr",
   gridTemplateRows: "1fr",
   areas: {
     intro: {
       accepts: ["headline", "subheadline", "body-text"],
-      style: stackStyle("86px 32px 72px 78px", 18, {
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
+        display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
-      }),
+        gap: 18,
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
-          style: { maxWidth: 360, lineHeight: 0.96 },
-        },
-        subheadline: accentEyebrow({ fontSize: 20 }),
-        "body-text": {
-          style: { maxWidth: 360 },
+          color: "primary",
+          style: { fontWeight: 800 },
         },
       },
     },
     agenda: {
-      accepts: ["bullet-list", "feature-item", "headline", "body-text"],
+      accepts: ["bullet-list", "feature-item"],
       style: {
-        ...shell,
-        padding: "84px 84px 72px 20px",
+        background: tokens.colors.background,
+        padding: "80px 84px 80px 40px",
         display: "flex",
-        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 16,
       },
       elementStyles: {
         "bullet-list": {
-          style: cardBox("36px 40px", { minWidth: 720 }),
+          scale: "body-lg",
           color: "primary",
-          gap: 18,
-        },
-        "feature-item": {
-          variant: "with-top-border",
-          style: cardBox("26px 28px"),
-        },
-        headline: {
-          scale: "heading-md",
+          gap: 24,
+          variant: "numbered",
+          style: {
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "repeat(5, auto)",
+            gridAutoFlow: "column",
+            gap: 28,
+            rowGap: 36,
+          },
         },
       },
-      decorations: [
-        orb(withAlpha(tokens.colors.accent, 0.06), 360, { top: -110, right: -100 }),
-      ],
     },
   },
 });

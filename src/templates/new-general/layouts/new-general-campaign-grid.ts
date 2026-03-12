@@ -2,48 +2,47 @@ import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
 import { accentBar } from "../helpers";
 
 /**
- * Insights grid: header row, then a 3x2 grid of feature-item cards.
- * Reference: layout-reference/insights-grid.png
+ * Campaign grid: centered header with accent bar, then a 4x2 stat card grid.
+ * Reference: layout-reference/campaign-grid.png
  */
-export const newGeneralInsightsGridLayout = (tokens: DesignTokens): LayoutTemplate => ({
-  gridTemplateAreas: `"header" "grid"`,
+export const newGeneralCampaignGridLayout = (tokens: DesignTokens): LayoutTemplate => ({
+  gridTemplateAreas: `"header" "stats"`,
   gridTemplateColumns: "1fr",
   gridTemplateRows: "auto 1fr",
   areas: {
     header: {
-      accepts: ["headline", "subheadline", "body-text"],
+      accepts: ["headline"],
       style: {
         background: tokens.colors.background,
         padding: "68px 84px 24px 84px",
         display: "flex",
         flexDirection: "column",
-        gap: 12,
+        alignItems: "center",
+        textAlign: "center",
       },
       decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
           color: "primary",
-          style: { fontWeight: 800 },
+          style: { fontWeight: 800, textAlign: "center" },
         },
       },
     },
-    grid: {
-      accepts: ["feature-item"],
+    stats: {
+      accepts: ["stat-number", "feature-item"],
       style: {
         background: tokens.colors.background,
-        padding: "12px 84px 68px 84px",
+        padding: "24px 84px 68px 84px",
         display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr",
-        gap: 28,
+        gridTemplateColumns: "1fr 1fr 1fr 1fr",
+        gap: 24,
+        alignContent: "center",
       },
       elementStyles: {
-        "feature-item": {
-          variant: "with-top-border",
-          color: "accent",
-          style: {
-            padding: "20px 0",
-          },
+        "stat-number": {
+          scale: "display-lg",
+          color: "primary",
         },
       },
     },

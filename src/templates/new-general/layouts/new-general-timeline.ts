@@ -1,54 +1,61 @@
 import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
-import { shell, stackStyle, cardBox, withAlpha } from "../helpers";
+import { accentBar } from "../helpers";
 
+/**
+ * Timeline: centered header, four equal step columns below.
+ * Reference: layout-reference/timeline.png
+ */
 export const newGeneralTimelineLayout = (tokens: DesignTokens): LayoutTemplate => ({
-  gridTemplateAreas: `"header" "steps"`,
-  gridTemplateColumns: "1fr",
+  gridTemplateAreas: `"header header header header" "steps steps steps steps"`,
+  gridTemplateColumns: "1fr 1fr 1fr 1fr",
   gridTemplateRows: "auto 1fr",
   areas: {
     header: {
-      accepts: ["headline", "body-text"],
-      style: stackStyle("72px 84px 14px 84px", 14, {
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
-      }),
+        gap: 12,
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 6 } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
+          color: "primary",
           textAlign: "center",
+          style: { fontWeight: 800 },
         },
         "body-text": {
           textAlign: "center",
-          style: { maxWidth: 860 },
+          style: { maxWidth: 780 },
         },
       },
     },
     steps: {
-      accepts: ["feature-item", "headline", "body-text"],
+      accepts: ["feature-item"],
       style: {
-        ...shell,
-        padding: "18px 84px 74px 84px",
+        background: tokens.colors.background,
+        padding: "24px 60px 68px 60px",
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr 1fr",
-        gap: 18,
-        alignItems: "start",
+        alignContent: "start",
+        gap: 24,
       },
       elementStyles: {
         "feature-item": {
           variant: "with-top-border",
-          style: cardBox("28px", { minHeight: 220 }),
-        },
-        headline: {
-          scale: "heading-md",
+          color: "primary",
+          style: {
+            background: tokens.colors.muted,
+            borderRadius: 12,
+            padding: "28px 24px",
+          },
         },
       },
-      decorations: [
-        {
-          color: withAlpha(tokens.colors.accent, 0.35),
-          wrapperStyle: { top: 120, left: 130, right: 130, zIndex: 0 },
-          style: { width: "calc(100% - 260px)", height: 2, borderRadius: 999 },
-        },
-      ],
     },
   },
 });

@@ -269,6 +269,47 @@ gridTemplateRows: "auto 1fr",
 
 ## Recommended Workflow
 
+### Step 0: Organize reference images
+
+Before writing any code, scan and organize the source reference images into the template's `layout-reference/` directory. This creates a 1:1 mapping between layout names and reference images, making iterative layout development much easier.
+
+#### Process
+
+1. **Collect all reference screenshots** into a temporary directory (e.g., `src/templates/reference-images/<template-id>/`).
+
+2. **Visually scan every image** and identify:
+   - What kind of layout each image represents (e.g., "two-column split with chart", "team grid with photos")
+   - Which images are duplicates or near-duplicates of each other
+   - Which images show broken/corrupted export artifacts that should be skipped
+
+3. **Assign descriptive layout names** to each unique image. Use kebab-case names that describe the layout structure, not the content:
+   - Good: `chart-sidebar`, `team-grid`, `funnel-metrics`, `text-image-split`
+   - Bad: `slide-3`, `marketing-page`, `2026-03-11-screenshot`
+
+4. **Copy unique images** to `src/templates/<template-id>/layout-reference/<layout-name>.png`, dropping duplicates.
+
+5. **Remove the original reference directory** once all unique images are moved.
+
+#### Resulting structure
+
+```
+src/templates/<template-id>/
+├── layout-reference/
+│   ├── agenda.png
+│   ├── chart-sidebar.png
+│   ├── team-grid.png
+│   ├── funnel-metrics.png
+│   └── ...
+├── layouts/
+│   ├── agenda.ts           # ← built from layout-reference/agenda.png
+│   ├── chart-sidebar.ts
+│   └── ...
+├── index.ts
+└── content.ts
+```
+
+Each file in `layout-reference/` corresponds to exactly one layout file in `layouts/`. When creating a layout, provide the matching reference image to the LLM for comparison during the preview-and-iterate loop (Step 3).
+
 ### Step 1: Extract tokens
 
 Inspect the reference images and derive:
@@ -333,6 +374,10 @@ src/templates/<template-id>/
 ├── index.ts
 ├── content.ts
 ├── helpers.ts           # if needed
+├── layout-reference/    # reference images for each layout
+│   ├── <layout-a>.png
+│   ├── <layout-b>.png
+│   └── ...
 └── layouts/
     ├── <layout-a>.ts
     ├── <layout-b>.ts

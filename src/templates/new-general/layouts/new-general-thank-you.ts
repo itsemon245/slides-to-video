@@ -1,49 +1,59 @@
 import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
-import { shell, shellStyle } from "../helpers";
+import { accentBar } from "../helpers";
 
-export const newGeneralThankYouLayout = (_tokens: DesignTokens): LayoutTemplate => ({
+/**
+ * Thank you / closing: text and contact info top, image placeholder bottom.
+ * Reference: layout-reference/thank-you.png
+ */
+export const newGeneralThankYouLayout = (tokens: DesignTokens): LayoutTemplate => ({
   gridTemplateAreas: `"copy" "placeholder"`,
   gridTemplateColumns: "1fr",
-  gridTemplateRows: "auto 1fr",
+  gridTemplateRows: "1fr 0.7fr",
   areas: {
     copy: {
-      accepts: ["headline", "body-text", "subheadline"],
-      style: shellStyle("72px 84px 22px 84px", {
-        display: "grid",
-        gridTemplateColumns: "1fr auto",
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "60px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        justifyContent: "center",
         gap: 18,
-        alignItems: "start",
-      }),
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 6 } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
+          color: "primary",
+          textAlign: "center",
+          style: { fontWeight: 800 },
         },
         subheadline: {
+          scale: "heading-md",
           color: "accent",
-          textAlign: "right",
+          textAlign: "center",
         },
         "body-text": {
-          style: { maxWidth: 760 },
+          textAlign: "center",
+          style: { maxWidth: 640 },
         },
       },
     },
     placeholder: {
       accepts: ["image"],
-      maxCount: 1,
       style: {
-        ...shell,
-        padding: "0 84px 74px 84px",
+        background: tokens.colors.background,
+        padding: "12px 84px 48px 84px",
         display: "flex",
+        justifyContent: "center",
         alignItems: "stretch",
       },
       elementStyles: {
         image: {
-          variant: "cover",
-          style: {
-            background: "#2F3441",
-            borderRadius: 12,
-            minHeight: 360,
-          },
+          variant: "rounded",
+          style: { borderRadius: 16, width: "100%" },
         },
       },
     },

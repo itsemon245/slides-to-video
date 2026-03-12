@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 102
+/***/ 439
 (__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8895,7 +8895,7 @@ const LAYOUT_AREAS = {
   "new-general-agenda": ["intro", "agenda"],
   "new-general-dashboard": ["story", "visuals"],
   "new-general-timeline": ["header", "steps"],
-  "new-general-team-grid": ["header", "memberA", "memberB", "memberC", "memberD"],
+  "new-general-team-grid": ["header", "members"],
   "new-general-quote-image": ["quote", "image"],
   "new-general-full-bleed-quote": ["background"],
   "new-general-summary-split": ["summary", "metrics"],
@@ -8903,6 +8903,19 @@ const LAYOUT_AREAS = {
   "new-general-chart-sidebar": ["chart", "sidebar"],
   "new-general-validation-grid": ["intro", "points", "media"],
   "new-general-thank-you": ["copy", "placeholder"],
+  "new-general-problem-split": ["header", "image", "content"],
+  "new-general-competitive-advantage": ["image", "content", "stats"],
+  "new-general-solutions-grid": ["header", "features", "image"],
+  "new-general-risks-columns": ["header", "col1", "col2", "col3"],
+  "new-general-audience-breakdown": ["header", "col1", "col2", "col3"],
+  "new-general-chart-fullwidth": ["header", "chart"],
+  "new-general-insights-card": ["title", "card"],
+  "new-general-campaign-grid": ["header", "stats"],
+  "new-general-case-snapshot": ["story", "company"],
+  "new-general-channel-strategy": ["header", "description", "table"],
+  "new-general-kpi-dashboard": ["text", "kpis"],
+  "new-general-text-stacked-images": ["text", "images"],
+  "new-general-dashboard-compact": ["header", "stats", "charts"],
   "neo-slide-title": ["hero", "note"],
   "neo-slide-stat-panel": ["chart", "stats"],
   "neo-slide-team-grid": ["intro", "memberA", "memberB"],
@@ -8924,236 +8937,70 @@ const createDefaultLayouts = (tokens) => ({
 
 ;// ./src/templates/new-general/helpers.ts
 
-
-
-const shell = {
-  background: "#F7F7FA",
-  position: "relative",
-  overflow: "hidden"
-};
-const card = {
-  background: "#FFFFFF",
-  border: `1px solid ${withAlpha("#1E2333", 0.08)}`,
-  borderRadius: 28,
-  boxShadow: `0 20px 54px ${withAlpha("#1E2333", 0.08)}`
-};
-const softPanel = {
-  background: `linear-gradient(180deg, #FFFFFF 0%, ${withAlpha("#8B3DFF", 0.035)} 100%)`,
-  border: `1px solid ${withAlpha("#8B3DFF", 0.1)}`,
-  borderRadius: 28,
-  boxShadow: `0 22px 56px ${withAlpha("#1E2333", 0.08)}`
-};
-
-const helpers_orb = (color, size, wrapperStyle) => ({
-  color,
-  size,
-  style: {
-    borderRadius: "999px",
-    opacity: 0.9
-  },
-  wrapperStyle
-});
-const shellStyle = (padding, extra = {}) => ({
-  ...shell,
-  padding,
-  ...extra
-});
-const stackStyle = (padding, gap, extra = {}) => shellStyle(padding, {
-  display: "flex",
-  flexDirection: "column",
-  gap,
-  ...extra
-});
-const cardBox = (padding, extra = {}) => ({
-  ...card,
-  padding,
-  ...extra
-});
-const softBox = (padding, extra = {}) => ({
-  ...softPanel,
-  padding,
-  ...extra
-});
-const accentEyebrow = (extra = {}) => ({
+const accentBar = (overrides = {}) => ({
   color: "accent",
-  style: {
-    fontSize: 18,
-    fontWeight: 700,
-    letterSpacing: "0.06em",
-    textTransform: "uppercase",
-    ...extra
-  }
-});
-const teamMemberArea = (padding) => ({
-  accepts: ["image", "subheadline", "body-text"],
-  style: stackStyle(padding, 14, {
-    alignItems: "center"
-  }),
-  elementStyles: {
-    image: { style: { ...card, borderRadius: 24 } },
-    subheadline: {
-      scale: "body-lg",
-      color: "primary",
-      textAlign: "center",
-      style: { fontWeight: 700 }
-    },
-    "body-text": {
-      scale: "caption",
-      textAlign: "center",
-      style: { maxWidth: 220 }
-    }
-  }
+  count: 1,
+  size: 4,
+  style: { width: 64, borderRadius: 2 },
+  ...overrides
 });
 
 ;// ./src/templates/new-general/layouts/new-general-title.ts
 
 
-const newGeneralTitleLayout = (_tokens) => ({
+const newGeneralTitleLayout = (tokens) => ({
   gridTemplateAreas: `"hero note"`,
-  gridTemplateColumns: "1fr 1fr",
+  gridTemplateColumns: "1.2fr 0.8fr",
   gridTemplateRows: "1fr",
   areas: {
     hero: {
       accepts: ["headline", "subheadline", "body-text"],
       style: {
-        height: "100%",
+        background: tokens.colors.background,
+        padding: "80px 64px 80px 84px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: "center"
+        gap: 22
       },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
         headline: {
-          scale: "display-xl",
-          style: {
-            maxWidth: 560,
-            fontSize: 84,
-            lineHeight: 0.95
-          }
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
         },
         subheadline: {
-          scale: "heading-md"
+          scale: "heading-md",
+          color: "accent",
+          style: { textTransform: "uppercase", letterSpacing: "0.04em" }
         },
         "body-text": {
-          style: {
-            maxWidth: 520
-          }
+          scale: "body-lg",
+          color: "secondary",
+          style: { maxWidth: 580 }
         }
       }
     },
     note: {
-      accepts: ["headline", "subheadline", "body-text", "feature-item"],
-      style: shellStyle("92px 80px 92px 20px", {
-        display: "flex",
-        alignItems: "center"
-      }),
-      elementStyles: {
-        headline: {
-          scale: "heading-md",
-          style: softBox("34px 36px 0 36px", { minHeight: 260 })
-        },
-        subheadline: {
-          color: "accent",
-          style: softBox("34px 36px 0 36px", { minHeight: 260 })
-        },
-        "body-text": {
-          style: softBox("76px 36px 34px 36px", { minHeight: 260 })
-        },
-        "feature-item": {
-          style: softBox("28px 32px")
-        }
-      },
-      decorations: [
-        {
-          color: "accent",
-          wrapperStyle: { top: 124, left: 44, zIndex: 2 },
-          style: { width: 56, height: 4, borderRadius: 999 }
-        }
-      ]
-    }
-  }
-});
-
-;// ./src/templates/new-general/layouts/new-general-insights-grid.ts
-
-
-const newGeneralInsightsGridLayout = (_tokens) => ({
-  gridTemplateAreas: `"header" "grid"`,
-  gridTemplateColumns: "1fr",
-  gridTemplateRows: "auto 1fr",
-  areas: {
-    header: {
-      accepts: ["headline", "subheadline", "body-text"],
-      style: stackStyle("68px 84px 10px 84px", 10),
-      elementStyles: {
-        headline: {
-          scale: "display-lg"
-        },
-        subheadline: {
-          color: "accent"
-        },
-        "body-text": {
-          style: { maxWidth: 860 }
-        }
-      }
-    },
-    grid: {
-      accepts: ["feature-item"],
+      accepts: ["body-text", "image"],
       style: {
-        ...shell,
-        padding: "10px 84px 72px 84px",
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr",
-        gap: 16,
-        alignContent: "center"
-      },
-      elementStyles: {
-        "feature-item": {
-          variant: "default",
-          style: { minHeight: 120 },
-          color: "accent"
-        }
-      }
-    }
-  }
-});
-
-;// ./src/templates/new-general/layouts/new-general-funnel-metrics.ts
-
-
-const newGeneralFunnelMetricsLayout = (_tokens) => ({
-  gridTemplateAreas: `"lead bars"`,
-  gridTemplateColumns: "0.72fr 1.28fr",
-  gridTemplateRows: "1fr",
-  areas: {
-    lead: {
-      accepts: ["headline", "stat-number", "body-text"],
-      style: {
-        ...shell,
-        padding: "80px 18px 72px 84px",
+        background: tokens.colors.background,
+        padding: "80px 60px 80px 20px",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
         justifyContent: "center",
-        gap: 18
+        gap: 20
       },
       elementStyles: {
-        headline: { scale: "display-lg" },
-        "stat-number": { style: { alignItems: "flex-start" } },
-        "body-text": { scale: "body-md" }
-      }
-    },
-    bars: {
-      accepts: ["feature-item"],
-      style: shellStyle("110px 84px 72px 18px", {
-        display: "grid",
-        gridTemplateColumns: "1fr",
-        gap: 14,
-        alignContent: "center"
-      }),
-      elementStyles: {
-        "feature-item": {
-          style: softBox("18px 22px"),
-          color: "primary"
+        "body-text": {
+          scale: "body-md",
+          color: "secondary"
+        },
+        image: {
+          variant: "rounded",
+          style: { borderRadius: 20, maxHeight: 400, width: "100%", objectFit: "cover" }
         }
       }
     }
@@ -9165,50 +9012,54 @@ const newGeneralFunnelMetricsLayout = (_tokens) => ({
 
 const newGeneralAgendaLayout = (tokens) => ({
   gridTemplateAreas: `"intro agenda"`,
-  gridTemplateColumns: "0.88fr 1.12fr",
+  gridTemplateColumns: "0.4fr 0.6fr",
   gridTemplateRows: "1fr",
   areas: {
     intro: {
       accepts: ["headline", "subheadline", "body-text"],
-      style: stackStyle("86px 32px 72px 78px", 18, {
-        justifyContent: "center"
-      }),
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 18
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
-          style: { maxWidth: 360, lineHeight: 0.96 }
-        },
-        subheadline: accentEyebrow({ fontSize: 20 }),
-        "body-text": {
-          style: { maxWidth: 360 }
+          color: "primary",
+          style: { fontWeight: 800 }
         }
       }
     },
     agenda: {
-      accepts: ["bullet-list", "feature-item", "headline", "body-text"],
+      accepts: ["bullet-list", "feature-item"],
       style: {
-        ...shell,
-        padding: "84px 84px 72px 20px",
+        background: tokens.colors.background,
+        padding: "80px 84px 80px 40px",
         display: "flex",
-        alignItems: "center"
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 16
       },
       elementStyles: {
         "bullet-list": {
-          style: cardBox("36px 40px", { minWidth: 720 }),
+          scale: "body-lg",
           color: "primary",
-          gap: 18
-        },
-        "feature-item": {
-          variant: "with-top-border",
-          style: cardBox("26px 28px")
-        },
-        headline: {
-          scale: "heading-md"
+          gap: 24,
+          variant: "numbered",
+          style: {
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "repeat(5, auto)",
+            gridAutoFlow: "column",
+            gap: 28,
+            rowGap: 36
+          }
         }
-      },
-      decorations: [
-        helpers_orb(withAlpha(tokens.colors.accent, 0.06), 360, { top: -110, right: -100 })
-      ]
+      }
     }
   }
 });
@@ -9216,59 +9067,191 @@ const newGeneralAgendaLayout = (tokens) => ({
 ;// ./src/templates/new-general/layouts/new-general-dashboard.ts
 
 
-const newGeneralDashboardLayout = (_tokens) => ({
+const newGeneralDashboardLayout = (tokens) => ({
   gridTemplateAreas: `"story visuals"`,
-  gridTemplateColumns: "0.82fr 1.18fr",
+  gridTemplateColumns: "0.45fr 0.55fr",
   gridTemplateRows: "1fr",
   areas: {
     story: {
-      accepts: ["headline", "subheadline", "body-text", "stat-number", "feature-item"],
-      style: stackStyle("82px 28px 70px 78px", 22, {
-        justifyContent: "center"
-      }),
+      accepts: ["headline", "subheadline", "body-text", "stat-number"],
+      style: {
+        background: tokens.colors.background,
+        padding: "72px 40px 72px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 20
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
-          style: { maxWidth: 360, lineHeight: 0.96 }
-        },
-        subheadline: accentEyebrow({ fontSize: 20, letterSpacing: "0", textTransform: "none" }),
-        "body-text": {
-          style: { maxWidth: 380 }
+          color: "primary",
+          style: { fontWeight: 800 }
         },
         "stat-number": {
-          scale: "display-lg",
-          style: {
-            alignItems: "flex-start",
-            paddingTop: 10
-          }
-        },
-        "feature-item": {
-          variant: "with-left-border"
+          scale: "display-xl",
+          color: "accent"
         }
       }
     },
     visuals: {
-      accepts: ["bar-chart", "radial-chart", "data-table", "headline", "body-text"],
+      accepts: ["bar-chart", "radial-chart", "data-table", "image", "stat-number"],
       style: {
-        ...shell,
-        padding: "72px 82px 68px 18px",
+        background: tokens.colors.muted,
+        padding: "40px 48px",
         display: "grid",
-        gridTemplateColumns: "1.1fr 0.9fr",
+        gridTemplateColumns: "1fr 1fr",
+        gridTemplateRows: "1fr 1fr",
         gap: 20,
-        alignItems: "stretch"
+        borderRadius: "24px 0 0 24px"
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-chart-sidebar.ts
+
+
+const newGeneralChartSidebarLayout = (tokens) => ({
+  gridTemplateAreas: `"chart sidebar"`,
+  gridTemplateColumns: "1.2fr 0.8fr",
+  gridTemplateRows: "1fr",
+  areas: {
+    chart: {
+      accepts: ["headline", "subheadline", "body-text", "bar-chart", "radial-chart", "image", "stat-number"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 40px 68px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 24
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        "stat-number": {
+          scale: "display-xl",
+          color: "accent"
+        }
+      }
+    },
+    sidebar: {
+      accepts: ["feature-item", "stat-number", "body-text", "image"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 68px 40px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        alignContent: "center",
+        gap: 32
       },
       elementStyles: {
-        "bar-chart": {
-          style: cardBox("28px 30px")
+        "feature-item": {
+          variant: "with-left-border",
+          color: "primary"
         },
-        "radial-chart": {
-          style: cardBox("28px 30px")
-        },
-        "data-table": {
-          style: cardBox("28px 30px", { gridColumn: "1 / -1" })
-        },
+        "stat-number": {
+          scale: "display-lg",
+          color: "primary"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-table-focus.ts
+
+
+const newGeneralTableFocusLayout = (tokens) => ({
+  gridTemplateAreas: `"header" "table"`,
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 14
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
         headline: {
-          scale: "heading-md"
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        "body-text": {
+          style: { maxWidth: 780 }
+        }
+      }
+    },
+    table: {
+      accepts: ["data-table"],
+      maxCount: 1,
+      style: {
+        background: tokens.colors.background,
+        padding: "12px 84px 68px 84px"
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-summary-split.ts
+
+
+const newGeneralSummarySplitLayout = (tokens) => ({
+  gridTemplateAreas: `"summary metrics"`,
+  gridTemplateColumns: "1.1fr 0.9fr",
+  gridTemplateRows: "1fr",
+  areas: {
+    summary: {
+      accepts: ["headline", "subheadline", "body-text", "bullet-list"],
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 20
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        "bullet-list": {
+          variant: "numbered",
+          scale: "body-md",
+          color: "secondary",
+          gap: 20
+        }
+      }
+    },
+    metrics: {
+      accepts: ["stat-number"],
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 84px 80px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 32
+      },
+      elementStyles: {
+        "stat-number": {
+          scale: "display-xl",
+          color: "primary"
         }
       }
     }
@@ -9279,53 +9262,56 @@ const newGeneralDashboardLayout = (_tokens) => ({
 
 
 const newGeneralTimelineLayout = (tokens) => ({
-  gridTemplateAreas: `"header" "steps"`,
-  gridTemplateColumns: "1fr",
+  gridTemplateAreas: `"header header header header" "steps steps steps steps"`,
+  gridTemplateColumns: "1fr 1fr 1fr 1fr",
   gridTemplateRows: "auto 1fr",
   areas: {
     header: {
-      accepts: ["headline", "body-text"],
-      style: stackStyle("72px 84px 14px 84px", 14, {
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
         alignItems: "center",
-        textAlign: "center"
-      }),
+        textAlign: "center",
+        gap: 12
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 6 } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
-          textAlign: "center"
+          color: "primary",
+          textAlign: "center",
+          style: { fontWeight: 800 }
         },
         "body-text": {
           textAlign: "center",
-          style: { maxWidth: 860 }
+          style: { maxWidth: 780 }
         }
       }
     },
     steps: {
-      accepts: ["feature-item", "headline", "body-text"],
+      accepts: ["feature-item"],
       style: {
-        ...shell,
-        padding: "18px 84px 74px 84px",
+        background: tokens.colors.background,
+        padding: "24px 60px 68px 60px",
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr 1fr",
-        gap: 18,
-        alignItems: "start"
+        alignContent: "start",
+        gap: 24
       },
       elementStyles: {
         "feature-item": {
           variant: "with-top-border",
-          style: cardBox("28px", { minHeight: 220 })
-        },
-        headline: {
-          scale: "heading-md"
+          color: "primary",
+          style: {
+            background: tokens.colors.muted,
+            borderRadius: 12,
+            padding: "28px 24px"
+          }
         }
-      },
-      decorations: [
-        {
-          color: withAlpha(tokens.colors.accent, 0.35),
-          wrapperStyle: { top: 120, left: 130, right: 130, zIndex: 0 },
-          style: { width: "calc(100% - 260px)", height: 2, borderRadius: 999 }
-        }
-      ]
+      }
     }
   }
 });
@@ -9333,104 +9319,116 @@ const newGeneralTimelineLayout = (tokens) => ({
 ;// ./src/templates/new-general/layouts/new-general-team-grid.ts
 
 
-const newGeneralTeamGridLayout = (_tokens) => ({
-  gridTemplateAreas: `"header header header header" "memberA memberB memberC memberD"`,
-  gridTemplateColumns: "1fr 1fr 1fr 1fr",
-  gridTemplateRows: "auto 1fr",
+const newGeneralTeamGridLayout = (tokens) => ({
+  gridTemplateAreas: `"header members"`,
+  gridTemplateColumns: "0.38fr 0.62fr",
+  gridTemplateRows: "1fr",
   areas: {
     header: {
       accepts: ["headline", "subheadline", "body-text"],
-      style: stackStyle("62px 84px 14px 84px", 10, {
-        alignItems: "center",
-        textAlign: "center"
-      }),
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 16
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
-          textAlign: "center"
-        },
-        subheadline: {
-          ...accentEyebrow({ textAlign: "center", textTransform: "none", letterSpacing: "0" })
+          color: "primary",
+          style: { fontWeight: 800 }
         },
         "body-text": {
-          textAlign: "center",
-          style: { maxWidth: 860 }
+          scale: "body-md",
+          color: "secondary"
         }
       }
     },
-    memberA: teamMemberArea("14px 10px 72px 78px"),
-    memberB: teamMemberArea("14px 10px 72px 10px"),
-    memberC: teamMemberArea("14px 10px 72px 10px"),
-    memberD: teamMemberArea("14px 78px 72px 10px")
+    members: {
+      accepts: ["image", "subheadline", "body-text", "feature-item"],
+      style: {
+        background: tokens.colors.background,
+        padding: "60px 84px 60px 20px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: 32,
+        alignContent: "center"
+      },
+      elementStyles: {
+        image: {
+          variant: "rounded",
+          style: { borderRadius: 8, width: "100%", maxHeight: 140, objectFit: "cover" }
+        },
+        subheadline: {
+          scale: "body-md",
+          color: "primary",
+          textAlign: "center",
+          style: { fontWeight: 700, marginTop: -8 }
+        },
+        "body-text": {
+          scale: "caption",
+          textAlign: "center",
+          color: "secondary",
+          style: { marginTop: -24 }
+        }
+      }
+    }
   }
 });
 
 ;// ./src/templates/new-general/layouts/new-general-quote-image.ts
 
-
 const newGeneralQuoteImageLayout = (tokens) => ({
   gridTemplateAreas: `"quote image"`,
-  gridTemplateColumns: "0.92fr 1.08fr",
+  gridTemplateColumns: "1fr 1fr",
   gridTemplateRows: "1fr",
   areas: {
     quote: {
       accepts: ["headline", "quote", "body-text"],
       style: {
-        ...shell,
-        padding: "82px 24px 72px 78px",
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        gap: 22
+        gap: 24
       },
       elementStyles: {
         headline: {
           scale: "heading-md",
-          color: "accent"
+          color: "primary",
+          style: { fontWeight: 800 }
         },
         quote: {
-          variant: "side-accent",
-          style: { maxWidth: 460 }
-        },
-        "body-text": {
-          style: { maxWidth: 430 }
+          scale: "heading-md",
+          color: "primary"
         }
       }
     },
     image: {
-      accepts: ["image", "headline", "body-text"],
+      accepts: ["image", "body-text"],
       style: {
-        ...shell,
-        padding: "72px 82px 72px 12px",
+        background: tokens.colors.background,
+        padding: "60px 84px 60px 40px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        gap: 18
+        gap: 16
       },
       elementStyles: {
         image: {
           variant: "rounded",
-          style: {
-            ...card,
-            minHeight: 520
-          }
-        },
-        headline: {
-          scale: "heading-md"
-        },
-        "body-text": {
-          scale: "body-md"
+          style: { borderRadius: 16 }
         }
-      },
-      decorations: [
-        helpers_orb(withAlpha(tokens.colors.accent, 0.07), 300, { bottom: -80, right: -70 })
-      ]
+      }
     }
   }
 });
 
 ;// ./src/templates/new-general/layouts/new-general-full-bleed-quote.ts
-
 
 const newGeneralFullBleedQuoteLayout = (_tokens) => ({
   gridTemplateAreas: `"background"`,
@@ -9440,191 +9438,50 @@ const newGeneralFullBleedQuoteLayout = (_tokens) => ({
     background: {
       accepts: ["image", "headline", "quote", "body-text"],
       style: {
-        position: "relative",
-        overflow: "hidden",
+        padding: "80px 120px",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
         justifyContent: "center",
-        gap: 18,
-        padding: "86px 120px",
-        background: "#10131B"
+        textAlign: "center",
+        gap: 24,
+        position: "relative",
+        overflow: "hidden"
       },
       gradientOverlay: {
-        direction: "to right",
-        from: withAlpha("#10131B", 0.74),
-        to: withAlpha("#10131B", 0.28)
+        direction: "to bottom",
+        from: "rgba(0,0,0,0.55)",
+        to: "rgba(0,0,0,0.7)"
       },
       elementStyles: {
-        image: {
-          variant: "cover"
-        },
         headline: {
           scale: "heading-md",
-          color: "primary",
-          style: { color: "#FFFFFF", maxWidth: 620 }
+          color: "background",
+          textAlign: "center",
+          style: { fontWeight: 800, position: "relative", zIndex: 2 }
         },
         quote: {
-          variant: "default",
-          color: "primary",
-          style: { maxWidth: 760, color: "#FFFFFF" }
+          scale: "heading-md",
+          color: "background",
+          textAlign: "center",
+          variant: "centered",
+          style: { position: "relative", zIndex: 2 }
         },
         "body-text": {
-          color: "primary",
-          style: { maxWidth: 680, color: withAlpha("#FFFFFF", 0.82) }
-        }
-      }
-    }
-  }
-});
-
-;// ./src/templates/new-general/layouts/new-general-summary-split.ts
-
-
-const newGeneralSummarySplitLayout = (_tokens) => ({
-  gridTemplateAreas: `"summary metrics"`,
-  gridTemplateColumns: "1.04fr 0.96fr",
-  gridTemplateRows: "1fr",
-  areas: {
-    summary: {
-      accepts: ["headline", "subheadline", "body-text", "bullet-list"],
-      style: stackStyle("78px 26px 70px 78px", 18, {
-        justifyContent: "center"
-      }),
-      elementStyles: {
-        headline: {
-          scale: "display-lg",
-          style: { maxWidth: 560, lineHeight: 0.96 }
-        },
-        subheadline: accentEyebrow(),
-        "body-text": {
-          style: { maxWidth: 560 }
-        },
-        "bullet-list": {
-          style: cardBox("28px 32px", { maxWidth: 620 }),
-          color: "primary"
-        }
-      }
-    },
-    metrics: {
-      accepts: ["stat-number"],
-      style: {
-        ...shell,
-        padding: "78px 82px 70px 20px",
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: 16,
-        alignContent: "center"
-      },
-      elementStyles: {
-        "stat-number": {
-          style: softBox("26px 28px", {
-            alignItems: "flex-start",
-            minHeight: 160
-          }),
-          scale: "display-lg"
-        }
-      }
-    }
-  }
-});
-
-;// ./src/templates/new-general/layouts/new-general-table-focus.ts
-
-
-const newGeneralTableFocusLayout = (_tokens) => ({
-  gridTemplateAreas: `"header" "table"`,
-  gridTemplateColumns: "1fr",
-  gridTemplateRows: "auto 1fr",
-  areas: {
-    header: {
-      accepts: ["headline", "subheadline", "body-text"],
-      style: stackStyle("68px 84px 18px 84px", 10),
-      elementStyles: {
-        headline: {
-          scale: "display-lg"
-        },
-        subheadline: accentEyebrow(),
-        "body-text": {
-          style: { maxWidth: 840 }
-        }
-      }
-    },
-    table: {
-      accepts: ["data-table", "headline", "body-text"],
-      style: {
-        ...shell,
-        padding: "12px 84px 74px 84px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center"
-      },
-      elementStyles: {
-        "data-table": {
-          style: cardBox("28px 32px")
-        }
-      }
-    }
-  }
-});
-
-;// ./src/templates/new-general/layouts/new-general-chart-sidebar.ts
-
-
-const newGeneralChartSidebarLayout = (_tokens) => ({
-  gridTemplateAreas: `"chart sidebar"`,
-  gridTemplateColumns: "1.08fr 0.92fr",
-  gridTemplateRows: "1fr",
-  areas: {
-    chart: {
-      accepts: ["headline", "subheadline", "body-text", "stat-number", "bar-chart", "image"],
-      style: {
-        ...shell,
-        padding: "74px 18px 70px 78px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        gap: 18
-      },
-      elementStyles: {
-        headline: {
-          scale: "display-lg"
-        },
-        subheadline: accentEyebrow({ textTransform: "none", letterSpacing: "0" }),
-        "body-text": {
-          style: { maxWidth: 420 }
-        },
-        "stat-number": {
-          style: { alignItems: "flex-start" }
-        },
-        "bar-chart": {
-          style: cardBox("28px 30px")
+          scale: "body-md",
+          color: "background",
+          textAlign: "center",
+          style: { position: "relative", zIndex: 2 }
         },
         image: {
-          style: { ...card, minHeight: 420 }
-        }
-      }
-    },
-    sidebar: {
-      accepts: ["feature-item", "headline", "body-text", "stat-number", "image"],
-      style: {
-        ...shell,
-        padding: "98px 82px 70px 18px",
-        display: "grid",
-        gridTemplateColumns: "1fr",
-        gap: 16,
-        alignContent: "center"
-      },
-      elementStyles: {
-        "feature-item": {
-          style: softBox("22px 24px"),
-          variant: "default"
-        },
-        "stat-number": {
-          style: softBox("22px 24px", { alignItems: "flex-start" }),
-          scale: "display-lg"
-        },
-        image: {
-          style: { ...card, minHeight: 320 }
+          variant: "cover",
+          style: {
+            position: "absolute",
+            inset: 0,
+            zIndex: 0,
+            width: "100%",
+            height: "100%"
+          }
         }
       }
     }
@@ -9633,60 +9490,62 @@ const newGeneralChartSidebarLayout = (_tokens) => ({
 
 ;// ./src/templates/new-general/layouts/new-general-validation-grid.ts
 
-
-const newGeneralValidationGridLayout = (_tokens) => ({
-  gridTemplateAreas: `"intro intro" "points media"`,
+const newGeneralValidationGridLayout = (tokens) => ({
+  gridTemplateAreas: `"intro media" "points media"`,
   gridTemplateColumns: "1.05fr 0.95fr",
   gridTemplateRows: "auto 1fr",
   areas: {
     intro: {
       accepts: ["headline", "subheadline", "body-text"],
-      style: stackStyle("68px 84px 14px 84px", 10),
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 40px 16px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12
+      },
       elementStyles: {
-        subheadline: {
-          color: "accent"
-        },
         headline: {
-          scale: "display-lg"
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
         },
         "body-text": {
-          style: { maxWidth: 820 }
+          style: { maxWidth: 560 }
         }
       }
     },
     points: {
       accepts: ["feature-item"],
       style: {
-        ...shell,
-        padding: "10px 18px 72px 84px",
+        background: tokens.colors.background,
+        padding: "12px 40px 68px 84px",
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
-        gap: 16,
-        alignContent: "center"
+        gap: 20
       },
       elementStyles: {
         "feature-item": {
           variant: "with-top-border",
-          style: cardBox("24px 24px", { minHeight: 170 })
+          color: "primary"
         }
       }
     },
     media: {
       accepts: ["image", "body-text"],
       style: {
-        ...shell,
-        padding: "10px 82px 72px 18px",
+        background: tokens.colors.background,
+        padding: "68px 84px 68px 40px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        gap: 18
+        justifyContent: "flex-start",
+        alignItems: "flex-end",
+        gap: 16
       },
       elementStyles: {
         image: {
-          style: { ...card, minHeight: 330 }
-        },
-        "body-text": {
-          style: softBox("22px 24px")
+          variant: "rounded",
+          style: { borderRadius: 12, maxHeight: 320 }
         }
       }
     }
@@ -9696,50 +9555,1017 @@ const newGeneralValidationGridLayout = (_tokens) => ({
 ;// ./src/templates/new-general/layouts/new-general-thank-you.ts
 
 
-const newGeneralThankYouLayout = (_tokens) => ({
+const newGeneralThankYouLayout = (tokens) => ({
   gridTemplateAreas: `"copy" "placeholder"`,
   gridTemplateColumns: "1fr",
-  gridTemplateRows: "auto 1fr",
+  gridTemplateRows: "1fr 0.7fr",
   areas: {
     copy: {
-      accepts: ["headline", "body-text", "subheadline"],
-      style: shellStyle("72px 84px 22px 84px", {
-        display: "grid",
-        gridTemplateColumns: "1fr auto",
-        gap: 18,
-        alignItems: "start"
-      }),
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "60px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        justifyContent: "center",
+        gap: 18
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 6 } })],
       elementStyles: {
         headline: {
-          scale: "display-lg"
+          scale: "display-lg",
+          color: "primary",
+          textAlign: "center",
+          style: { fontWeight: 800 }
         },
         subheadline: {
+          scale: "heading-md",
           color: "accent",
-          textAlign: "right"
+          textAlign: "center"
         },
         "body-text": {
-          style: { maxWidth: 760 }
+          textAlign: "center",
+          style: { maxWidth: 640 }
         }
       }
     },
     placeholder: {
       accepts: ["image"],
-      maxCount: 1,
       style: {
-        ...shell,
-        padding: "0 84px 74px 84px",
+        background: tokens.colors.background,
+        padding: "12px 84px 48px 84px",
         display: "flex",
+        justifyContent: "center",
         alignItems: "stretch"
       },
       elementStyles: {
         image: {
-          variant: "cover",
+          variant: "rounded",
+          style: { borderRadius: 16, width: "100%" }
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-insights-grid.ts
+
+
+const newGeneralInsightsGridLayout = (tokens) => ({
+  gridTemplateAreas: `"header" "grid"`,
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        }
+      }
+    },
+    grid: {
+      accepts: ["feature-item"],
+      style: {
+        background: tokens.colors.background,
+        padding: "12px 84px 68px 84px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gap: 28
+      },
+      elementStyles: {
+        "feature-item": {
+          variant: "with-top-border",
+          color: "accent",
           style: {
-            background: "#2F3441",
-            borderRadius: 12,
-            minHeight: 360
+            padding: "20px 0"
           }
         }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-funnel-metrics.ts
+
+
+const newGeneralFunnelMetricsLayout = (tokens) => ({
+  gridTemplateAreas: `"lead bars"`,
+  gridTemplateColumns: "0.45fr 0.55fr",
+  gridTemplateRows: "1fr",
+  areas: {
+    lead: {
+      accepts: ["headline", "subheadline", "body-text", "stat-number"],
+      style: {
+        background: tokens.colors.background,
+        padding: "72px 40px 72px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 20
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        "stat-number": {
+          scale: "display-xl",
+          color: "primary"
+        }
+      }
+    },
+    bars: {
+      accepts: ["feature-item", "stat-number"],
+      style: {
+        background: tokens.colors.background,
+        padding: "72px 84px 72px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 24
+      },
+      elementStyles: {
+        "feature-item": {
+          variant: "with-left-border",
+          color: "primary",
+          style: {
+            background: tokens.colors.accent,
+            borderRadius: 10,
+            padding: "24px 32px",
+            color: "#FFFFFF"
+          }
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-problem-split.ts
+
+
+const newGeneralProblemSplitLayout = (tokens) => ({
+  gridTemplateAreas: `"header header" "image content"`,
+  gridTemplateColumns: "0.45fr 0.55fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline"],
+      style: {
+        background: tokens.colors.background,
+        padding: "60px 84px 16px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        }
+      }
+    },
+    image: {
+      accepts: ["image"],
+      style: {
+        background: tokens.colors.background,
+        padding: "20px 20px 60px 84px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      elementStyles: {
+        image: {
+          variant: "rounded",
+          style: { borderRadius: 12, width: "100%", maxHeight: 500, objectFit: "cover" }
+        }
+      }
+    },
+    content: {
+      accepts: ["body-text", "feature-item"],
+      style: {
+        background: tokens.colors.background,
+        padding: "20px 84px 60px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 20
+      },
+      elementStyles: {
+        "body-text": {
+          scale: "body-lg",
+          color: "secondary"
+        },
+        "feature-item": {
+          variant: "with-left-border",
+          color: "accent"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-competitive-advantage.ts
+
+const newGeneralCompetitiveAdvantageLayout = (tokens) => ({
+  gridTemplateAreas: `"image content" "image stats"`,
+  gridTemplateColumns: "0.45fr 0.55fr",
+  gridTemplateRows: "1fr auto",
+  areas: {
+    image: {
+      accepts: ["image"],
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      elementStyles: {
+        image: {
+          variant: "rounded",
+          style: { borderRadius: 12, width: "100%", objectFit: "cover" }
+        }
+      }
+    },
+    content: {
+      accepts: ["headline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 84px 20px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        gap: 20
+      },
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        "body-text": {
+          scale: "body-lg",
+          color: "secondary"
+        }
+      }
+    },
+    stats: {
+      accepts: ["stat-number"],
+      style: {
+        background: tokens.colors.background,
+        padding: "20px 84px 80px 40px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: 32
+      },
+      elementStyles: {
+        "stat-number": {
+          scale: "display-lg",
+          color: "accent"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-solutions-grid.ts
+
+
+const newGeneralSolutionsGridLayout = (tokens) => ({
+  gridTemplateAreas: `"header header image" "features features image"`,
+  gridTemplateColumns: "0.33fr 0.33fr 0.34fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline", "subheadline"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 40px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        subheadline: {
+          scale: "heading-md",
+          color: "secondary"
+        }
+      }
+    },
+    features: {
+      accepts: ["feature-item"],
+      style: {
+        background: tokens.colors.background,
+        padding: "12px 40px 68px 84px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: 28,
+        alignContent: "start"
+      },
+      elementStyles: {
+        "feature-item": {
+          variant: "with-left-border",
+          color: "accent"
+        }
+      }
+    },
+    image: {
+      accepts: ["image"],
+      style: {
+        background: tokens.colors.background,
+        padding: "40px 84px 40px 0",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      elementStyles: {
+        image: {
+          variant: "rounded",
+          style: { borderRadius: 12, width: "100%", objectFit: "cover" }
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-risks-columns.ts
+
+
+const newGeneralRisksColumnsLayout = (tokens) => ({
+  gridTemplateAreas: `"header header header" "col1 col2 col3"`,
+  gridTemplateColumns: "1fr 1fr 1fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        subheadline: {
+          scale: "heading-md",
+          color: "secondary"
+        },
+        "body-text": {
+          scale: "body-lg",
+          color: "secondary"
+        }
+      }
+    },
+    col1: {
+      accepts: ["feature-item", "headline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "24px 28px 68px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 16
+      },
+      elementStyles: {
+        headline: {
+          scale: "heading-md",
+          color: "primary",
+          style: { fontWeight: 700 }
+        },
+        "feature-item": {
+          variant: "default",
+          color: "primary"
+        },
+        "body-text": {
+          scale: "body-md",
+          color: "secondary"
+        }
+      }
+    },
+    col2: {
+      accepts: ["feature-item", "headline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "24px 28px 68px 28px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 16
+      },
+      elementStyles: {
+        headline: {
+          scale: "heading-md",
+          color: "primary",
+          style: { fontWeight: 700 }
+        },
+        "feature-item": {
+          variant: "default",
+          color: "primary"
+        },
+        "body-text": {
+          scale: "body-md",
+          color: "secondary"
+        }
+      }
+    },
+    col3: {
+      accepts: ["feature-item", "headline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "24px 84px 68px 28px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 16
+      },
+      elementStyles: {
+        headline: {
+          scale: "heading-md",
+          color: "primary",
+          style: { fontWeight: 700 }
+        },
+        "feature-item": {
+          variant: "default",
+          color: "primary"
+        },
+        "body-text": {
+          scale: "body-md",
+          color: "secondary"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-audience-breakdown.ts
+
+
+const newGeneralAudienceBreakdownLayout = (tokens) => ({
+  gridTemplateAreas: `"header header header" "col1 col2 col3"`,
+  gridTemplateColumns: "1fr 1fr 1fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        "body-text": {
+          scale: "body-lg",
+          color: "secondary"
+        }
+      }
+    },
+    col1: {
+      accepts: ["stat-number", "headline", "feature-item", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "24px 28px 68px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 16
+      },
+      elementStyles: {
+        "stat-number": {
+          scale: "display-xl",
+          color: "accent"
+        },
+        headline: {
+          scale: "heading-md",
+          color: "primary",
+          style: { fontWeight: 700 }
+        },
+        "feature-item": {
+          variant: "default",
+          color: "primary"
+        },
+        "body-text": {
+          scale: "body-md",
+          color: "secondary"
+        }
+      }
+    },
+    col2: {
+      accepts: ["stat-number", "headline", "feature-item", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "24px 28px 68px 28px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 16
+      },
+      elementStyles: {
+        "stat-number": {
+          scale: "display-xl",
+          color: "accent"
+        },
+        headline: {
+          scale: "heading-md",
+          color: "primary",
+          style: { fontWeight: 700 }
+        },
+        "feature-item": {
+          variant: "default",
+          color: "primary"
+        },
+        "body-text": {
+          scale: "body-md",
+          color: "secondary"
+        }
+      }
+    },
+    col3: {
+      accepts: ["stat-number", "headline", "feature-item", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "24px 84px 68px 28px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 16
+      },
+      elementStyles: {
+        "stat-number": {
+          scale: "display-xl",
+          color: "accent"
+        },
+        headline: {
+          scale: "heading-md",
+          color: "primary",
+          style: { fontWeight: 700 }
+        },
+        "feature-item": {
+          variant: "default",
+          color: "primary"
+        },
+        "body-text": {
+          scale: "body-md",
+          color: "secondary"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-chart-fullwidth.ts
+
+
+const newGeneralChartFullwidthLayout = (tokens) => ({
+  gridTemplateAreas: `"header" "chart"`,
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        gap: 12
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800, textAlign: "center" }
+        },
+        subheadline: {
+          scale: "heading-md",
+          color: "secondary",
+          style: { textAlign: "center" }
+        },
+        "body-text": {
+          scale: "body-lg",
+          color: "secondary",
+          style: { textAlign: "center" }
+        }
+      }
+    },
+    chart: {
+      accepts: ["bar-chart", "radial-chart", "data-table", "image"],
+      style: {
+        background: tokens.colors.muted,
+        padding: "24px 84px 68px 84px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "24px 24px 0 0"
+      },
+      elementStyles: {
+        "bar-chart": {
+          style: { width: "100%" }
+        },
+        image: {
+          variant: "rounded",
+          style: { borderRadius: 12, maxWidth: "100%" }
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-insights-card.ts
+
+
+const newGeneralInsightsCardLayout = (tokens) => ({
+  gridTemplateAreas: `"title card"`,
+  gridTemplateColumns: "0.45fr 0.55fr",
+  gridTemplateRows: "1fr",
+  areas: {
+    title: {
+      accepts: ["headline", "subheadline"],
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 16
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        subheadline: {
+          scale: "heading-md",
+          color: "secondary"
+        }
+      }
+    },
+    card: {
+      accepts: ["feature-item", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 84px 80px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 24
+      },
+      elementStyles: {
+        "feature-item": {
+          color: "accent",
+          style: {
+            background: tokens.colors.muted,
+            borderRadius: 16,
+            padding: "48px 40px"
+          }
+        },
+        "body-text": {
+          scale: "body-lg",
+          color: "secondary"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-campaign-grid.ts
+
+
+const newGeneralCampaignGridLayout = (tokens) => ({
+  gridTemplateAreas: `"header" "stats"`,
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center"
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800, textAlign: "center" }
+        }
+      }
+    },
+    stats: {
+      accepts: ["stat-number", "feature-item"],
+      style: {
+        background: tokens.colors.background,
+        padding: "24px 84px 68px 84px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr 1fr",
+        gap: 24,
+        alignContent: "center"
+      },
+      elementStyles: {
+        "stat-number": {
+          scale: "display-lg",
+          color: "primary"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-case-snapshot.ts
+
+
+const newGeneralCaseSnapshotLayout = (tokens) => ({
+  gridTemplateAreas: `"story company"`,
+  gridTemplateColumns: "0.55fr 0.45fr",
+  gridTemplateRows: "1fr",
+  areas: {
+    story: {
+      accepts: ["headline", "subheadline", "body-text", "bullet-list", "feature-item"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 40px 68px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 16
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        },
+        "bullet-list": {
+          variant: "numbered",
+          scale: "body-md",
+          color: "secondary"
+        }
+      }
+    },
+    company: {
+      accepts: ["stat-number", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 68px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 20
+      },
+      elementStyles: {
+        "stat-number": {
+          scale: "display-xl",
+          color: "accent"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-channel-strategy.ts
+
+
+const newGeneralChannelStrategyLayout = (tokens) => ({
+  gridTemplateAreas: `"header description" "table table"`,
+  gridTemplateColumns: "0.5fr 0.5fr",
+  gridTemplateRows: "auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline", "subheadline"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 40px 24px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        }
+      }
+    },
+    description: {
+      accepts: ["body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "68px 84px 24px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+      }
+    },
+    table: {
+      accepts: ["data-table", "feature-item", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "24px 84px 68px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 20
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-kpi-dashboard.ts
+
+
+const newGeneralKpiDashboardLayout = (tokens) => ({
+  gridTemplateAreas: `"text kpis"`,
+  gridTemplateColumns: "0.42fr 0.58fr",
+  gridTemplateRows: "1fr",
+  areas: {
+    text: {
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 20
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        }
+      }
+    },
+    kpis: {
+      accepts: ["stat-number", "feature-item"],
+      style: {
+        background: tokens.colors.muted,
+        padding: "40px 84px 40px 20px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: 20,
+        alignContent: "center"
+      },
+      elementStyles: {
+        "feature-item": {
+          color: "accent",
+          style: {
+            background: tokens.colors.accent,
+            borderRadius: 12,
+            padding: "20px 24px",
+            color: "#FFFFFF"
+          }
+        },
+        "stat-number": {
+          scale: "display-lg",
+          color: "primary"
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-text-stacked-images.ts
+
+
+const newGeneralTextStackedImagesLayout = (tokens) => ({
+  gridTemplateAreas: `"text images"`,
+  gridTemplateColumns: "0.48fr 0.52fr",
+  gridTemplateRows: "1fr",
+  areas: {
+    text: {
+      accepts: ["headline", "subheadline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 20
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        }
+      }
+    },
+    images: {
+      accepts: ["image"],
+      style: {
+        background: tokens.colors.background,
+        padding: "60px 84px 60px 20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 24
+      },
+      elementStyles: {
+        image: {
+          variant: "rounded",
+          style: { borderRadius: 20, maxHeight: 280, width: "90%", objectFit: "cover" }
+        }
+      }
+    }
+  }
+});
+
+;// ./src/templates/new-general/layouts/new-general-dashboard-compact.ts
+
+
+const newGeneralDashboardCompactLayout = (tokens) => ({
+  gridTemplateAreas: `"header" "stats" "charts"`,
+  gridTemplateColumns: "1fr",
+  gridTemplateRows: "auto auto 1fr",
+  areas: {
+    header: {
+      accepts: ["headline", "body-text"],
+      style: {
+        background: tokens.colors.background,
+        padding: "48px 84px 16px 84px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12
+      },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      elementStyles: {
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 }
+        }
+      }
+    },
+    stats: {
+      accepts: ["stat-number"],
+      style: {
+        background: tokens.colors.background,
+        padding: "8px 84px 16px 84px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr 1fr",
+        gap: 16
+      },
+      elementStyles: {
+        "stat-number": {
+          scale: "display-lg",
+          color: "primary"
+        }
+      }
+    },
+    charts: {
+      accepts: ["bar-chart", "radial-chart", "data-table", "image"],
+      style: {
+        background: tokens.colors.muted,
+        padding: "16px 84px 48px 84px",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gap: 20
       }
     }
   }
@@ -9762,30 +10588,43 @@ const newGeneralThankYouLayout = (_tokens) => ({
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 const new_general_tokens = {
   colors: {
-    background: "#F7F7FA",
-    surface: "#ECECF3",
-    primary: "#1E2333",
-    secondary: "#6E7385",
+    background: "#FFFFFF",
+    surface: "#2F3441",
+    primary: "#1E1E2E",
+    secondary: "#6B7280",
     accent: "#8B3DFF",
-    muted: "#D7D9E4"
+    muted: "#E8EAF3"
   },
   fonts: {
-    heading: "Manrope, sans-serif",
-    body: "DM Sans, sans-serif"
+    heading: "Nunito, sans-serif",
+    body: "Nunito, sans-serif"
   }
 };
 const defaultLayouts = createDefaultLayouts(new_general_tokens);
 const newGeneral = {
   id: "new-general",
   name: "New General",
-  description: "Minimal business presentation template with white surfaces, violet accents, and dashboard-style layouts.",
+  description: "Clean white business template with purple accent and modular analytics layouts.",
   tokens: new_general_tokens,
   avatarDefaults: {
     position: "bottom-right",
     size: "md",
-    shape: "circle"
+    shape: "squircle"
   },
   slideDefaults: {
     padding: "0"
@@ -9796,16 +10635,16 @@ const newGeneral = {
       color: "primary",
       fontFamily: "heading",
       textAlign: "left",
-      transitionIn: { id: "slide-up-in", duration: "460ms" },
-      transitionOut: { id: "fade-out", duration: "260ms" }
+      transitionIn: { id: "slide-down-in", duration: "450ms" },
+      transitionOut: { id: "slide-up-out", duration: "350ms" }
     },
     subheadline: {
       scale: "heading-md",
       color: "secondary",
       fontFamily: "heading",
       textAlign: "left",
-      transitionIn: { id: "fade-in", duration: "420ms" },
-      transitionOut: { id: "fade-out", duration: "240ms" }
+      transitionIn: { id: "slide-up-in", duration: "450ms" },
+      transitionOut: { id: "slide-down-out", duration: "330ms" }
     },
     "body-text": {
       scale: "body-lg",
@@ -9813,39 +10652,40 @@ const newGeneral = {
       fontFamily: "body",
       textAlign: "left",
       transitionIn: { id: "fade-in", duration: "520ms" },
-      transitionOut: { id: "fade-out", duration: "240ms" }
+      transitionOut: { id: "fade-out", duration: "320ms" }
     },
     "bullet-list": {
       scale: "body-md",
       color: "secondary",
       fontFamily: "body",
-      gap: 14,
-      transitionIn: { id: "slide-up-in", duration: "480ms" },
-      transitionOut: { id: "fade-out", duration: "240ms" }
+      gap: 16,
+      variant: "stacked",
+      transitionIn: { id: "slide-up-in", duration: "520ms" },
+      transitionOut: { id: "slide-up-out", duration: "330ms" }
     },
     "stat-number": {
-      scale: "display-lg",
+      scale: "display-xl",
       color: "primary",
       fontFamily: "heading",
-      transitionIn: { id: "zoom-in-in", duration: "420ms" },
-      transitionOut: { id: "fade-out", duration: "240ms" }
+      variant: "default",
+      transitionIn: { id: "zoom-in-in", duration: "500ms" },
+      transitionOut: { id: "zoom-in-out", duration: "350ms" }
     },
     image: {
       variant: "rounded",
-      transitionIn: { id: "fade-in", duration: "620ms" },
-      transitionOut: { id: "fade-out", duration: "300ms" }
+      transitionIn: { id: "fade-in", duration: "650ms" },
+      transitionOut: { id: "fade-out", duration: "400ms" }
     },
     "bar-chart": {
-      transitionIn: { id: "fade-in", duration: "620ms" },
-      transitionOut: { id: "fade-out", duration: "260ms" }
+      transitionIn: { id: "fade-in", duration: "650ms" },
+      transitionOut: { id: "fade-out", duration: "350ms" }
     },
     "radial-chart": {
-      variant: "pie",
       transitionIn: { id: "zoom-in-in", duration: "520ms" },
-      transitionOut: { id: "fade-out", duration: "240ms" }
+      transitionOut: { id: "fade-out", duration: "260ms" }
     },
     "data-table": {
-      transitionIn: { id: "fade-in", duration: "620ms" },
+      transitionIn: { id: "fade-in", duration: "650ms" },
       transitionOut: { id: "fade-out", duration: "260ms" }
     },
     quote: {
@@ -9853,33 +10693,47 @@ const newGeneral = {
       color: "primary",
       fontFamily: "heading",
       variant: "side-accent",
-      transitionIn: { id: "slide-right-in", duration: "520ms" },
-      transitionOut: { id: "fade-out", duration: "260ms" }
+      transitionIn: { id: "slide-right-in", duration: "550ms" },
+      transitionOut: { id: "slide-left-out", duration: "350ms" }
     },
     "feature-item": {
-      variant: "default",
+      variant: "with-top-border",
       color: "primary",
       fontFamily: "heading",
       transitionIn: { id: "slide-up-in", duration: "440ms" },
-      transitionOut: { id: "fade-out", duration: "240ms" }
+      transitionOut: { id: "slide-down-out", duration: "320ms" }
     }
   },
   layouts: {
     ...defaultLayouts,
+    // ── Custom layouts (new-general specific) ────────────────────────────────
     "new-general-title": newGeneralTitleLayout(new_general_tokens),
-    "new-general-insights-grid": newGeneralInsightsGridLayout(new_general_tokens),
-    "new-general-funnel-metrics": newGeneralFunnelMetricsLayout(new_general_tokens),
     "new-general-agenda": newGeneralAgendaLayout(new_general_tokens),
     "new-general-dashboard": newGeneralDashboardLayout(new_general_tokens),
+    "new-general-chart-sidebar": newGeneralChartSidebarLayout(new_general_tokens),
+    "new-general-table-focus": newGeneralTableFocusLayout(new_general_tokens),
+    "new-general-summary-split": newGeneralSummarySplitLayout(new_general_tokens),
     "new-general-timeline": newGeneralTimelineLayout(new_general_tokens),
     "new-general-team-grid": newGeneralTeamGridLayout(new_general_tokens),
     "new-general-quote-image": newGeneralQuoteImageLayout(new_general_tokens),
     "new-general-full-bleed-quote": newGeneralFullBleedQuoteLayout(new_general_tokens),
-    "new-general-summary-split": newGeneralSummarySplitLayout(new_general_tokens),
-    "new-general-table-focus": newGeneralTableFocusLayout(new_general_tokens),
-    "new-general-chart-sidebar": newGeneralChartSidebarLayout(new_general_tokens),
     "new-general-validation-grid": newGeneralValidationGridLayout(new_general_tokens),
-    "new-general-thank-you": newGeneralThankYouLayout(new_general_tokens)
+    "new-general-thank-you": newGeneralThankYouLayout(new_general_tokens),
+    "new-general-insights-grid": newGeneralInsightsGridLayout(new_general_tokens),
+    "new-general-funnel-metrics": newGeneralFunnelMetricsLayout(new_general_tokens),
+    "new-general-problem-split": newGeneralProblemSplitLayout(new_general_tokens),
+    "new-general-competitive-advantage": newGeneralCompetitiveAdvantageLayout(new_general_tokens),
+    "new-general-solutions-grid": newGeneralSolutionsGridLayout(new_general_tokens),
+    "new-general-risks-columns": newGeneralRisksColumnsLayout(new_general_tokens),
+    "new-general-audience-breakdown": newGeneralAudienceBreakdownLayout(new_general_tokens),
+    "new-general-chart-fullwidth": newGeneralChartFullwidthLayout(new_general_tokens),
+    "new-general-insights-card": newGeneralInsightsCardLayout(new_general_tokens),
+    "new-general-campaign-grid": newGeneralCampaignGridLayout(new_general_tokens),
+    "new-general-case-snapshot": newGeneralCaseSnapshotLayout(new_general_tokens),
+    "new-general-channel-strategy": newGeneralChannelStrategyLayout(new_general_tokens),
+    "new-general-kpi-dashboard": newGeneralKpiDashboardLayout(new_general_tokens),
+    "new-general-text-stacked-images": newGeneralTextStackedImagesLayout(new_general_tokens),
+    "new-general-dashboard-compact": newGeneralDashboardCompactLayout(new_general_tokens)
   }
 };
 /* harmony default export */ const new_general = (newGeneral);
@@ -10122,10 +10976,10 @@ const natureLight = {
 };
 /* harmony default export */ const nature_light = (natureLight);
 
-;// ./src/sample-presentation-academic.ts
+;// ./src/templates/academic-education/content.ts
 
 
-const academicSamplePresentation = {
+const academicEducationContent = {
   id: "pres_academic_education_001",
   templateId: "academic-education",
   title: "Academic Education",
@@ -10591,648 +11445,485 @@ const academicSamplePresentation = {
   ]
 };
 
-;// ./src/sample-presentation-new-general.ts
+;// ./src/templates/new-general/content.ts
 
 const placeholderLandscape = "https://placehold.co/1200x720/E8EAF3/2F3441?text=Placeholder%20Image";
 const placeholderPortrait = "https://placehold.co/720x900/E8EAF3/2F3441?text=Placeholder%20Image";
 const placeholderDark = "https://placehold.co/1200x600/2F3441/FFFFFF?text=Placeholder%20Image";
-const placeholderWide = "https://placehold.co/1400x780/F1F2F8/2F3441?text=Placeholder%20Image";
-const newGeneralSamplePresentation = {
+const newGeneralContent = {
   id: "pres_new_general_001",
   templateId: "new-general",
   title: "Northstar Growth Plan",
   fps: 30,
   resolution: { width: 1920, height: 1080 },
   slides: [
+    // ── 1. Title ────────────────────────────────────────────────────────────────
     {
       id: "ng-s1",
       layout: "new-general-title",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s1-kicker", area: "hero", type: "subheadline", content: "Strategy Presentation" },
-        { id: "ng-s1-title", area: "hero", type: "headline", content: "Key Insights & Learnings" },
-        {
-          id: "ng-s1-body",
-          area: "hero",
-          type: "body-text",
-          content: "A clean overview of the market, operating priorities, performance signals, and the next strategic moves for the business."
-        },
-        {
-          id: "ng-s1-note",
-          area: "note",
-          type: "body-text",
-          content: "This template is built for general business decks with light editorial layouts, modular analytics panels, and simple closing slides."
-        }
+        { id: "ng-s1-title", area: "hero", type: "headline", content: "Northstar Growth Plan" },
+        { id: "ng-s1-sub", area: "hero", type: "subheadline", content: "Marketing Strategy Presentation \u2014 Q1 2026" },
+        { id: "ng-s1-body", area: "hero", type: "body-text", content: "Accelerating enterprise customer acquisition across EMEA and North America." },
+        { id: "ng-s1-img", area: "note", type: "image", src: placeholderDark, alt: "Cover image" }
       ]
     },
+    // ── 2. Agenda ───────────────────────────────────────────────────────────────
     {
       id: "ng-s2",
       layout: "new-general-agenda",
-      transitionIn: { id: "slide-up-in" },
+      transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s2-kicker", area: "intro", type: "subheadline", content: "Overview" },
-        { id: "ng-s2-title", area: "intro", type: "headline", content: "Table of content" },
-        {
-          id: "ng-s2-copy",
-          area: "intro",
-          type: "body-text",
-          content: "The reference deck uses an opening page plus a modular outline page. This slide keeps that structure simple and reusable."
-        },
-        {
-          id: "ng-s2-list",
-          area: "agenda",
-          type: "bullet-list",
-          items: [
-            "Market context and operating environment",
-            "Target audience and validation signals",
-            "Revenue and campaign performance snapshot",
-            "Execution roadmap and team structure",
-            "Closing perspective and next steps"
-          ]
-        }
+        { id: "ng-s2-title", area: "intro", type: "headline", content: "Agenda" },
+        { id: "ng-s2-body", area: "intro", type: "body-text", content: "An overview of key topics for today's discussion." },
+        { id: "ng-s2-list", area: "agenda", type: "bullet-list", items: [
+          "Executive Summary",
+          "Market Landscape",
+          "Problem Statement",
+          "Our Solution",
+          "Competitive Advantage",
+          "Target Audience",
+          "Go-to-Market Strategy",
+          "Campaign Performance",
+          "KPI Dashboard",
+          "Next Steps"
+        ] }
       ]
     },
+    // ── 3. Problem Split ────────────────────────────────────────────────────────
     {
       id: "ng-s3",
-      layout: "new-general-dashboard",
+      layout: "new-general-problem-split",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s3-kicker", area: "story", type: "subheadline", content: "Analytics" },
-        { id: "ng-s3-title", area: "story", type: "headline", content: "Spend & ROI dashboard" },
-        {
-          id: "ng-s3-copy",
-          area: "story",
-          type: "body-text",
-          content: "Performance remains healthy across paid channels, with stronger efficiency in the highest-intent segments."
-        },
-        {
-          id: "ng-s3-stat",
-          area: "story",
-          type: "stat-number",
-          content: "$1.8M",
-          label: "Quarterly attributable revenue"
-        },
-        {
-          id: "ng-s3-bars",
-          area: "visuals",
-          type: "bar-chart",
-          title: "Spend allocation",
-          bars: [
-            { label: "Search", value: 42 },
-            { label: "Social", value: 61 },
-            { label: "Email", value: 25 },
-            { label: "Partners", value: 38 }
-          ]
-        },
-        {
-          id: "ng-s3-radial",
-          area: "visuals",
-          type: "radial-chart",
-          title: "Conversion mix",
-          totalLabel: "6.2%",
-          segments: [
-            { label: "Inbound", value: 42, color: "#8B3DFF" },
-            { label: "Referral", value: 26, color: "#B98AFF" },
-            { label: "Paid", value: 32, color: "#D9C1FF" }
-          ]
-        },
-        {
-          id: "ng-s3-table",
-          area: "visuals",
-          type: "data-table",
-          columns: ["Channel", "Leads", "CPA", "ROI"],
-          rows: [
-            { label: "Search", values: [1240, "$118", "4.6x"] },
-            { label: "Social", values: [980, "$144", "3.9x"] },
-            { label: "Email", values: [640, "$62", "6.1x"] }
-          ]
-        }
+        { id: "ng-s3-title", area: "header", type: "headline", content: "Problem" },
+        { id: "ng-s3-img", area: "image", type: "image", src: placeholderLandscape, alt: "Problem illustration" },
+        { id: "ng-s3-body", area: "content", type: "body-text", content: "Businesses face challenges with outdated technology and rising costs, limiting efficiency and growth in competitive markets." },
+        { id: "ng-s3-f1", area: "content", type: "feature-item", title: "Inefficiency", description: "Businesses struggle to find digital tools that meet their needs, causing operational slowdowns." },
+        { id: "ng-s3-f2", area: "content", type: "feature-item", title: "High Costs", description: "Outdated systems increase expenses, while small businesses struggle to expand their market reach." }
       ]
     },
+    // ── 4. Solutions Grid ───────────────────────────────────────────────────────
     {
       id: "ng-s4",
-      layout: "new-general-chart-sidebar",
+      layout: "new-general-solutions-grid",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s4-title", area: "chart", type: "headline", content: "Market size" },
-        {
-          id: "ng-s4-chart",
-          area: "chart",
-          type: "bar-chart",
-          title: "Total addressable segments",
-          bars: [
-            { label: "SMB", value: 32 },
-            { label: "Mid-market", value: 48 },
-            { label: "Enterprise", value: 41 },
-            { label: "Strategic", value: 55 }
-          ]
-        },
-        {
-          id: "ng-s4-side-1",
-          area: "sidebar",
-          type: "feature-item",
-          title: "Primary segment",
-          description: "Enterprise buyers remain the largest near-term opportunity by revenue contribution."
-        },
-        {
-          id: "ng-s4-side-2",
-          area: "sidebar",
-          type: "feature-item",
-          title: "Fastest growth",
-          description: "Mid-market demand is expanding the quickest as activation costs continue to improve."
-        },
-        {
-          id: "ng-s4-side-3",
-          area: "sidebar",
-          type: "feature-item",
-          title: "Priority move",
-          description: "Concentrate outbound and partner coverage where win rates are already strongest."
-        }
+        { id: "ng-s4-title", area: "header", type: "headline", content: "Solutions" },
+        { id: "ng-s4-f1", area: "features", type: "feature-item", title: "Custom Software", description: "We create tailored software to optimize processes and boost efficiency." },
+        { id: "ng-s4-f2", area: "features", type: "feature-item", title: "Digital Consulting", description: "Our consultants guide organizations in leveraging the latest technologies." },
+        { id: "ng-s4-f3", area: "features", type: "feature-item", title: "Support Services", description: "We provide ongoing support to help businesses adapt and maintain performance." },
+        { id: "ng-s4-f4", area: "features", type: "feature-item", title: "Scalable Marketing", description: "Our data-driven strategies help businesses expand their reach and engagement." },
+        { id: "ng-s4-img", area: "image", type: "image", src: placeholderLandscape, alt: "Team working" }
       ]
     },
+    // ── 5. Competitive Advantage ────────────────────────────────────────────────
     {
       id: "ng-s5",
-      layout: "new-general-table-focus",
+      layout: "new-general-competitive-advantage",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s5-kicker", area: "header", type: "subheadline", content: "Go-to-Market Strategy" },
-        { id: "ng-s5-title", area: "header", type: "headline", content: "Channel plan by motion" },
-        {
-          id: "ng-s5-copy",
-          area: "header",
-          type: "body-text",
-          content: "The reference deck includes structured strategy tables. This layout uses the existing table element rather than introducing a one-off primitive."
-        },
-        {
-          id: "ng-s5-table",
-          area: "table",
-          type: "data-table",
-          columns: ["Stage", "Primary Channel", "Objective", "Owner"],
-          rows: [
-            { label: "Awareness", values: ["Paid social", "Reach new accounts", "Brand team"] },
-            { label: "Consideration", values: ["Search", "Capture active demand", "Growth team"] },
-            { label: "Conversion", values: ["Email", "Nurture and close", "Lifecycle"] },
-            { label: "Expansion", values: ["Customer marketing", "Drive retention", "Success team"] }
-          ]
-        }
+        { id: "ng-s5-img", area: "image", type: "image", src: placeholderDark, alt: "Dashboard" },
+        { id: "ng-s5-title", area: "content", type: "headline", content: "Competitive Advantage" },
+        { id: "ng-s5-body", area: "content", type: "body-text", content: "Ginyard International Co. stands out by offering custom digital solutions tailored to client needs, alongside long-term support to ensure lasting relationships and continuous adaptation." },
+        { id: "ng-s5-stat1", area: "stats", type: "stat-number", content: "200+", label: "Satisfied Clients" },
+        { id: "ng-s5-stat2", area: "stats", type: "stat-number", content: "95%", label: "Client Retention Rate" }
       ]
     },
+    // ── 6. Target Audience Breakdown ────────────────────────────────────────────
     {
       id: "ng-s6",
-      layout: "stat-grid",
+      layout: "new-general-audience-breakdown",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s6-title", area: "header", type: "headline", content: "Top-line metrics at a glance" },
-        { id: "ng-s6-stat-1", area: "stats", type: "stat-number", content: "8,450", label: "Qualified leads" },
-        { id: "ng-s6-stat-2", area: "stats", type: "stat-number", content: "2,680", label: "Active opportunities" },
-        { id: "ng-s6-stat-3", area: "stats", type: "stat-number", content: "$2.4M", label: "Pipeline influenced" },
-        { id: "ng-s6-stat-4", area: "stats", type: "stat-number", content: "18%", label: "Quarter-over-quarter growth" }
+        { id: "ng-s6-title", area: "header", type: "headline", content: "Target Audience Breakdown" },
+        { id: "ng-s6-st1", area: "col1", type: "stat-number", content: "01", label: "" },
+        { id: "ng-s6-h1", area: "col1", type: "headline", content: "C-Suite Executives" },
+        { id: "ng-s6-f1a", area: "col1", type: "feature-item", title: "KEY NEED", description: "Strategic growth & competitive advantage" },
+        { id: "ng-s6-f1b", area: "col1", type: "feature-item", title: "PRIMARY CHANNEL", description: "LinkedIn, executive events" },
+        { id: "ng-s6-st2", area: "col2", type: "stat-number", content: "02", label: "" },
+        { id: "ng-s6-h2", area: "col2", type: "headline", content: "VP of Operations" },
+        { id: "ng-s6-f2a", area: "col2", type: "feature-item", title: "KEY NEED", description: "Efficiency & cost optimization" },
+        { id: "ng-s6-f2b", area: "col2", type: "feature-item", title: "PRIMARY CHANNEL", description: "Industry publications, webinars" },
+        { id: "ng-s6-st3", area: "col3", type: "stat-number", content: "03", label: "" },
+        { id: "ng-s6-h3", area: "col3", type: "headline", content: "Technical Leaders" },
+        { id: "ng-s6-f3a", area: "col3", type: "feature-item", title: "KEY NEED", description: "Integration capabilities & security" },
+        { id: "ng-s6-f3b", area: "col3", type: "feature-item", title: "PRIMARY CHANNEL", description: "Technical content, product demos" }
       ]
     },
+    // ── 7. Channel Strategy ─────────────────────────────────────────────────────
     {
       id: "ng-s7",
-      layout: "new-general-summary-split",
+      layout: "new-general-channel-strategy",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s7-kicker", area: "summary", type: "subheadline", content: "Executive Summary" },
-        { id: "ng-s7-title", area: "summary", type: "headline", content: "What leadership should focus on next" },
+        { id: "ng-s7-title", area: "header", type: "headline", content: "Go-to-Market Strategy" },
+        { id: "ng-s7-desc", area: "description", type: "body-text", content: "Focus on companies with 500+ employees in Financial Services, Healthcare, and Technology sectors." },
         {
-          id: "ng-s7-copy",
-          area: "summary",
-          type: "body-text",
-          content: "This structure maps to the reference slides that combine short summary copy on the left with stacked metrics on the right."
-        },
-        {
-          id: "ng-s7-list",
-          area: "summary",
-          type: "bullet-list",
-          items: [
-            "Double down on the highest-return acquisition channels",
-            "Reduce sales cycle friction at the qualification stage",
-            "Improve account scoring before budget is expanded further"
+          id: "ng-s7-table",
+          area: "table",
+          type: "data-table",
+          columns: ["Channel", "Tactic", "Purpose"],
+          rows: [
+            { label: "Paid Channels", values: ["LinkedIn Ads", "ABM Retargeting"] },
+            { label: "Paid Channels", values: ["Google Ads", "Intent Capture"] },
+            { label: "Organic", values: ["SEO", "Thought Leadership"] },
+            { label: "Organic", values: ["Content", "Education"] },
+            { label: "Partnerships", values: ["Events", "Network Building"] },
+            { label: "Partnerships", values: ["Co-Marketing", "Reach Extension"] }
           ]
-        },
-        { id: "ng-s7-stat-1", area: "metrics", type: "stat-number", content: "8,450", label: "Marketing qualified leads" },
-        { id: "ng-s7-stat-2", area: "metrics", type: "stat-number", content: "2,680", label: "Sales accepted opportunities" },
-        { id: "ng-s7-stat-3", area: "metrics", type: "stat-number", content: "$2,400", label: "Average deal velocity delta" }
+        }
       ]
     },
+    // ── 8. Campaign Performance ─────────────────────────────────────────────────
     {
       id: "ng-s8",
-      layout: "new-general-chart-sidebar",
+      layout: "new-general-campaign-grid",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s8-kicker", area: "chart", type: "subheadline", content: "Customer Proof" },
-        { id: "ng-s8-title", area: "chart", type: "headline", content: "Custom proof / case snapshot" },
-        {
-          id: "ng-s8-copy",
-          area: "chart",
-          type: "body-text",
-          content: "The reference deck includes proof slides with a media card and a high-level metric callout. This layout handles that pattern directly."
-        },
-        { id: "ng-s8-stat", area: "chart", type: "stat-number", content: "$4.2M", label: "Revenue influenced from pilot program" },
-        { id: "ng-s8-image", area: "sidebar", type: "image", src: placeholderLandscape, alt: "Placeholder Image" },
-        { id: "ng-s8-body", area: "sidebar", type: "body-text", content: "Placeholder media can stand in for product shots, dashboards, or customer imagery." },
-        { id: "ng-s8-card-stat", area: "sidebar", type: "stat-number", content: "95%", label: "Renewal intent among pilot accounts" }
+        { id: "ng-s8-title", area: "header", type: "headline", content: "Campaign Performance Snapshot" },
+        { id: "ng-s8-st1", area: "stats", type: "stat-number", content: "342 SQLs", label: "Enterprise ABM Launch" },
+        { id: "ng-s8-st2", area: "stats", type: "stat-number", content: "$1.8M pipeline", label: "Product Feature Release" },
+        { id: "ng-s8-st3", area: "stats", type: "stat-number", content: "156 Deals", label: "Industry Summit Sponsorship" },
+        { id: "ng-s8-st4", area: "stats", type: "stat-number", content: "28%", label: "Conversion Rate" }
       ]
     },
+    // ── 9. Funnel Performance ───────────────────────────────────────────────────
     {
       id: "ng-s9",
-      layout: "new-general-timeline",
-      transitionIn: { id: "slide-up-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s9-title", area: "header", type: "headline", content: "Delivery timeline" },
-        {
-          id: "ng-s9-copy",
-          area: "header",
-          type: "body-text",
-          content: "A step-by-step structure mirrors the reference deck\u2019s timeline and process pages without requiring a custom timeline element."
-        },
-        { id: "ng-s9-step-1", area: "steps", type: "feature-item", title: "Research", description: "Validate assumptions, segment audiences, and confirm the baseline metrics." },
-        { id: "ng-s9-step-2", area: "steps", type: "feature-item", title: "Build", description: "Launch campaign architecture, dashboards, and creative packages for the quarter." },
-        { id: "ng-s9-step-3", area: "steps", type: "feature-item", title: "Measure", description: "Track funnel efficiency, spend pacing, and team-level execution each week." },
-        { id: "ng-s9-step-4", area: "steps", type: "feature-item", title: "Scale", description: "Reallocate budget toward top performers and expand the highest-converting programs." }
-      ]
-    },
-    {
-      id: "ng-s10",
-      layout: "bullet-with-image",
-      transitionIn: { id: "fade-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s10-kicker", area: "text", type: "subheadline", content: "Solutions" },
-        { id: "ng-s10-title", area: "text", type: "headline", content: "Operational fixes with immediate impact" },
-        {
-          id: "ng-s10-list",
-          area: "text",
-          type: "bullet-list",
-          items: [
-            "Shift more budget into the lower-CPA acquisition sources",
-            "Replace weak ad groups with clearer value-proposition messaging",
-            "Tighten feedback loops between campaign managers and account executives"
-          ]
-        },
-        { id: "ng-s10-image", area: "image", type: "image", src: placeholderLandscape, alt: "Placeholder Image" },
-        {
-          id: "ng-s10-body",
-          area: "text",
-          type: "body-text",
-          content: "This split supports both the reference deck\u2019s solution slide and its mirrored problem slide by swapping the copy."
-        }
-      ]
-    },
-    {
-      id: "ng-s11",
-      layout: "new-general-validation-grid",
-      transitionIn: { id: "fade-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s11-kicker", area: "intro", type: "subheadline", content: "Market Validation" },
-        { id: "ng-s11-title", area: "intro", type: "headline", content: "Signals that the next move is credible" },
-        {
-          id: "ng-s11-copy",
-          area: "intro",
-          type: "body-text",
-          content: "The reference deck includes a validation slide with four point blocks and a supporting image. This layout keeps that structure intact."
-        },
-        { id: "ng-s11-item-1", area: "points", type: "feature-item", title: "Customer insights", description: "High-intent prospects consistently request the same workflow improvements." },
-        { id: "ng-s11-item-2", area: "points", type: "feature-item", title: "Market triggers", description: "Competitive pricing changes are creating a stronger switching window." },
-        { id: "ng-s11-item-3", area: "points", type: "feature-item", title: "Retention signals", description: "Accounts with onboarding support remain active longer and expand faster." },
-        { id: "ng-s11-item-4", area: "points", type: "feature-item", title: "Expansion fit", description: "The same messaging performs well across adjacent mid-market segments." },
-        { id: "ng-s11-image", area: "media", type: "image", src: placeholderLandscape, alt: "Placeholder Image" },
-        { id: "ng-s11-body", area: "media", type: "body-text", content: "Use a screenshot, customer photo, or product mockup here depending on the deck." }
-      ]
-    },
-    {
-      id: "ng-s12",
-      layout: "new-general-team-grid",
-      transitionIn: { id: "fade-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s12-title", area: "header", type: "headline", content: "Our team members" },
-        { id: "ng-s12-subtitle", area: "header", type: "subheadline", content: "Cross-functional leadership" },
-        {
-          id: "ng-s12-copy",
-          area: "header",
-          type: "body-text",
-          content: "This layout reflects the reference deck\u2019s people slides and keeps portraits in a simple four-up grid."
-        },
-        { id: "ng-s12-a-image", area: "memberA", type: "image", src: placeholderPortrait, alt: "Placeholder Image" },
-        { id: "ng-s12-a-name", area: "memberA", type: "subheadline", content: "Maya Torres" },
-        { id: "ng-s12-a-role", area: "memberA", type: "body-text", content: "Growth lead" },
-        { id: "ng-s12-b-image", area: "memberB", type: "image", src: placeholderPortrait, alt: "Placeholder Image" },
-        { id: "ng-s12-b-name", area: "memberB", type: "subheadline", content: "Alex Chen" },
-        { id: "ng-s12-b-role", area: "memberB", type: "body-text", content: "Operations director" },
-        { id: "ng-s12-c-image", area: "memberC", type: "image", src: placeholderPortrait, alt: "Placeholder Image" },
-        { id: "ng-s12-c-name", area: "memberC", type: "subheadline", content: "Nessa Reed" },
-        { id: "ng-s12-c-role", area: "memberC", type: "body-text", content: "Brand strategist" },
-        { id: "ng-s12-d-image", area: "memberD", type: "image", src: placeholderPortrait, alt: "Placeholder Image" },
-        { id: "ng-s12-d-name", area: "memberD", type: "subheadline", content: "Jordan Patel" },
-        { id: "ng-s12-d-role", area: "memberD", type: "body-text", content: "Revenue analyst" }
-      ]
-    },
-    {
-      id: "ng-s13",
-      layout: "new-general-quote-image",
-      transitionIn: { id: "fade-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s13-kicker", area: "quote", type: "headline", content: "Words of wisdom" },
-        {
-          id: "ng-s13-quote",
-          area: "quote",
-          type: "quote",
-          content: "The clearest presentations do not just report performance. They reveal what matters, what changed, and what should happen next.",
-          attribution: "Northstar Strategy Team"
-        },
-        { id: "ng-s13-image", area: "image", type: "image", src: placeholderWide, alt: "Placeholder Image" },
-        {
-          id: "ng-s13-body",
-          area: "image",
-          type: "body-text",
-          content: "This closing pattern mirrors the image-backed quote slides from the reference directory."
-        }
-      ]
-    },
-    {
-      id: "ng-s14",
-      layout: "new-general-thank-you",
-      transitionIn: { id: "fade-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s14-title", area: "copy", type: "headline", content: "Thank you" },
-        {
-          id: "ng-s14-body",
-          area: "copy",
-          type: "body-text",
-          content: "Thanks for exploring our business presentation template. Reach out if you want this structure adapted for another industry."
-        },
-        { id: "ng-s14-contact", area: "copy", type: "subheadline", content: "Contact Us" },
-        { id: "ng-s14-image", area: "placeholder", type: "image", src: placeholderDark, alt: "Placeholder Image" }
-      ]
-    },
-    {
-      id: "ng-s15",
-      layout: "new-general-insights-grid",
-      transitionIn: { id: "fade-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s15-title", area: "header", type: "headline", content: "Key Insights & Learnings" },
-        {
-          id: "ng-s15-item-1",
-          area: "grid",
-          type: "feature-item",
-          title: "Enterprise buyers value workflow automation",
-          description: "Messaging that emphasizes orchestration continues to resonate with larger accounts."
-        },
-        {
-          id: "ng-s15-item-2",
-          area: "grid",
-          type: "feature-item",
-          title: "Content plus paid social improves discovery",
-          description: "Awareness performance lifts when educational content is paired with distribution."
-        },
-        {
-          id: "ng-s15-item-3",
-          area: "grid",
-          type: "feature-item",
-          title: "Mobile optimization needs continued focus",
-          description: "Landing page friction still appears more often on smaller devices."
-        },
-        {
-          id: "ng-s15-item-4",
-          area: "grid",
-          type: "feature-item",
-          title: "Account-based campaigns perform best for enterprise",
-          description: "Higher-value targets respond better to tighter segmentation and deeper proof points."
-        },
-        {
-          id: "ng-s15-item-5",
-          area: "grid",
-          type: "feature-item",
-          title: "Email remains strongest for direct response",
-          description: "Nurture flows continue to convert at a lower cost than most paid channels."
-        },
-        {
-          id: "ng-s15-item-6",
-          area: "grid",
-          type: "feature-item",
-          title: "Lifecycle programs help retention most",
-          description: "Post-sale education drives healthier usage and better expansion readiness."
-        }
-      ]
-    },
-    {
-      id: "ng-s16",
-      layout: "bullet-with-graph",
-      transitionIn: { id: "fade-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s16-title", area: "text", type: "headline", content: "Spend & ROI dashboard" },
-        {
-          id: "ng-s16-copy",
-          area: "text",
-          type: "body-text",
-          content: "A chart-led slide can reuse the shared graph split without needing a template-local variant."
-        },
-        {
-          id: "ng-s16-chart",
-          area: "graph",
-          type: "bar-chart",
-          title: "Quarterly media performance",
-          bars: [
-            { label: "Q1", value: 26 },
-            { label: "Q2", value: 44 },
-            { label: "Q3", value: 31 },
-            { label: "Q4", value: 52 }
-          ]
-        }
-      ]
-    },
-    {
-      id: "ng-s17",
-      layout: "new-general-chart-sidebar",
-      transitionIn: { id: "fade-in" },
-      transitionOut: { id: "fade-out" },
-      elements: [
-        { id: "ng-s17-title", area: "chart", type: "headline", content: "Spend & ROI overview" },
-        { id: "ng-s17-image", area: "chart", type: "image", src: placeholderWide, alt: "Placeholder Image" },
-        {
-          id: "ng-s17-stat-1",
-          area: "sidebar",
-          type: "stat-number",
-          content: "$1,800K",
-          label: "Forecast revenue"
-        },
-        {
-          id: "ng-s17-stat-2",
-          area: "sidebar",
-          type: "stat-number",
-          content: "$1,800K",
-          label: "Run-rate pipeline"
-        },
-        {
-          id: "ng-s17-stat-3",
-          area: "sidebar",
-          type: "stat-number",
-          content: "$1,800K",
-          label: "Attributed influenced value"
-        }
-      ]
-    },
-    {
-      id: "ng-s18",
       layout: "new-general-funnel-metrics",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s18-title", area: "lead", type: "headline", content: "Funnel performance" },
-        { id: "ng-s18-stat", area: "lead", type: "stat-number", content: "0.24%", label: "Lead to customer conversion" },
-        {
-          id: "ng-s18-copy",
-          area: "lead",
-          type: "body-text",
-          content: "This approximates the horizontal funnel slide from the reference deck using stacked progress-style cards."
-        },
-        { id: "ng-s18-item-1", area: "bars", type: "feature-item", title: "Leads", description: "124,800 total volume \xB7 100%" },
-        { id: "ng-s18-item-2", area: "bars", type: "feature-item", title: "MQLs", description: "12,430 qualified accounts \xB7 27%" },
-        { id: "ng-s18-item-3", area: "bars", type: "feature-item", title: "Meetings", description: "4,356 booked conversations \xB7 13%" }
+        { id: "ng-s9-title", area: "lead", type: "headline", content: "Funnel Performance" },
+        { id: "ng-s9-stat", area: "lead", type: "stat-number", content: "0.24%", label: "Overall Visit \u2192 Customer" },
+        { id: "ng-s9-chart", area: "bars", type: "bar-chart", title: "Conversion Funnel", bars: [
+          { label: "Visitors", value: 124500 },
+          { label: "Leads", value: 12450 },
+          { label: "MQL", value: 4356 }
+        ] }
       ]
     },
+    // ── 10. Insights Grid ───────────────────────────────────────────────────────
+    {
+      id: "ng-s10",
+      layout: "new-general-insights-grid",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s10-title", area: "header", type: "headline", content: "Key Insights" },
+        { id: "ng-s10-f1", area: "grid", type: "feature-item", title: "Pipeline Growth", description: "30% increase in qualified pipeline quarter over quarter." },
+        { id: "ng-s10-f2", area: "grid", type: "feature-item", title: "Content ROI", description: "Blog content drives 45% of inbound MQLs at lowest CAC." },
+        { id: "ng-s10-f3", area: "grid", type: "feature-item", title: "ABM Success", description: "Enterprise ABM campaigns show 4.8x ROAS." },
+        { id: "ng-s10-f4", area: "grid", type: "feature-item", title: "Event Pipeline", description: "Industry events generate highest quality SQLs." },
+        { id: "ng-s10-f5", area: "grid", type: "feature-item", title: "Retention", description: "Customer retention above 95% across all cohorts." },
+        { id: "ng-s10-f6", area: "grid", type: "feature-item", title: "Expansion", description: "Upsell revenue grew 22% driving net revenue retention." }
+      ]
+    },
+    // ── 11. Insights Card ───────────────────────────────────────────────────────
+    {
+      id: "ng-s11",
+      layout: "new-general-insights-card",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s11-title", area: "title", type: "headline", content: "Key Insights & Learnings" },
+        { id: "ng-s11-card", area: "card", type: "feature-item", title: "CONTENT + PAID SOCIAL COMBINATION DRIVES HIGHEST QUALITY LEADS", description: "Leads from integrated campaigns had 47% faster time-to-close and 28% higher average contract value." }
+      ]
+    },
+    // ── 12. Chart Sidebar ───────────────────────────────────────────────────────
+    {
+      id: "ng-s12",
+      layout: "new-general-chart-sidebar",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s12-chart", area: "chart", type: "bar-chart", title: "Revenue by Quarter", bars: [
+          { label: "Q1", value: 1e5 },
+          { label: "Q2", value: 13e4 },
+          { label: "Q3", value: 9e4 },
+          { label: "Q4", value: 16e4 }
+        ] },
+        { id: "ng-s12-st1", area: "sidebar", type: "stat-number", content: "$480K", label: "Total Revenue" },
+        { id: "ng-s12-st2", area: "sidebar", type: "stat-number", content: "23%", label: "Growth Rate" },
+        { id: "ng-s12-st3", area: "sidebar", type: "stat-number", content: "4.2x", label: "ROAS" },
+        { id: "ng-s12-st4", area: "sidebar", type: "stat-number", content: "156", label: "New Accounts" }
+      ]
+    },
+    // ── 13. Chart Fullwidth ─────────────────────────────────────────────────────
+    {
+      id: "ng-s13",
+      layout: "new-general-chart-fullwidth",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s13-title", area: "header", type: "headline", content: "Spend & ROI Dashboard" },
+        { id: "ng-s13-chart", area: "chart", type: "bar-chart", bars: [
+          { label: "Jan Revenue", value: 520 },
+          { label: "Jan Spend", value: 140 },
+          { label: "Feb Revenue", value: 660 },
+          { label: "Feb Spend", value: 245 },
+          { label: "Mar Revenue", value: 185 },
+          { label: "Mar Spend", value: 400 }
+        ] }
+      ]
+    },
+    // ── 14. KPI Dashboard ───────────────────────────────────────────────────────
+    {
+      id: "ng-s14",
+      layout: "new-general-kpi-dashboard",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s14-title", area: "text", type: "headline", content: "Business Objective & KPIs" },
+        { id: "ng-s14-sub", area: "text", type: "subheadline", content: "Accelerate enterprise customer acquisition across EMEA and North America" },
+        { id: "ng-s14-body", area: "text", type: "body-text", content: "Focus on companies with 500+ employees in Financial Services, Healthcare, and Technology sectors. Target $3.5M in new pipeline." },
+        { id: "ng-s14-k1", area: "kpis", type: "stat-number", content: "$4.2M", label: "Pipeline Generated" },
+        { id: "ng-s14-k2", area: "kpis", type: "stat-number", content: "8,420", label: "Marketing Qualified Leads" },
+        { id: "ng-s14-k3", area: "kpis", type: "stat-number", content: "4.8X", label: "Return on Ad Spend" },
+        { id: "ng-s14-k4", area: "kpis", type: "stat-number", content: "6,250", label: "Target Leads" }
+      ]
+    },
+    // ── 15. Dashboard Sidebar ───────────────────────────────────────────────────
+    {
+      id: "ng-s15",
+      layout: "new-general-dashboard",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s15-title", area: "story", type: "headline", content: "Data Analytics Dashboard" },
+        { id: "ng-s15-body", area: "story", type: "body-text", content: "Comprehensive overview of key metrics and performance indicators." },
+        { id: "ng-s15-list", area: "story", type: "bullet-list", items: ["Pipeline coverage above 3x target", "CAC payback under 6 months", "Enterprise conversion improved QoQ"] },
+        { id: "ng-s15-c1", area: "visuals", type: "bar-chart", title: "Revenue by Quarter", bars: [
+          { label: "Q1", value: 1e5 },
+          { label: "Q2", value: 13e4 },
+          { label: "Q3", value: 9e4 },
+          { label: "Q4", value: 16e4 }
+        ] },
+        { id: "ng-s15-c2", area: "visuals", type: "radial-chart", segments: [
+          { label: "A", value: 35 },
+          { label: "B", value: 25 },
+          { label: "C", value: 28 },
+          { label: "D", value: 12 }
+        ] }
+      ]
+    },
+    // ── 16. Dashboard Compact ───────────────────────────────────────────────────
+    {
+      id: "ng-s16",
+      layout: "new-general-dashboard-compact",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s16-title", area: "header", type: "headline", content: "Data Analytics Dashboard" },
+        { id: "ng-s16-desc", area: "header", type: "body-text", content: "Comprehensive overview of key metrics across multiple data dimensions." },
+        { id: "ng-s16-st1", area: "stats", type: "stat-number", content: "$3.5M", label: "PIPELINE" },
+        { id: "ng-s16-st2", area: "stats", type: "stat-number", content: "28%", label: "CONVERSION" },
+        { id: "ng-s16-st3", area: "stats", type: "stat-number", content: "1.9x", label: "ROI" },
+        { id: "ng-s16-st4", area: "stats", type: "stat-number", content: "42", label: "ACCOUNTS" },
+        { id: "ng-s16-c1", area: "charts", type: "bar-chart", title: "Revenue by Quarter", bars: [
+          { label: "Q1", value: 100 },
+          { label: "Q2", value: 130 },
+          { label: "Q3", value: 90 },
+          { label: "Q4", value: 160 }
+        ] },
+        { id: "ng-s16-c2", area: "charts", type: "radial-chart", segments: [
+          { label: "A", value: 35 },
+          { label: "B", value: 25 },
+          { label: "C", value: 28 },
+          { label: "D", value: 12 }
+        ] },
+        { id: "ng-s16-c3", area: "charts", type: "bar-chart", title: "Growth Trend", bars: [
+          { label: "Jan", value: 30 },
+          { label: "Feb", value: 45 },
+          { label: "Mar", value: 55 },
+          { label: "Apr", value: 50 },
+          { label: "May", value: 70 }
+        ] }
+      ]
+    },
+    // ── 17. Risks & Constraints ─────────────────────────────────────────────────
+    {
+      id: "ng-s17",
+      layout: "new-general-risks-columns",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s17-title", area: "header", type: "headline", content: "Risks & Constraints" },
+        { id: "ng-s17-c1h", area: "col1", type: "headline", content: "MARKET" },
+        { id: "ng-s17-c1f", area: "col1", type: "feature-item", title: "Market Saturation", description: "Increasing competition in key verticals may pressure conversion rates." },
+        { id: "ng-s17-c2h", area: "col2", type: "headline", content: "BUDGET" },
+        { id: "ng-s17-c2f", area: "col2", type: "feature-item", title: "Budget Constraints", description: "Q1 budget reduction of 15% may limit ability to scale successful campaigns." },
+        { id: "ng-s17-c3h", area: "col3", type: "headline", content: "CAPACITY" },
+        { id: "ng-s17-c3f", area: "col3", type: "feature-item", title: "Resource Capacity", description: "Content production team at 110% capacity; may impact content velocity." }
+      ]
+    },
+    // ── 18. Case Snapshot ───────────────────────────────────────────────────────
+    {
+      id: "ng-s18",
+      layout: "new-general-case-snapshot",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s18-title", area: "story", type: "headline", content: "Customer Proof / Case Snapshot" },
+        { id: "ng-s18-sub1", area: "story", type: "subheadline", content: "CHALLENGE" },
+        { id: "ng-s18-body1", area: "story", type: "body-text", content: "Fragmented marketing operations across 12 regions leading to inefficient spend allocation. CAC increased 43% YoY." },
+        { id: "ng-s18-sub2", area: "story", type: "subheadline", content: "OUTCOME" },
+        { id: "ng-s18-list", area: "story", type: "bullet-list", items: ["34% reduction in CAC within 6 months", "Unified operations across all regions", "$4.2M additional pipeline generated"] },
+        { id: "ng-s18-company", area: "company", type: "headline", content: "TechCorp Global" },
+        { id: "ng-s18-desc", area: "company", type: "body-text", content: "Fortune 500 Technology Company" },
+        { id: "ng-s18-stat", area: "company", type: "stat-number", content: "$4.2M", label: "incremental pipeline in Q4" }
+      ]
+    },
+    // ── 19. Summary Split ───────────────────────────────────────────────────────
     {
       id: "ng-s19",
       layout: "new-general-summary-split",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s19-kicker", area: "summary", type: "subheadline", content: "Business Objective & KPIs" },
-        { id: "ng-s19-title", area: "summary", type: "headline", content: "Performance indicators for the next phase" },
-        {
-          id: "ng-s19-copy",
-          area: "summary",
-          type: "body-text",
-          content: "This is the template\u2019s direct answer to the reference slide that pairs a business objective block with a KPI mosaic."
-        },
-        { id: "ng-s19-stat-1", area: "metrics", type: "stat-number", content: "$4.2M", label: "Pipeline" },
-        { id: "ng-s19-stat-2", area: "metrics", type: "stat-number", content: "4.8x", label: "ROI" },
-        { id: "ng-s19-stat-3", area: "metrics", type: "stat-number", content: "$3.5M", label: "Revenue target" },
-        { id: "ng-s19-stat-4", area: "metrics", type: "stat-number", content: "6,250", label: "Lead goal" },
-        { id: "ng-s19-stat-5", area: "metrics", type: "stat-number", content: "4.0%", label: "Conversion rate" },
-        { id: "ng-s19-stat-6", area: "metrics", type: "stat-number", content: "4.8x", label: "LTV/CAC" }
+        { id: "ng-s19-title", area: "summary", type: "headline", content: "Executive Summary" },
+        { id: "ng-s19-body", area: "summary", type: "body-text", content: "Our marketing strategy targets enterprise accounts across EMEA and North America with a multi-channel approach." },
+        { id: "ng-s19-list", area: "summary", type: "bullet-list", items: ["Pipeline target: $3.5M", "CAC goal: sub-$150", "Focus: Financial Services, Healthcare, Technology"] },
+        { id: "ng-s19-st1", area: "metrics", type: "stat-number", content: "$3.5M", label: "Pipeline Target" },
+        { id: "ng-s19-st2", area: "metrics", type: "stat-number", content: "4.8x", label: "ROAS Target" },
+        { id: "ng-s19-st3", area: "metrics", type: "stat-number", content: "28%", label: "Conversion Rate" }
       ]
     },
+    // ── 20. Table Focus ─────────────────────────────────────────────────────────
     {
       id: "ng-s20",
+      layout: "new-general-table-focus",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s20-title", area: "header", type: "headline", content: "Quarterly Performance" },
+        {
+          id: "ng-s20-table",
+          area: "table",
+          type: "data-table",
+          columns: ["Metric", "Q1", "Q2", "Q3", "Q4"],
+          rows: [
+            { label: "Revenue", values: ["$120K", "$145K", "$98K", "$180K"] },
+            { label: "Pipeline", values: ["$350K", "$420K", "$380K", "$510K"] },
+            { label: "SQLs", values: ["85", "102", "78", "134"] },
+            { label: "Win Rate", values: ["22%", "26%", "24%", "31%"] }
+          ]
+        }
+      ]
+    },
+    // ── 21. Timeline ────────────────────────────────────────────────────────────
+    {
+      id: "ng-s21",
+      layout: "new-general-timeline",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s21-title", area: "header", type: "headline", content: "Timeline" },
+        { id: "ng-s21-f1", area: "steps", type: "feature-item", title: "Q1 2026", description: "Foundation \u2014 build team, define ICP, launch ABM pilot." },
+        { id: "ng-s21-f2", area: "steps", type: "feature-item", title: "Q2 2026", description: "Scale \u2014 expand paid channels, optimize content engine." },
+        { id: "ng-s21-f3", area: "steps", type: "feature-item", title: "Q3 2026", description: "Accelerate \u2014 double budget on winning channels, launch partnerships." },
+        { id: "ng-s21-f4", area: "steps", type: "feature-item", title: "Q4 2026", description: "Optimize \u2014 refine messaging, target new verticals, hit $3.5M pipeline." }
+      ]
+    },
+    // ── 22. Team Grid ───────────────────────────────────────────────────────────
+    {
+      id: "ng-s22",
+      layout: "new-general-team-grid",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s22-title", area: "header", type: "headline", content: "Meet the Team" },
+        { id: "ng-s22-body", area: "header", type: "body-text", content: "Our cross-functional team combines deep expertise in demand generation, content strategy, and sales enablement." },
+        { id: "ng-s22-img1", area: "members", type: "image", src: placeholderPortrait, alt: "Team member" },
+        { id: "ng-s22-n1", area: "members", type: "subheadline", content: "Sarah Chen" },
+        { id: "ng-s22-r1", area: "members", type: "body-text", content: "VP Marketing" },
+        { id: "ng-s22-img2", area: "members", type: "image", src: placeholderPortrait, alt: "Team member" },
+        { id: "ng-s22-n2", area: "members", type: "subheadline", content: "James Rivera" },
+        { id: "ng-s22-r2", area: "members", type: "body-text", content: "Head of Demand Gen" }
+      ]
+    },
+    // ── 23. Quote + Image ───────────────────────────────────────────────────────
+    {
+      id: "ng-s23",
+      layout: "new-general-quote-image",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s23-quote", area: "quote", type: "quote", content: "The best marketing doesn't feel like marketing.", attribution: "Tom Fishburne" },
+        { id: "ng-s23-img", area: "image", type: "image", src: placeholderDark, alt: "Inspirational" }
+      ]
+    },
+    // ── 24. Full Bleed Quote ────────────────────────────────────────────────────
+    {
+      id: "ng-s24",
       layout: "new-general-full-bleed-quote",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s20-image", area: "background", type: "image", src: placeholderWide, alt: "Placeholder Image" },
-        { id: "ng-s20-title", area: "background", type: "headline", content: "Words of wisdom" },
-        {
-          id: "ng-s20-quote",
-          area: "background",
-          type: "quote",
-          content: "Success is not final; failure is not fatal: it is the courage to continue that counts.",
-          attribution: "Winston Churchill"
-        },
-        {
-          id: "ng-s20-body",
-          area: "background",
-          type: "body-text",
-          content: "This full-bleed treatment covers the image-led quote pages from the reference deck."
-        }
+        { id: "ng-s24-img", area: "background", type: "image", src: placeholderDark, alt: "Background" },
+        { id: "ng-s24-quote", area: "background", type: "headline", content: "Innovation distinguishes between a leader and a follower." },
+        { id: "ng-s24-attr", area: "background", type: "body-text", content: "\u2014 Steve Jobs" }
       ]
     },
+    // ── 25. Market Validation ───────────────────────────────────────────────────
     {
-      id: "ng-s21",
-      layout: "three-column",
+      id: "ng-s25",
+      layout: "new-general-validation-grid",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s21-title", area: "col1", type: "headline", content: "Table\nof Content" },
-        {
-          id: "ng-s21-left",
-          area: "col2",
-          type: "bullet-list",
-          items: ["Introduction", "Key findings", "Data analysis", "Recommendations"]
-        },
-        {
-          id: "ng-s21-right",
-          area: "col3",
-          type: "bullet-list",
-          items: ["Introduction", "Key findings", "Data analysis", "Recommendations", "Conclusion"]
-        }
+        { id: "ng-s25-title", area: "intro", type: "headline", content: "Market Validation" },
+        { id: "ng-s25-body", area: "intro", type: "body-text", content: "Key supporting details that reinforce the title and guide the audience toward your main message." },
+        { id: "ng-s25-f1", area: "points", type: "feature-item", title: "Customer Insights", description: "78% of businesses are planning to invest in digital solutions." },
+        { id: "ng-s25-f2", area: "points", type: "feature-item", title: "Pilot Success", description: "85% prefer customized approaches over off-the-shelf solutions." },
+        { id: "ng-s25-f3", area: "points", type: "feature-item", title: "Industry Trends", description: "Digital transformation budgets increased 34% year-over-year." },
+        { id: "ng-s25-f4", area: "points", type: "feature-item", title: "Competitive Edge", description: "First-mover advantage in underserved mid-market segment." },
+        { id: "ng-s25-img", area: "media", type: "image", src: placeholderLandscape, alt: "Validation" }
       ]
     },
+    // ── 26. Text + Stacked Images ───────────────────────────────────────────────
     {
-      id: "ng-s22",
-      layout: "new-general-dashboard",
+      id: "ng-s26",
+      layout: "new-general-text-stacked-images",
       transitionIn: { id: "fade-in" },
       transitionOut: { id: "fade-out" },
       elements: [
-        { id: "ng-s22-kicker", area: "story", type: "subheadline", content: "Data Analytics Dashboard" },
-        { id: "ng-s22-title", area: "story", type: "headline", content: "Multi-signal performance view" },
-        {
-          id: "ng-s22-copy",
-          area: "story",
-          type: "body-text",
-          content: "This slide is included specifically to cover the analytics dashboard references from the image set."
-        },
-        { id: "ng-s22-stat", area: "story", type: "stat-number", content: "285", label: "Weekly qualified accounts" },
-        {
-          id: "ng-s22-bars",
-          area: "visuals",
-          type: "bar-chart",
-          title: "Acquisition by source",
-          bars: [
-            { label: "Paid", value: 22 },
-            { label: "Organic", value: 28 },
-            { label: "Direct", value: 19 },
-            { label: "Referral", value: 31 }
-          ]
-        },
-        {
-          id: "ng-s22-radial",
-          area: "visuals",
-          type: "radial-chart",
-          title: "Segment share",
-          totalLabel: "100%",
-          segments: [
-            { label: "SMB", value: 30, color: "#8B3DFF" },
-            { label: "Mid", value: 33, color: "#B98AFF" },
-            { label: "Ent", value: 37, color: "#D9C1FF" }
-          ]
-        },
-        {
-          id: "ng-s22-table",
-          area: "visuals",
-          type: "data-table",
-          columns: ["Metric", "Value", "Delta"],
-          rows: [
-            { label: "CAC", values: ["$182", "-6%"] },
-            { label: "CVR", values: ["4.3%", "+0.8"] },
-            { label: "Retention", values: ["92%", "+2"] }
-          ]
-        }
+        { id: "ng-s26-title", area: "text", type: "headline", content: "Executive Summary" },
+        { id: "ng-s26-body", area: "text", type: "body-text", content: "Focus on companies with 500+ employees in Financial Services, Healthcare, and Technology sectors. Target $3.5M in new pipeline with sub-$150 CAC." },
+        { id: "ng-s26-img1", area: "images", type: "image", src: placeholderDark, alt: "Image 1" },
+        { id: "ng-s26-img2", area: "images", type: "image", src: placeholderDark, alt: "Image 2" }
+      ]
+    },
+    // ── 27. Thank You ───────────────────────────────────────────────────────────
+    {
+      id: "ng-s27",
+      layout: "new-general-thank-you",
+      transitionIn: { id: "fade-in" },
+      transitionOut: { id: "fade-out" },
+      elements: [
+        { id: "ng-s27-title", area: "copy", type: "headline", content: "Thank You" },
+        { id: "ng-s27-body", area: "copy", type: "body-text", content: "Thanks for your time and attention. We look forward to partnering on this growth journey." },
+        { id: "ng-s27-contact", area: "copy", type: "subheadline", content: "Contact Us" },
+        { id: "ng-s27-img", area: "placeholder", type: "image", src: placeholderDark, alt: "Contact" }
       ]
     }
   ]
 };
 
-;// ./src/sample-presentation.ts
+;// ./src/templates/nature-light/content.ts
 
 
-const samplePresentation = {
+const natureLightContent = {
   id: "pres_mangrove_001",
   templateId: "nature-light",
   title: "The Mangrove Ecosystem",
@@ -11240,7 +11931,6 @@ const samplePresentation = {
   resolution: { width: 1920, height: 1080 },
   slides: [
     // ── Slide 2 · What is a Mangrove Ecosystem? (vertical-split) ──────────────
-    // Top: White area with Headline + Text. Bottom: Green area with 2 images.
     {
       id: "s2",
       layout: "vertical-split",
@@ -11277,7 +11967,6 @@ const samplePresentation = {
       ]
     },
     // ── Slide 5 · Biodiversity (dark-side-panel) ──────────────────────────────
-    // (Renumbered from s6)
     {
       id: "s5",
       layout: "dark-side-panel",
@@ -11311,7 +12000,6 @@ const samplePresentation = {
       ]
     },
     // ── Slide 6 · Coastal Protection (image-feature-cards) ────────────────────
-    // (Renumbered from s7)
     {
       id: "s6",
       layout: "image-feature-cards",
@@ -11363,7 +12051,6 @@ const samplePresentation = {
       ]
     },
     // ── Slide 8 · Conservation (dark-side-panel) ──────────────────────────────
-    // (Renumbered from s9)
     {
       id: "s8",
       layout: "dark-side-panel",
@@ -11415,7 +12102,6 @@ const samplePresentation = {
       ]
     },
     // ── Slide 10 · Conclusion (bullet-with-image) ─────────────────────────────
-    // (Renumbered from s11)
     {
       id: "s10",
       layout: "bullet-with-image",
@@ -11461,9 +12147,9 @@ const TEMPLATE_REGISTRY = {
   "nature-light": nature_light
 };
 const CONTENT_REGISTRY = {
-  "academic-education": academicSamplePresentation,
-  "new-general": newGeneralSamplePresentation,
-  "nature-light": samplePresentation
+  "academic-education": academicEducationContent,
+  "new-general": newGeneralContent,
+  "nature-light": natureLightContent
 };
 const DEFAULT_TEMPLATE_NAME = "academic-education";
 const isValidTemplateName = (value) => !!value && value in TEMPLATE_REGISTRY;
@@ -61438,7 +62124,7 @@ var NoReactInternals = {
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__(899);
-/******/ 	__webpack_require__(102);
+/******/ 	__webpack_require__(439);
 /******/ 	__webpack_require__(8482);
 /******/ 	var __webpack_exports__ = __webpack_require__(320);
 /******/ 	

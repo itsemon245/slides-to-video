@@ -2,23 +2,23 @@ import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
 import { accentBar } from "../helpers";
 
 /**
- * Summary split: bullet text on the left, stacked stat numbers on the right.
- * Reference: layout-reference/summary-split.png, kpi-dashboard.png
+ * Insights card: title with accent bar on the left, single feature-item card on the right.
+ * Reference: layout-reference/insights-card.png
  */
-export const newGeneralSummarySplitLayout = (tokens: DesignTokens): LayoutTemplate => ({
-  gridTemplateAreas: `"summary metrics"`,
-  gridTemplateColumns: "1.1fr 0.9fr",
+export const newGeneralInsightsCardLayout = (tokens: DesignTokens): LayoutTemplate => ({
+  gridTemplateAreas: `"title card"`,
+  gridTemplateColumns: "0.45fr 0.55fr",
   gridTemplateRows: "1fr",
   areas: {
-    summary: {
-      accepts: ["headline", "subheadline", "body-text", "bullet-list"],
+    title: {
+      accepts: ["headline", "subheadline"],
       style: {
         background: tokens.colors.background,
         padding: "80px 40px 80px 84px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        gap: 20,
+        gap: 16,
       },
       decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
@@ -27,28 +27,34 @@ export const newGeneralSummarySplitLayout = (tokens: DesignTokens): LayoutTempla
           color: "primary",
           style: { fontWeight: 800 },
         },
-        "bullet-list": {
-          variant: "numbered",
-          scale: "body-md",
+        subheadline: {
+          scale: "heading-md",
           color: "secondary",
-          gap: 20,
         },
       },
     },
-    metrics: {
-      accepts: ["stat-number"],
+    card: {
+      accepts: ["feature-item", "body-text"],
       style: {
         background: tokens.colors.background,
         padding: "80px 84px 80px 40px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        gap: 32,
+        gap: 24,
       },
       elementStyles: {
-        "stat-number": {
-          scale: "display-xl",
-          color: "primary",
+        "feature-item": {
+          color: "accent",
+          style: {
+            background: tokens.colors.muted,
+            borderRadius: 16,
+            padding: "48px 40px",
+          },
+        },
+        "body-text": {
+          scale: "body-lg",
+          color: "secondary",
         },
       },
     },

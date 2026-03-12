@@ -1,63 +1,52 @@
 import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
-import { shell, card, orb, withAlpha } from "../helpers";
 
+/**
+ * Quote + image: quote on the left, image on the right.
+ * Reference: layout-reference/text-image-split.png (quote variant)
+ */
 export const newGeneralQuoteImageLayout = (tokens: DesignTokens): LayoutTemplate => ({
   gridTemplateAreas: `"quote image"`,
-  gridTemplateColumns: "0.92fr 1.08fr",
+  gridTemplateColumns: "1fr 1fr",
   gridTemplateRows: "1fr",
   areas: {
     quote: {
       accepts: ["headline", "quote", "body-text"],
       style: {
-        ...shell,
-        padding: "82px 24px 72px 78px",
+        background: tokens.colors.background,
+        padding: "80px 40px 80px 84px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        gap: 22,
+        gap: 24,
       },
       elementStyles: {
         headline: {
           scale: "heading-md",
-          color: "accent",
+          color: "primary",
+          style: { fontWeight: 800 },
         },
         quote: {
-          variant: "side-accent",
-          style: { maxWidth: 460 },
-        },
-        "body-text": {
-          style: { maxWidth: 430 },
+          scale: "heading-md",
+          color: "primary",
         },
       },
     },
     image: {
-      accepts: ["image", "headline", "body-text"],
+      accepts: ["image", "body-text"],
       style: {
-        ...shell,
-        padding: "72px 82px 72px 12px",
+        background: tokens.colors.background,
+        padding: "60px 84px 60px 40px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        gap: 18,
+        gap: 16,
       },
       elementStyles: {
         image: {
           variant: "rounded",
-          style: {
-            ...card,
-            minHeight: 520,
-          },
-        },
-        headline: {
-          scale: "heading-md",
-        },
-        "body-text": {
-          scale: "body-md",
+          style: { borderRadius: 16 },
         },
       },
-      decorations: [
-        orb(withAlpha(tokens.colors.accent, 0.07), 300, { bottom: -80, right: -70 }),
-      ],
     },
   },
 });

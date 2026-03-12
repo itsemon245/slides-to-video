@@ -1,39 +1,58 @@
 import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
-import { shell, shellStyle, softBox } from "../helpers";
+import { accentBar } from "../helpers";
 
-export const newGeneralFunnelMetricsLayout = (_tokens: DesignTokens): LayoutTemplate => ({
+/**
+ * Funnel metrics: lead stat on the left, stacked bar-like cards on the right.
+ * Reference: layout-reference/funnel-metrics.png
+ */
+export const newGeneralFunnelMetricsLayout = (tokens: DesignTokens): LayoutTemplate => ({
   gridTemplateAreas: `"lead bars"`,
-  gridTemplateColumns: "0.72fr 1.28fr",
+  gridTemplateColumns: "0.45fr 0.55fr",
   gridTemplateRows: "1fr",
   areas: {
     lead: {
-      accepts: ["headline", "stat-number", "body-text"],
+      accepts: ["headline", "subheadline", "body-text", "stat-number"],
       style: {
-        ...shell,
-        padding: "80px 18px 72px 84px",
+        background: tokens.colors.background,
+        padding: "72px 40px 72px 84px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        gap: 18,
+        gap: 20,
       },
+      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
-        headline: { scale: "display-lg" },
-        "stat-number": { style: { alignItems: "flex-start" } },
-        "body-text": { scale: "body-md" },
+        headline: {
+          scale: "display-lg",
+          color: "primary",
+          style: { fontWeight: 800 },
+        },
+        "stat-number": {
+          scale: "display-xl",
+          color: "primary",
+        },
       },
     },
     bars: {
-      accepts: ["feature-item"],
-      style: shellStyle("110px 84px 72px 18px", {
-        display: "grid",
-        gridTemplateColumns: "1fr",
-        gap: 14,
-        alignContent: "center",
-      }),
+      accepts: ["feature-item", "stat-number"],
+      style: {
+        background: tokens.colors.background,
+        padding: "72px 84px 72px 40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 24,
+      },
       elementStyles: {
         "feature-item": {
-          style: softBox("18px 22px"),
+          variant: "with-left-border",
           color: "primary",
+          style: {
+            background: tokens.colors.accent,
+            borderRadius: 10,
+            padding: "24px 32px",
+            color: "#FFFFFF",
+          },
         },
       },
     },

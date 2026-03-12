@@ -2,23 +2,23 @@ import type { DesignTokens, LayoutTemplate } from "../../../schema/template";
 import { accentBar } from "../helpers";
 
 /**
- * Chart with sidebar: large chart/content area on the left, stacked cards on the right.
- * Reference: layout-reference/chart-sidebar.png, market-chart-cards.png
+ * KPI dashboard: text and body on the left, KPI card grid on the right with muted background.
+ * Reference: layout-reference/kpi-dashboard.png
  */
-export const newGeneralChartSidebarLayout = (tokens: DesignTokens): LayoutTemplate => ({
-  gridTemplateAreas: `"chart sidebar"`,
-  gridTemplateColumns: "1.2fr 0.8fr",
+export const newGeneralKpiDashboardLayout = (tokens: DesignTokens): LayoutTemplate => ({
+  gridTemplateAreas: `"text kpis"`,
+  gridTemplateColumns: "0.42fr 0.58fr",
   gridTemplateRows: "1fr",
   areas: {
-    chart: {
-      accepts: ["headline", "subheadline", "body-text", "bar-chart", "radial-chart", "image", "stat-number"],
+    text: {
+      accepts: ["headline", "subheadline", "body-text"],
       style: {
         background: tokens.colors.background,
-        padding: "68px 40px 68px 84px",
+        padding: "80px 40px 80px 84px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        gap: 24,
+        gap: 20,
       },
       decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
       elementStyles: {
@@ -27,26 +27,27 @@ export const newGeneralChartSidebarLayout = (tokens: DesignTokens): LayoutTempla
           color: "primary",
           style: { fontWeight: 800 },
         },
-        "stat-number": {
-          scale: "display-xl",
-          color: "accent",
-        },
       },
     },
-    sidebar: {
-      accepts: ["feature-item", "stat-number", "body-text", "image"],
+    kpis: {
+      accepts: ["stat-number", "feature-item"],
       style: {
-        background: tokens.colors.background,
-        padding: "68px 84px 68px 40px",
+        background: tokens.colors.muted,
+        padding: "40px 84px 40px 20px",
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
+        gap: 20,
         alignContent: "center",
-        gap: 32,
       },
       elementStyles: {
         "feature-item": {
-          variant: "with-left-border",
-          color: "primary",
+          color: "accent",
+          style: {
+            background: tokens.colors.accent,
+            borderRadius: 12,
+            padding: "20px 24px",
+            color: "#FFFFFF",
+          },
         },
         "stat-number": {
           scale: "display-lg",
