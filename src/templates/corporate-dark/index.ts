@@ -1,5 +1,5 @@
-import type { Template } from "../schema/template";
-import { createDefaultLayouts } from "../layouts";
+import type { Template } from "../../schema/template";
+import { createDefaultLayouts } from "../../layouts";
 
 const tokens: Template["tokens"] = {
   colors: {

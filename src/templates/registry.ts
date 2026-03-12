@@ -3,9 +3,9 @@ import type { Template } from "../schema/template";
 import academicEducation from "./academic-education";
 import newGeneral from "./new-general";
 import natureLight from "./nature-light";
-import { academicEducationContent } from "../contents/academic-education.content";
-import { newGeneralContent } from "../contents/new-general.content";
-import { natureLightContent } from "../contents/nature-light.content";
+import { academicEducationContent } from "./academic-education/content";
+import { newGeneralContent } from "./new-general/content";
+import { natureLightContent } from "./nature-light/content";
 
 export const TEMPLATE_REGISTRY = {
   "academic-education": academicEducation,

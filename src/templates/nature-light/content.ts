@@ -1,11 +1,7 @@
-// sample-presentation.ts
-// "The Mangrove Ecosystem" — matches the reference design image.
-// Uses the nature-light template and exercises all 10 layouts.
-
 import { staticFile } from "remotion";
-import type { ContentPresentation } from "./schema/content";
+import type { ContentPresentation } from "../../schema/content";
 
-export const samplePresentation: ContentPresentation = {
+export const natureLightContent: ContentPresentation = {
   id: "pres_mangrove_001",
   templateId: "nature-light",
   title: "The Mangrove Ecosystem",
@@ -15,7 +11,6 @@ export const samplePresentation: ContentPresentation = {
   slides: [
 
     // ── Slide 2 · What is a Mangrove Ecosystem? (vertical-split) ──────────────
-    // Top: White area with Headline + Text. Bottom: Green area with 2 images.
     {
       id: "s2",
       layout: "vertical-split",
@@ -55,7 +50,6 @@ export const samplePresentation: ContentPresentation = {
     },
 
     // ── Slide 5 · Biodiversity (dark-side-panel) ──────────────────────────────
-    // (Renumbered from s6)
     {
       id: "s5",
       layout: "dark-side-panel",
@@ -91,7 +85,6 @@ export const samplePresentation: ContentPresentation = {
     },
 
     // ── Slide 6 · Coastal Protection (image-feature-cards) ────────────────────
-    // (Renumbered from s7)
     {
       id: "s6",
       layout: "image-feature-cards",
@@ -145,7 +138,6 @@ export const samplePresentation: ContentPresentation = {
     },
 
     // ── Slide 8 · Conservation (dark-side-panel) ──────────────────────────────
-    // (Renumbered from s9)
     {
       id: "s8",
       layout: "dark-side-panel",
@@ -198,9 +190,7 @@ export const samplePresentation: ContentPresentation = {
       ],
     },
 
-
     // ── Slide 10 · Conclusion (bullet-with-image) ─────────────────────────────
-    // (Renumbered from s11)
     {
       id: "s10",
       layout: "bullet-with-image",

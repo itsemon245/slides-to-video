@@ -1,7 +1,7 @@
 import { staticFile } from "remotion";
-import type { ContentPresentation } from "./schema/content";
+import type { ContentPresentation } from "../../schema/content";
 
-export const academicSamplePresentation: ContentPresentation = {
+export const academicEducationContent: ContentPresentation = {
   id: "pres_academic_education_001",
   templateId: "academic-education",
   title: "Academic Education",

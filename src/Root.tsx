@@ -4,7 +4,7 @@ import { SlideComposition } from "./SlideComposition";
 import { FullPresentation } from "./FullPresentation";
 import {
   resolveActivePreview,
-} from "./templates/default";
+} from "./templates/registry";
 import { AvatarMap, computeSlideDurationFrames } from "./components/presentation/GenericSlideRenderer";
 import "./index.css";
 

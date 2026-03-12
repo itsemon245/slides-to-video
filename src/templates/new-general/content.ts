@@ -1,4 +1,4 @@
-import type { ContentPresentation } from "./schema/content";
+import type { ContentPresentation } from "../../schema/content";
 
 const placeholderLandscape =
   "https://placehold.co/1200x720/E8EAF3/2F3441?text=Placeholder%20Image";
@@ -9,7 +9,7 @@ const placeholderDark =
 const placeholderWide =
   "https://placehold.co/1400x780/F1F2F8/2F3441?text=Placeholder%20Image";
 
-export const newGeneralSamplePresentation: ContentPresentation = {
+export const newGeneralContent: ContentPresentation = {
   id: "pres_new_general_001",
   templateId: "new-general",
   title: "Northstar Growth Plan",
@@ -148,27 +148,9 @@ export const newGeneralSamplePresentation: ContentPresentation = {
             { label: "Strategic", value: 55 },
           ],
         },
-        {
-          id: "ng-s4-side-1",
-          area: "sidebar",
-          type: "feature-item",
-          title: "Primary segment",
-          description: "Enterprise buyers remain the largest near-term opportunity by revenue contribution.",
-        },
-        {
-          id: "ng-s4-side-2",
-          area: "sidebar",
-          type: "feature-item",
-          title: "Fastest growth",
-          description: "Mid-market demand is expanding the quickest as activation costs continue to improve.",
-        },
-        {
-          id: "ng-s4-side-3",
-          area: "sidebar",
-          type: "feature-item",
-          title: "Priority move",
-          description: "Concentrate outbound and partner coverage where win rates are already strongest.",
-        },
+        { id: "ng-s4-side-1", area: "sidebar", type: "feature-item", title: "Primary segment", description: "Enterprise buyers remain the largest near-term opportunity by revenue contribution." },
+        { id: "ng-s4-side-2", area: "sidebar", type: "feature-item", title: "Fastest growth", description: "Mid-market demand is expanding the quickest as activation costs continue to improve." },
+        { id: "ng-s4-side-3", area: "sidebar", type: "feature-item", title: "Priority move", description: "Concentrate outbound and partner coverage where win rates are already strongest." },
       ],
     },
     {
@@ -221,13 +203,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       elements: [
         { id: "ng-s7-kicker", area: "summary", type: "subheadline", content: "Executive Summary" },
         { id: "ng-s7-title", area: "summary", type: "headline", content: "What leadership should focus on next" },
-        {
-          id: "ng-s7-copy",
-          area: "summary",
-          type: "body-text",
-          content:
-            "This structure maps to the reference slides that combine short summary copy on the left with stacked metrics on the right.",
-        },
+        { id: "ng-s7-copy", area: "summary", type: "body-text", content: "This structure maps to the reference slides that combine short summary copy on the left with stacked metrics on the right." },
         {
           id: "ng-s7-list",
           area: "summary",
@@ -251,13 +227,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       elements: [
         { id: "ng-s8-kicker", area: "chart", type: "subheadline", content: "Customer Proof" },
         { id: "ng-s8-title", area: "chart", type: "headline", content: "Custom proof / case snapshot" },
-        {
-          id: "ng-s8-copy",
-          area: "chart",
-          type: "body-text",
-          content:
-            "The reference deck includes proof slides with a media card and a high-level metric callout. This layout handles that pattern directly.",
-        },
+        { id: "ng-s8-copy", area: "chart", type: "body-text", content: "The reference deck includes proof slides with a media card and a high-level metric callout. This layout handles that pattern directly." },
         { id: "ng-s8-stat", area: "chart", type: "stat-number", content: "$4.2M", label: "Revenue influenced from pilot program" },
         { id: "ng-s8-image", area: "sidebar", type: "image", src: placeholderLandscape, alt: "Placeholder Image" },
         { id: "ng-s8-body", area: "sidebar", type: "body-text", content: "Placeholder media can stand in for product shots, dashboards, or customer imagery." },
@@ -271,13 +241,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       transitionOut: { id: "fade-out" },
       elements: [
         { id: "ng-s9-title", area: "header", type: "headline", content: "Delivery timeline" },
-        {
-          id: "ng-s9-copy",
-          area: "header",
-          type: "body-text",
-          content:
-            "A step-by-step structure mirrors the reference deck’s timeline and process pages without requiring a custom timeline element.",
-        },
+        { id: "ng-s9-copy", area: "header", type: "body-text", content: "A step-by-step structure mirrors the reference deck's timeline and process pages without requiring a custom timeline element." },
         { id: "ng-s9-step-1", area: "steps", type: "feature-item", title: "Research", description: "Validate assumptions, segment audiences, and confirm the baseline metrics." },
         { id: "ng-s9-step-2", area: "steps", type: "feature-item", title: "Build", description: "Launch campaign architecture, dashboards, and creative packages for the quarter." },
         { id: "ng-s9-step-3", area: "steps", type: "feature-item", title: "Measure", description: "Track funnel efficiency, spend pacing, and team-level execution each week." },
@@ -303,13 +267,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
           ],
         },
         { id: "ng-s10-image", area: "image", type: "image", src: placeholderLandscape, alt: "Placeholder Image" },
-        {
-          id: "ng-s10-body",
-          area: "text",
-          type: "body-text",
-          content:
-            "This split supports both the reference deck’s solution slide and its mirrored problem slide by swapping the copy.",
-        },
+        { id: "ng-s10-body", area: "text", type: "body-text", content: "This split supports both the reference deck's solution slide and its mirrored problem slide by swapping the copy." },
       ],
     },
     {
@@ -320,13 +278,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       elements: [
         { id: "ng-s11-kicker", area: "intro", type: "subheadline", content: "Market Validation" },
         { id: "ng-s11-title", area: "intro", type: "headline", content: "Signals that the next move is credible" },
-        {
-          id: "ng-s11-copy",
-          area: "intro",
-          type: "body-text",
-          content:
-            "The reference deck includes a validation slide with four point blocks and a supporting image. This layout keeps that structure intact.",
-        },
+        { id: "ng-s11-copy", area: "intro", type: "body-text", content: "The reference deck includes a validation slide with four point blocks and a supporting image. This layout keeps that structure intact." },
         { id: "ng-s11-item-1", area: "points", type: "feature-item", title: "Customer insights", description: "High-intent prospects consistently request the same workflow improvements." },
         { id: "ng-s11-item-2", area: "points", type: "feature-item", title: "Market triggers", description: "Competitive pricing changes are creating a stronger switching window." },
         { id: "ng-s11-item-3", area: "points", type: "feature-item", title: "Retention signals", description: "Accounts with onboarding support remain active longer and expand faster." },
@@ -343,13 +295,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       elements: [
         { id: "ng-s12-title", area: "header", type: "headline", content: "Our team members" },
         { id: "ng-s12-subtitle", area: "header", type: "subheadline", content: "Cross-functional leadership" },
-        {
-          id: "ng-s12-copy",
-          area: "header",
-          type: "body-text",
-          content:
-            "This layout reflects the reference deck’s people slides and keeps portraits in a simple four-up grid.",
-        },
+        { id: "ng-s12-copy", area: "header", type: "body-text", content: "This layout reflects the reference deck's people slides and keeps portraits in a simple four-up grid." },
         { id: "ng-s12-a-image", area: "memberA", type: "image", src: placeholderPortrait, alt: "Placeholder Image" },
         { id: "ng-s12-a-name", area: "memberA", type: "subheadline", content: "Maya Torres" },
         { id: "ng-s12-a-role", area: "memberA", type: "body-text", content: "Growth lead" },
@@ -380,13 +326,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
           attribution: "Northstar Strategy Team",
         },
         { id: "ng-s13-image", area: "image", type: "image", src: placeholderWide, alt: "Placeholder Image" },
-        {
-          id: "ng-s13-body",
-          area: "image",
-          type: "body-text",
-          content:
-            "This closing pattern mirrors the image-backed quote slides from the reference directory.",
-        },
+        { id: "ng-s13-body", area: "image", type: "body-text", content: "This closing pattern mirrors the image-backed quote slides from the reference directory." },
       ],
     },
     {
@@ -396,13 +336,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       transitionOut: { id: "fade-out" },
       elements: [
         { id: "ng-s14-title", area: "copy", type: "headline", content: "Thank you" },
-        {
-          id: "ng-s14-body",
-          area: "copy",
-          type: "body-text",
-          content:
-            "Thanks for exploring our business presentation template. Reach out if you want this structure adapted for another industry.",
-        },
+        { id: "ng-s14-body", area: "copy", type: "body-text", content: "Thanks for exploring our business presentation template. Reach out if you want this structure adapted for another industry." },
         { id: "ng-s14-contact", area: "copy", type: "subheadline", content: "Contact Us" },
         { id: "ng-s14-image", area: "placeholder", type: "image", src: placeholderDark, alt: "Placeholder Image" },
       ],
@@ -414,48 +348,12 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       transitionOut: { id: "fade-out" },
       elements: [
         { id: "ng-s15-title", area: "header", type: "headline", content: "Key Insights & Learnings" },
-        {
-          id: "ng-s15-item-1",
-          area: "grid",
-          type: "feature-item",
-          title: "Enterprise buyers value workflow automation",
-          description: "Messaging that emphasizes orchestration continues to resonate with larger accounts.",
-        },
-        {
-          id: "ng-s15-item-2",
-          area: "grid",
-          type: "feature-item",
-          title: "Content plus paid social improves discovery",
-          description: "Awareness performance lifts when educational content is paired with distribution.",
-        },
-        {
-          id: "ng-s15-item-3",
-          area: "grid",
-          type: "feature-item",
-          title: "Mobile optimization needs continued focus",
-          description: "Landing page friction still appears more often on smaller devices.",
-        },
-        {
-          id: "ng-s15-item-4",
-          area: "grid",
-          type: "feature-item",
-          title: "Account-based campaigns perform best for enterprise",
-          description: "Higher-value targets respond better to tighter segmentation and deeper proof points.",
-        },
-        {
-          id: "ng-s15-item-5",
-          area: "grid",
-          type: "feature-item",
-          title: "Email remains strongest for direct response",
-          description: "Nurture flows continue to convert at a lower cost than most paid channels.",
-        },
-        {
-          id: "ng-s15-item-6",
-          area: "grid",
-          type: "feature-item",
-          title: "Lifecycle programs help retention most",
-          description: "Post-sale education drives healthier usage and better expansion readiness.",
-        },
+        { id: "ng-s15-item-1", area: "grid", type: "feature-item", title: "Enterprise buyers value workflow automation", description: "Messaging that emphasizes orchestration continues to resonate with larger accounts." },
+        { id: "ng-s15-item-2", area: "grid", type: "feature-item", title: "Content plus paid social improves discovery", description: "Awareness performance lifts when educational content is paired with distribution." },
+        { id: "ng-s15-item-3", area: "grid", type: "feature-item", title: "Mobile optimization needs continued focus", description: "Landing page friction still appears more often on smaller devices." },
+        { id: "ng-s15-item-4", area: "grid", type: "feature-item", title: "Account-based campaigns perform best for enterprise", description: "Higher-value targets respond better to tighter segmentation and deeper proof points." },
+        { id: "ng-s15-item-5", area: "grid", type: "feature-item", title: "Email remains strongest for direct response", description: "Nurture flows continue to convert at a lower cost than most paid channels." },
+        { id: "ng-s15-item-6", area: "grid", type: "feature-item", title: "Lifecycle programs help retention most", description: "Post-sale education drives healthier usage and better expansion readiness." },
       ],
     },
     {
@@ -465,12 +363,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       transitionOut: { id: "fade-out" },
       elements: [
         { id: "ng-s16-title", area: "text", type: "headline", content: "Spend & ROI dashboard" },
-        {
-          id: "ng-s16-copy",
-          area: "text",
-          type: "body-text",
-          content: "A chart-led slide can reuse the shared graph split without needing a template-local variant.",
-        },
+        { id: "ng-s16-copy", area: "text", type: "body-text", content: "A chart-led slide can reuse the shared graph split without needing a template-local variant." },
         {
           id: "ng-s16-chart",
           area: "graph",
@@ -493,27 +386,9 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       elements: [
         { id: "ng-s17-title", area: "chart", type: "headline", content: "Spend & ROI overview" },
         { id: "ng-s17-image", area: "chart", type: "image", src: placeholderWide, alt: "Placeholder Image" },
-        {
-          id: "ng-s17-stat-1",
-          area: "sidebar",
-          type: "stat-number",
-          content: "$1,800K",
-          label: "Forecast revenue",
-        },
-        {
-          id: "ng-s17-stat-2",
-          area: "sidebar",
-          type: "stat-number",
-          content: "$1,800K",
-          label: "Run-rate pipeline",
-        },
-        {
-          id: "ng-s17-stat-3",
-          area: "sidebar",
-          type: "stat-number",
-          content: "$1,800K",
-          label: "Attributed influenced value",
-        },
+        { id: "ng-s17-stat-1", area: "sidebar", type: "stat-number", content: "$1,800K", label: "Forecast revenue" },
+        { id: "ng-s17-stat-2", area: "sidebar", type: "stat-number", content: "$1,800K", label: "Run-rate pipeline" },
+        { id: "ng-s17-stat-3", area: "sidebar", type: "stat-number", content: "$1,800K", label: "Attributed influenced value" },
       ],
     },
     {
@@ -524,13 +399,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       elements: [
         { id: "ng-s18-title", area: "lead", type: "headline", content: "Funnel performance" },
         { id: "ng-s18-stat", area: "lead", type: "stat-number", content: "0.24%", label: "Lead to customer conversion" },
-        {
-          id: "ng-s18-copy",
-          area: "lead",
-          type: "body-text",
-          content:
-            "This approximates the horizontal funnel slide from the reference deck using stacked progress-style cards.",
-        },
+        { id: "ng-s18-copy", area: "lead", type: "body-text", content: "This approximates the horizontal funnel slide from the reference deck using stacked progress-style cards." },
         { id: "ng-s18-item-1", area: "bars", type: "feature-item", title: "Leads", description: "124,800 total volume · 100%" },
         { id: "ng-s18-item-2", area: "bars", type: "feature-item", title: "MQLs", description: "12,430 qualified accounts · 27%" },
         { id: "ng-s18-item-3", area: "bars", type: "feature-item", title: "Meetings", description: "4,356 booked conversations · 13%" },
@@ -544,13 +413,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       elements: [
         { id: "ng-s19-kicker", area: "summary", type: "subheadline", content: "Business Objective & KPIs" },
         { id: "ng-s19-title", area: "summary", type: "headline", content: "Performance indicators for the next phase" },
-        {
-          id: "ng-s19-copy",
-          area: "summary",
-          type: "body-text",
-          content:
-            "This is the template’s direct answer to the reference slide that pairs a business objective block with a KPI mosaic.",
-        },
+        { id: "ng-s19-copy", area: "summary", type: "body-text", content: "This is the template's direct answer to the reference slide that pairs a business objective block with a KPI mosaic." },
         { id: "ng-s19-stat-1", area: "metrics", type: "stat-number", content: "$4.2M", label: "Pipeline" },
         { id: "ng-s19-stat-2", area: "metrics", type: "stat-number", content: "4.8x", label: "ROI" },
         { id: "ng-s19-stat-3", area: "metrics", type: "stat-number", content: "$3.5M", label: "Revenue target" },
@@ -571,17 +434,10 @@ export const newGeneralSamplePresentation: ContentPresentation = {
           id: "ng-s20-quote",
           area: "background",
           type: "quote",
-          content:
-            "Success is not final; failure is not fatal: it is the courage to continue that counts.",
+          content: "Success is not final; failure is not fatal: it is the courage to continue that counts.",
           attribution: "Winston Churchill",
         },
-        {
-          id: "ng-s20-body",
-          area: "background",
-          type: "body-text",
-          content:
-            "This full-bleed treatment covers the image-led quote pages from the reference deck.",
-        },
+        { id: "ng-s20-body", area: "background", type: "body-text", content: "This full-bleed treatment covers the image-led quote pages from the reference deck." },
       ],
     },
     {
@@ -591,18 +447,8 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       transitionOut: { id: "fade-out" },
       elements: [
         { id: "ng-s21-title", area: "col1", type: "headline", content: "Table\nof Content" },
-        {
-          id: "ng-s21-left",
-          area: "col2",
-          type: "bullet-list",
-          items: ["Introduction", "Key findings", "Data analysis", "Recommendations"],
-        },
-        {
-          id: "ng-s21-right",
-          area: "col3",
-          type: "bullet-list",
-          items: ["Introduction", "Key findings", "Data analysis", "Recommendations", "Conclusion"],
-        },
+        { id: "ng-s21-left", area: "col2", type: "bullet-list", items: ["Introduction", "Key findings", "Data analysis", "Recommendations"] },
+        { id: "ng-s21-right", area: "col3", type: "bullet-list", items: ["Introduction", "Key findings", "Data analysis", "Recommendations", "Conclusion"] },
       ],
     },
     {
@@ -613,13 +459,7 @@ export const newGeneralSamplePresentation: ContentPresentation = {
       elements: [
         { id: "ng-s22-kicker", area: "story", type: "subheadline", content: "Data Analytics Dashboard" },
         { id: "ng-s22-title", area: "story", type: "headline", content: "Multi-signal performance view" },
-        {
-          id: "ng-s22-copy",
-          area: "story",
-          type: "body-text",
-          content:
-            "This slide is included specifically to cover the analytics dashboard references from the image set.",
-        },
+        { id: "ng-s22-copy", area: "story", type: "body-text", content: "This slide is included specifically to cover the analytics dashboard references from the image set." },
         { id: "ng-s22-stat", area: "story", type: "stat-number", content: "285", label: "Weekly qualified accounts" },
         {
           id: "ng-s22-bars",
