@@ -4,6 +4,8 @@ import { SlideComposition } from "./SlideComposition";
 import { FullPresentation } from "./FullPresentation";
 import {
   resolveActivePreview,
+  TEMPLATE_REGISTRY,
+  CONTENT_REGISTRY,
 } from "./templates/registry";
 import { AvatarMap, computeSlideDurationFrames } from "./components/presentation/GenericSlideRenderer";
 import "./index.css";
@@ -53,6 +55,28 @@ export const RemotionRoot: React.FC = () => {
           }}
         />
       ))}
+
+      {/* Register per-slide compositions for ALL templates (enables preview-slide.sh) */}
+      {Object.entries(TEMPLATE_REGISTRY).map(([tplName, tpl]) => {
+        const tplContent = CONTENT_REGISTRY[tplName as keyof typeof CONTENT_REGISTRY];
+        if (tplName === templateName) return null; // already registered above
+        return tplContent.slides.map((slide) => (
+          <Composition
+            key={`${tplName}-${slide.id}`}
+            id={`${tplName}-${slide.id}`}
+            component={SlideComposition as any}
+            durationInFrames={computeSlideDurationFrames(slide, fps, academicAvatarMap)}
+            fps={fps}
+            width={1920}
+            height={1080}
+            defaultProps={{
+              slide,
+              template: tpl,
+              avatarMap: academicAvatarMap,
+            }}
+          />
+        ));
+      })}
     </>
   );
 };

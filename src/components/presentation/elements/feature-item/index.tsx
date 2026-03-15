@@ -96,12 +96,14 @@ export const FeatureItem: React.FC<Props> = ({ el }) => {
     fontFamily: resolvedFontFamily,
     fontWeight: 700,
     ...el.styleOverrides,
+    ...(config.valueStyle as React.CSSProperties),
   };
 
   const descStyle: React.CSSProperties = {
     ...getTypeStyle("body-md"),
     color: tokens.colors.secondary,
     fontFamily: tokens.fonts.body,
+    ...(config.labelStyle as React.CSSProperties),
   };
   const wrapperStyle = config.style as React.CSSProperties | undefined;
 

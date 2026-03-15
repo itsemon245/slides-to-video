@@ -21,12 +21,12 @@ export const newGeneralTitleLayout = (tokens: DesignTokens): LayoutTemplate => (
         justifyContent: "center",
         gap: 22,
       },
-      decorations: [accentBar({ wrapperStyle: { marginTop: 8 } })],
+      decorations: [accentBar({ wrapperStyle: { top: '41%',  } })],
       elementStyles: {
         headline: {
           scale: "display-lg",
           color: "primary",
-          style: { fontWeight: 800 },
+          style: { fontWeight: 800,position: "relative" },
         },
         subheadline: {
           scale: "heading-md",

@@ -112,6 +112,9 @@ export const LAYOUT_AREAS: Record<string, readonly string[]> = {
   "neo-slide-team-grid":    ["intro", "memberA", "memberB"],
   "neo-slide-chart-sidebar": ["chart", "sidebar"],
   "neo-slide-validation":   ["intro", "points", "media"],
+  "takeaway-cards":         ["summary", "cards"],
+  "thank-you-contact":      ["summary", "cards"],
+  "description-metrics":    ["summary", "accentStats", "lightStats"],
 };
 
 /** Union of valid area name strings for a given layout. */

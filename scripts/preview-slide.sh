@@ -18,7 +18,7 @@ set -euo pipefail
 if [ $# -lt 2 ]; then
   echo "Usage: $0 <template-id> <slide-id> [frame]"
   echo ""
-  echo "Available templates: academic-education, new-general, nature-light"
+  echo "Available templates: see src/templates/registry.ts"
   echo ""
   echo "To list available slide IDs for a template, run:"
   echo "  npx remotion compositions src/index.ts --props '{}'  2>/dev/null | grep <template-id>"

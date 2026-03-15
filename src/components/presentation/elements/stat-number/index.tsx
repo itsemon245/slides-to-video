@@ -83,6 +83,7 @@ export const StatNumber: React.FC<Props> = ({ el }) => {
     color: resolvedValueColor,
     fontFamily: tokens.fonts[config.fontFamily ?? "heading"],
     ...el.styleOverrides,
+    ...(config.valueStyle as React.CSSProperties),
   };
 
   const labelStyle: React.CSSProperties = {
@@ -91,6 +92,7 @@ export const StatNumber: React.FC<Props> = ({ el }) => {
     textAlign: "center",
     maxWidth: 280,
     fontFamily: tokens.fonts.body,
+    ...(config.labelStyle as React.CSSProperties),
   };
 
   const variant = config.variant ?? "default";

@@ -157,6 +157,10 @@ export const ElementStyleConfigSchema = z.object({
   decorations: z.array(DecorationSchema).optional(),
   transitionIn: TransitionRefSchema.optional(),
   transitionOut: TransitionRefSchema.optional(),
+  // Sub-element style overrides — apply to specific parts of compound elements
+  // (e.g. stat-number value/label, feature-item title/description)
+  valueStyle: CSSPropertiesSchema.optional(),
+  labelStyle: CSSPropertiesSchema.optional(),
   // Escape hatch for one-off CSS overrides and utility classes
   className: z.string().optional(),
   style: CSSPropertiesSchema.optional(),
