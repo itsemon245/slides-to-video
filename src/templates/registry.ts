@@ -4,16 +4,19 @@ import academicEducation from "./academic-education";
 import newGeneral from "./new-general";
 import natureLight from "./nature-light";
 import neoModern from "./neo-modern";
+import neoSwift from "./neo-swift";
 import { academicEducationContent } from "./academic-education/content";
 import { newGeneralContent } from "./new-general/content";
 import { natureLightContent } from "./nature-light/content";
 import { neoModernContent } from "./neo-modern/content";
+import { neoSwiftContent } from "./neo-swift/content";
 
 export const TEMPLATE_REGISTRY = {
   "academic-education": academicEducation,
   "new-general": newGeneral,
   "nature-light": natureLight,
   "neo-modern": neoModern,
+  "neo-swift": neoSwift,
 } satisfies Record<string, Template>;
 
 export const CONTENT_REGISTRY = {
@@ -21,6 +24,7 @@ export const CONTENT_REGISTRY = {
   "new-general": newGeneralContent,
   "nature-light": natureLightContent,
   "neo-modern": neoModernContent,
+  "neo-swift": neoSwiftContent,
 } satisfies Record<keyof typeof TEMPLATE_REGISTRY, ContentPresentation>;
 
 export type DefaultTemplateName = keyof typeof TEMPLATE_REGISTRY;

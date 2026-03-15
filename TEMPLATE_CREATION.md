@@ -105,11 +105,39 @@ Do not add a new element just because a slide looks visually different. Prefer s
 
 - template tokens
 - area styles
-- element style configs
+- element style configs (including sub-element style overrides — see below)
 - decorations
 - layout structure
 
-### 5. Add new elements only when the current set is insufficient
+### 5. Use sub-element style overrides for fine-grained control
+
+Compound elements (those with multiple visual parts) support `valueStyle` and `labelStyle` in their `elementStyles` config. These are optional `CSSProperties` objects that override the default styling of each sub-part, allowing layouts to closely match reference images without modifying component code.
+
+| Element        | `valueStyle` applies to         | `labelStyle` applies to            |
+|----------------|----------------------------------|-------------------------------------|
+| `stat-number`  | The main value (e.g. "85%")     | The label text below/above          |
+| `feature-item` | The title (e.g. "Market growth")| The description text                |
+
+Example — white text on an accent-colored stat card:
+
+```ts
+elementStyles: {
+  "stat-number": {
+    scale: "heading-md",
+    valueStyle: { color: "#FFFFFF", fontWeight: 800 },
+    labelStyle: { color: "rgba(255,255,255,0.85)", textAlign: "left", fontSize: 28 },
+    style: {
+      background: tokens.colors.accent,
+      padding: "24px 28px",
+      borderRadius: 5,
+    },
+  },
+},
+```
+
+Use these overrides to adjust color, font size/weight, alignment, and other CSS properties on individual sub-parts. They spread last, so they always win over the component's built-in defaults. The wrapper-level `style` field still controls the outer container (background, padding, flex direction, etc.).
+
+### 6. Add new elements only when the current set is insufficient
 
 If the currently available elements are not enough, create the missing element(s).
 

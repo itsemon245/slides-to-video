@@ -79,6 +79,43 @@ const WithLeftBorder: React.FC<
   </div>
 );
 
+// ─── With-Bullet Variant ─────────────────────────────────────────────────────
+// Filled circle bullet to the left of the title, description below.
+
+const WithBullet: React.FC<
+  Props & {
+    titleStyle: React.CSSProperties;
+    descStyle: React.CSSProperties;
+    accentColor: string;
+    wrapperStyle?: React.CSSProperties;
+  }
+> = ({ el, titleStyle, descStyle, accentColor, wrapperStyle }) => (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "row",
+      gap: 16,
+      alignItems: "flex-start",
+      ...wrapperStyle,
+    }}
+  >
+    <div
+      style={{
+        width: 10,
+        height: 10,
+        minWidth: 10,
+        borderRadius: "50%",
+        background: accentColor,
+        marginTop: 8,
+      }}
+    />
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <p style={{ ...titleStyle, margin: 0 }}>{el.title}</p>
+      <p style={{ ...descStyle, margin: 0 }}>{el.description}</p>
+    </div>
+  </div>
+);
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export const FeatureItem: React.FC<Props> = ({ el }) => {
@@ -113,6 +150,16 @@ export const FeatureItem: React.FC<Props> = ({ el }) => {
   if (variant === "with-top-border") {
     inner = (
       <WithTopBorder
+        el={el}
+        titleStyle={titleStyle}
+        descStyle={descStyle}
+        accentColor={tokens.colors.accent}
+        wrapperStyle={wrapperStyle}
+      />
+    );
+  } else if (variant === "with-bullet") {
+    inner = (
+      <WithBullet
         el={el}
         titleStyle={titleStyle}
         descStyle={descStyle}

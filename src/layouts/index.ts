@@ -115,6 +115,7 @@ export const LAYOUT_AREAS: Record<string, readonly string[]> = {
   "takeaway-cards":         ["summary", "cards"],
   "thank-you-contact":      ["summary", "cards"],
   "description-metrics":    ["summary", "accentStats", "lightStats"],
+  "takeaway-list":          ["left", "right"],
 };
 
 /** Union of valid area name strings for a given layout. */
